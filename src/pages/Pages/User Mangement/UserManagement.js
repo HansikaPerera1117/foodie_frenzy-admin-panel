@@ -23,6 +23,7 @@ import {
 import { getAllRolesWithStatusToDropdown } from "../../../service/rolePermissionService";
 import debounce from "lodash/debounce";
 import { StaffTableColumns } from "../../../common/tableColumns";
+import StaffModel from "../../../Components/Common/modal/StaffModal";
 
 const UserManagement = () => {
   document.title = "Staff Management| Address Shop";
@@ -219,6 +220,26 @@ const UserManagement = () => {
     });
   };
 
+  const toggleModal = (val) => {
+    console.log(val, "00000000000");
+    if (val !== undefined) {
+      setIsAddStaffModalOpen(true);
+      setIsUpdateStaffModalOpen(true);
+      setSelectedStaff(val);
+      loadAllStaff(currentPage);
+    } else {
+      setIsAddStaffModalOpen(true);
+      loadAllStaff(currentPage);
+    }
+  };
+
+  const closeStaffModal = () => {
+    setIsAddStaffModalOpen(false);
+    setIsUpdateStaffModalOpen(false);
+    setSelectedStaff([]);
+    loadAllStaff(currentPage);
+  };
+
   const clearFiltrationFields = () => {
     setSearchName("");
     setSearchEmail("");
@@ -248,6 +269,15 @@ const UserManagement = () => {
 
   return (
     <div className="page-content">
+      <StaffModel
+        isUpdate={isUpdateStaffModalOpen}
+        updateValue={selectedStaff}
+        isOpen={isAddStaffModalOpen}
+        toggle={(e) => {
+          loadAllStaff(currentPage);
+          closeStaffModal();
+        }}
+      />
       <Container fluid>
         <div className="row mt-3">
           <h4>Staff Management</h4>
