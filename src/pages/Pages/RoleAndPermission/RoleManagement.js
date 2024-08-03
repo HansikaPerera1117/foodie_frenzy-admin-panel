@@ -21,10 +21,15 @@ import { RoleTableColumns } from "../../../common/tableColumns";
 import debounce from "lodash/debounce";
 import { useDispatch } from "react-redux";
 import * as roleAndPermissionService from "../../../service/rolePermissionService";
+import AddRoleModal from "../../../Components/Common/modal/AddRoleModel";
+import UpdateRoleModal from "../../../Components/Common/modal/UpdateRoleModel";
 
 const RoleManagement = () => {
   document.title = "Role | Address Shop";
 
+  const [isAddRoleModal, setIsAddRoleModal] = useState(false);
+  const [isUpdateRoleModal, setIsUpdateRoleModal] = useState(false);
+  const [selectedRole, setSelectedRole] = useState("");
   const [roleName, setRoleName] = useState("");
   const [roleList, setRoleList] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState("");
@@ -44,6 +49,21 @@ const RoleManagement = () => {
       { value: 2, label: "Inactive" },
     ]);
   }, []);
+
+  const toggleAddRoleModal = () => {
+    setIsAddRoleModal(!isAddRoleModal);
+    loadAllRoles(currentPage);
+  };
+
+  const openUpdateRoleModal = (selectRole) => {
+    setSelectedRole(selectRole);
+    setIsUpdateRoleModal(true);
+  };
+
+  const closeUpdateModal = () => {
+    setIsUpdateRoleModal(false);
+    loadAllRoles(currentPage);
+  };
 
   const loadAllRoles = async (currentPage) => {
     setRoleList([]);
@@ -221,6 +241,14 @@ const RoleManagement = () => {
 
   return (
     <>
+      <AddRoleModal isOpen={isAddRoleModal} toggle={toggleAddRoleModal} />
+
+      <UpdateRoleModal
+        isOpen={isUpdateRoleModal}
+        onClose={closeUpdateModal}
+        currentData={selectedRole}
+      />
+
       <div className="row mt-3 mx-2">
         <h4>Role Management</h4>
       </div>
