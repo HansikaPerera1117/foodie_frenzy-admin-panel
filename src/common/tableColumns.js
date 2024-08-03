@@ -6,31 +6,22 @@ export const StaffTableColumns = [
     title: "Name",
     dataIndex: "name",
     key: "name",
-    width: "14%",
-    ellipsis: true,
   },
   {
     title: "Email",
     dataIndex: "email",
     key: "email",
-    width: "23%",
-    ellipsis: true,
   },
   {
     title: "Role ",
     dataIndex: "roleName",
     key: "roleName",
-    width: "15%",
-    ellipsis: true,
   },
   {
     title: "Contact No",
     dataIndex: "contactNo",
     key: "contactNo",
-    width: "15%",
-    ellipsis: true,
   },
-
   {
     title: "Status",
     key: "status",
@@ -40,7 +31,6 @@ export const StaffTableColumns = [
       <Tag
         color={status === 1 ? "success" : status === 2 ? "error" : "default"}
         key={status}
-        // style={{ pointerEvents: "none" }}
       >
         {status === 1 ? "Active" : status === 2 ? "Inactive" : "none"}
       </Tag>
@@ -49,7 +39,7 @@ export const StaffTableColumns = [
   {
     title: "Action",
     key: "action",
+    width: "15%",
     render: (text, record) => <div>{record.action}</div>,
   },
 ];
-
