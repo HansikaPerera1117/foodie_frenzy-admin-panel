@@ -25,7 +25,7 @@ import debounce from "lodash/debounce";
 import { StaffTableColumns } from "../../../common/tableColumns";
 import StaffModel from "../../../Components/Common/modal/StaffModal";
 
-const UserManagement = () => {
+const StaffManagement = () => {
   document.title = "Staff Management| Restaurant";
 
   const [staffTableList, setStaffTableList] = useState([]);
@@ -439,4 +439,4 @@ const UserManagement = () => {
   );
 };
 
-export default UserManagement;
+export default StaffManagement;

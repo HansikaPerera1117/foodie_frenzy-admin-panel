@@ -134,9 +134,9 @@ const Navdata = () => {
     },
     {
       id: "apps",
-      label: "User Management",
+      label: "Staff Management",
       icon: <FeatherIcon icon="grid" className="icon-dual" />,
-      link: "/user-management",
+      link: "/staff-management",
       click: function (e) {
         e.preventDefault();
         setIsApps(!isApps);
