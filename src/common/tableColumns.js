@@ -44,6 +44,39 @@ export const StaffTableColumns = [
   },
 ];
 
+export const CustomerTableColumns = [
+  {
+    title: " Name",
+    dataIndex: "name",
+    key: "name",
+  },
+  {
+    title: "Contact No",
+    key: "contactNo",
+    dataIndex: "contactNo",
+  },
+  {
+    title: "Email",
+    dataIndex: "email",
+    key: "email",
+  },
+
+  {
+    title: "Status",
+    key: "status",
+    width: "14%",
+    dataIndex: "status",
+    render: (status) => (
+      <Tag
+        color={status === 1 ? "success" : status === 2 ? "error" : "default"}
+        key={status}
+      >
+        {status === 1 ? "Active" : status === 2 ? "Inactive" : "none"}
+      </Tag>
+    ),
+  },
+];
+
 export const RoleTableColumns = [
   {
     title: "Index",
