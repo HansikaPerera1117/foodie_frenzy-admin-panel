@@ -123,7 +123,7 @@ const Navdata = () => {
       id: "apps",
       label: "Products",
       icon: <FeatherIcon icon="grid" className="icon-dual" />,
-      link: "/",
+      link: "/product-management",
       click: function (e) {
         e.preventDefault();
         setIsApps(!isApps);
