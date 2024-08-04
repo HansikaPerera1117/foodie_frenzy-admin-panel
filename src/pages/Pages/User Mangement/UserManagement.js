@@ -26,7 +26,7 @@ import { StaffTableColumns } from "../../../common/tableColumns";
 import StaffModel from "../../../Components/Common/modal/StaffModal";
 
 const UserManagement = () => {
-  document.title = "Staff Management| Address Shop";
+  document.title = "Staff Management| Restaurant";
 
   const [staffTableList, setStaffTableList] = useState([]);
   const [isAddStaffModalOpen, setIsAddStaffModalOpen] = useState(false);
