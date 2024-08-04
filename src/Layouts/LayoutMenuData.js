@@ -133,10 +133,10 @@ const Navdata = () => {
       stateVariables: isApps,
     },
     {
-      id: "apps",
-      label: "Staff Management",
-      icon: <FeatherIcon icon="grid" className="icon-dual" />,
-      link: "/staff-management",
+      id: "userManagement",
+      label: "Users Management",
+      icon: <FeatherIcon icon="users" className="icon-dual" />,
+      link: "/",
       click: function (e) {
         e.preventDefault();
         setIsApps(!isApps);
@@ -144,19 +144,34 @@ const Navdata = () => {
         updateIconSidebar(e);
       },
       stateVariables: isApps,
-    },
-    {
-      id: "apps",
-      label: "Customer Management",
-      icon: <FeatherIcon icon="grid" className="icon-dual" />,
-      link: "/customer-management",
-      click: function (e) {
-        e.preventDefault();
-        setIsApps(!isApps);
-        setIscurrentState("Apps");
-        updateIconSidebar(e);
-      },
-      stateVariables: isApps,
+      subItems: [
+        {
+          id: "staffManagement",
+          label: "Staff Management",
+          icon: <FeatherIcon icon="grid" className="icon-dual" />,
+          link: "/staff-management",
+          click: function (e) {
+            e.preventDefault();
+            setIsApps(!isApps);
+            setIscurrentState("Apps");
+            updateIconSidebar(e);
+          },
+          stateVariables: isApps,
+        },
+        {
+          id: "customerManagement",
+          label: "Customer Management",
+          icon: <FeatherIcon icon="users" className="icon-dual" />,
+          link: "/customer-management",
+          click: function (e) {
+            e.preventDefault();
+            setIsApps(!isApps);
+            setIscurrentState("Apps");
+            updateIconSidebar(e);
+          },
+          stateVariables: isApps,
+        },
+      ],
     },
     {
       id: "apps",
