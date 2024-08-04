@@ -21,6 +21,7 @@ import RegistrationTwo from "../pages/Authentication/RegistrationStep02";
 import ConfirmOtp from "../pages/Authentication/ConfirmOtp";
 import UserManagement from "../pages/Pages/User Mangement/UserManagement";
 import RoleAndPermission from "../pages/Pages/RoleAndPermission/RoleAndPermission";
+import CustomerManagement from "../pages/Pages/User Mangement/CustomerManagement";
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: <DashboardEcommerce /> },
@@ -40,6 +41,8 @@ const authProtectedRoutes = [
   { path: "*", component: <Navigate to="/dashboard" /> },
 
   { path: "/user-management", component: <UserManagement /> },
+  
+  { path: "/customer-management", component: <CustomerManagement /> },
 
   { path: "/role-permission-management", component: <RoleAndPermission /> },
 ];
