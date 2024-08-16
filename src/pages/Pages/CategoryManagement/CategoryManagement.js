@@ -55,27 +55,26 @@ const CategoryManagement = () => {
 
   useEffect(() => {
     loadAllCatagories(currentPage);
-    loadAllCategoriesToDropdown();
     setStatusList([
       { value: 1, label: "Active" },
       { value: 2, label: "Inactive" },
     ]);
   }, []);
 
-  // const toggleAddCategoryModal = () => {
-  //   setIsAddCategoryModalOpen(!isAddCategoryModalOpen);
-  //   loadAllCatagories(currentPage);
-  // };
+  const toggleAddCategoryModal = () => {
+    setIsAddCategoryModalOpen(!isAddCategoryModalOpen);
+    loadAllCatagories(currentPage);
+  };
 
-  // const openUpdateCategoryModal = (selectCategory) => {
-  //   setSelectedCategory(selectCategory);
-  //   setIsUpdateCategoryModalOpen(true);
-  // };
+  const openUpdateCategoryModal = (selectCategory) => {
+    setSelectedCategory(selectCategory);
+    setIsUpdateCategoryModalOpen(true);
+  };
 
-  // const closeUpdateModal = () => {
-  //   setIsUpdateCategoryModalOpen(false);
-  //   loadAllCatagories(currentPage);
-  // };
+  const closeUpdateModal = () => {
+    setIsUpdateCategoryModalOpen(false);
+    loadAllCatagories(currentPage);
+  };
 
   const loadAllCatagories = (currentPage) => {
     let temp = [];

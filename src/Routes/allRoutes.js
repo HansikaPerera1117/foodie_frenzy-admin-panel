@@ -23,6 +23,7 @@ import RoleAndPermission from "../pages/Pages/RoleAndPermission/RoleAndPermissio
 import CustomerManagement from "../pages/Pages/User Mangement/CustomerManagement";
 import StaffManagement from "../pages/Pages/User Mangement/StaffManagement";
 import ProductManagement from "../pages/Pages/ProductManagement/ProductManagement";
+import CategoryManagement from "../pages/Pages/CategoryManagement/CategoryManagement";
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: <DashboardEcommerce /> },
@@ -48,6 +49,8 @@ const authProtectedRoutes = [
   { path: "/role-permission-management", component: <RoleAndPermission /> },
 
   { path: "/product-management", component: <ProductManagement /> },
+
+  { path: "/category-management", component: <CategoryManagement /> },
 ];
 
 const publicRoutes = [

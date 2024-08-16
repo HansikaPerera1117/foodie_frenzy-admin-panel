@@ -103,10 +103,6 @@ const Navdata = () => {
 
   const menuItems = [
     {
-      label: "Menu",
-      isHeader: true,
-    },
-    {
       id: "dashboard",
       label: "Dashboards",
       icon: <FeatherIcon icon="home" className="icon-dual" />,
@@ -118,6 +114,27 @@ const Navdata = () => {
         setIscurrentState("Dashboard");
         updateIconSidebar(e);
       },
+    },
+    {
+      label: "Master Data",
+      isHeader: true,
+    },
+    {
+      id: "apps",
+      label: "Category Management",
+      icon: <FeatherIcon icon="grid" className="icon-dual" />,
+      link: "/category-management",
+      click: function (e) {
+        e.preventDefault();
+        setIsApps(!isApps);
+        setIscurrentState("Apps");
+        updateIconSidebar(e);
+      },
+      stateVariables: isApps,
+    },
+    {
+      label: "Pages",
+      isHeader: true,
     },
     {
       id: "apps",
@@ -185,23 +202,6 @@ const Navdata = () => {
         updateIconSidebar(e);
       },
       stateVariables: isApps,
-    },
-    {
-      label: "pages",
-      isHeader: true,
-    },
-    {
-      id: "authentication",
-      label: "Authentication",
-      icon: <FeatherIcon icon="users" className="icon-dual" />,
-      link: "/pages-coming-soon",
-      click: function (e) {
-        e.preventDefault();
-        setIsAuth(!isAuth);
-        setIscurrentState("Auth");
-        updateIconSidebar(e);
-      },
-      stateVariables: isAuth,
     },
   ];
   return <React.Fragment>{menuItems}</React.Fragment>;

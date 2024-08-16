@@ -174,7 +174,7 @@ export const CategoriesTableColumns = [
   {
     title: "Categories Status",
     key: "categories_status",
-    width: "10%",
+    width: "15%",
     dataIndex: "categories_status",
     render: (categories_status) => (
       <Tag
