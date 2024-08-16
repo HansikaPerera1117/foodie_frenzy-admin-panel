@@ -22,14 +22,17 @@ import {
   handleError,
   popUploader,
 } from "../../../common/commonFunctions";
-import { Alert } from "antd";
-import { addNewProduct } from "../../../service/productService";
+// import "../../../assets/scss/components/productAddStyle.scss";
+import { useLocation } from "react-router-dom";
 import CustomImageUploader from "../../../Components/Common/upload/ImageUploader";
+import { getProductById, updateProduct } from "../../../service/productService";
 import { getAllCategoriesToDropDown } from "../../../service/categoryService";
 import { desMaxLimit } from "../../../common/util";
 
-const AddProduct = () => {
-  document.title = "Create Product | Restaurant";
+const UpdateProduct = () => {
+  document.title = "Update Product | Restaurant";
+  const location = useLocation();
+  const { productData } = location.state;
 
   const history = useNavigate();
   const dispatch = useDispatch();
@@ -47,11 +50,64 @@ const AddProduct = () => {
   const [mainImagesLoader, setMainImagesLoader] = useState(false);
   const [otherImagesLoader, setOtherImagesLoader] = useState(false);
   const [showImageError, setShowImageError] = useState(false);
+  const [currentMain, setCurrentMain] = useState([]);
+  const [currentSub, setCurrentSub] = useState([]);
 
-  
+  const [productDetails, setProductDetails] = useState([]);
+
   useEffect(() => {
     loadAllCategories();
+    getProductDetails();
   }, []);
+
+  useEffect(() => {
+    setDataFieldInProduct();
+  }, [productDetails]);
+
+  const setDataFieldInProduct = () => {
+    let temp = [];
+    productDetails.files?.map(async (f, index) => {
+      if (f.isDefault) {
+        await setCurrentMain([f]);
+      } else {
+        temp.push(f);
+      }
+    });
+    setCurrentSub(temp);
+
+    if (productDetails) {
+      setProductName(productDetails.name);
+      setProductPrice(productDetails.price);
+      setProductDesc(
+        productDetails.description != null ? productDetails.description : ""
+      );
+      setSelectedCategory(
+        productDetails?.category ? productDetails?.category?.id : ""
+      );
+    }
+  };
+
+  const getProductDetails = () => {
+    popUploader(dispatch, true);
+    getProductById(productData)
+      .then((res) => {
+        const response = res?.data;
+        let temp = {
+          id: response?.id,
+          name: response?.name,
+          price: response?.price,
+          description: response?.description,
+          category: response?.category,
+          files: response?.files,
+        };
+        setProductDetails(temp);
+        popUploader(dispatch, false);
+      })
+      .catch((err) => {
+        popUploader(dispatch, false);
+        handleError(err);
+      });
+  };
 
   const loadAllCategories = () => {
     popUploader(dispatch, true);
@@ -72,13 +128,16 @@ const AddProduct = () => {
       });
   };
 
-  //----------------------product add ----------------------------------------------
+  //----------------------product Update ----------------------------------------------
 
   const getMainIdValues = async (data) => {
     let temp = [];
     data.map((mediaFile, index) => {
       temp.push({
-        id: mediaFile?.response?.data?.id,
+        id:
+          mediaFile?.customId === undefined && mediaFile.originFileObj
+            ? mediaFile?.response?.data?.id
+            : mediaFile?.customId,
         isDefault: true,
       });
     });
@@ -86,19 +145,23 @@ const AddProduct = () => {
     await setIsUploading(true);
   };
 
-  const getIdValues = async (data) => {
+  const getSubIdValues = async (data) => {
     let temp = [];
     data.map((mediaFile, index) => {
       temp.push({
-        id: mediaFile?.response?.data?.id,
+        id:
+          mediaFile?.customId === undefined && mediaFile.originFileObj
+            ? mediaFile?.response?.data?.id
+            : mediaFile?.customId,
         isDefault: false,
       });
     });
+
     await setSubImages(temp);
     await setIsUploading(true);
   };
 
-  const saveProduct = () => {
+  const handleUpdateProduct = () => {
     productName === ""
       ? customToastMsg("Product name cannot be empty", 2)
       : selectedCategory === ""
@@ -113,35 +176,29 @@ const AddProduct = () => {
       ? customToastMsg("Select product main image", 2)
       : subImage.length === 0
       ? customToastMsg(" Select some images for this product", 2)
-      : saveFinalProduct();
+      : updateFinalProduct();
   };
 
-  const saveFinalProduct = () => {
-    popUploader(dispatch, true);
+  const updateFinalProduct = () => {
+    let saveData = {
+      name: productName,
+      price: productPrice,
+      description: productDesc,
+      categoryId: selectedCategory,
+      files: subImage.concat(mainImage),
+    };
 
-    if (isUploading) {
-      let saveData = {
-        name: productName,
-        description: productDesc,
-        price: productPrice,
-        categoryId: selectedCategory,
-        fileIds: subImage.concat(mainImage),
-      };
-
-      addNewProduct(saveData)
-        .then(async (res) => {
-          popUploader(dispatch, false);
-          customToastMsg("Product saved successfully", 1);
-          clearProductFields();
-          history("/product-management");
-        })
-        .catch((c) => {
-          popUploader(dispatch, false);
-          handleError(c);
-        });
-    } else {
-      customToastMsg("Try again", 2);
-    }
+    updateProduct(productDetails.id, saveData)
+      .then(async (res) => {
+        popUploader(dispatch, false);
+        customToastMsg("Product updated successfully", 1);
+        clearProductFields();
+        history("/product-management");
+      })
+      .catch((c) => {
+        popUploader(dispatch, false);
+        handleError(c);
+      });
   };
 
   const clearProductFields = () => {
@@ -163,7 +220,7 @@ const AddProduct = () => {
             history("/product-management");
           }}
         />{" "}
-        <h4 className="mx-2">Add New Products</h4>
+        <h4 className="mx-2">Update Products</h4>
       </Container>
 
       <Container className="mt-3" fluid>
@@ -172,7 +229,7 @@ const AddProduct = () => {
             <Card>
               <CardBody>
                 <Row>
-                  <Col md={6} lg={6} xl={6}>
+                  <Col md={4} lg={4} xl={4}>
                     <div className="mb-3">
                       <Label
                         className="form-label"
@@ -192,7 +249,7 @@ const AddProduct = () => {
                     </div>
                   </Col>
 
-                  <Col md={6} lg={6} xl={6}>
+                  <Col md={4} lg={4} xl={4}>
                     <div className="mb-3">
                       <Label className="form-label" htmlFor="product-unit-type">
                         Select Category
@@ -238,11 +295,9 @@ const AddProduct = () => {
                       </span>
                     )}
                   </div>
-
                   <CKEditor
                     onChange={(event, editor) => {
                       const data = editor.getData();
-
                       setProductDesc(data);
                     }}
                     config={{
@@ -297,58 +352,56 @@ const AddProduct = () => {
                 </div>
               </CardBody>
             </Card>
+
             <Card>
               <CardHeader>
                 <h5 className="card-title mb-0">Product Image</h5>
               </CardHeader>
               <CardBody>
-                <div className="mb-4">
-                  <p className="text-muted">
-                    Add Product Image{" "}
-                    <small className="text-primary">
-                      <b>(Add a PNG image for best view in customer page)</b>{" "}
-                    </small>
-                  </p>
-                  <Row>
-                    <Col sm={12} md={12} lg={12}>
-                      <div className="w-100">
-                        <p>Main Image</p>
+                <Row>
+                  <div className="mb-4">
+                    <p className="text-muted">
+                      Update Product Image{" "}
+                      <small className="text-primary">
+                        <b>(Add a PNG image for best view in customer page)</b>{" "}
+                      </small>
+                    </p>
 
-                        <CustomImageUploader
-                          getIds={(data, ids) => getMainIdValues(data, ids)}
-                          isMainImage={true}
-                        />
+                    <p>Main Image</p>
 
-                        {mainImagesLoader && (
-                          <Alert message="Uploading..." type="info" />
-                        )}
-                        {!mainImagesLoader && showImageError && (
-                          <Alert
-                            message="Change Images and Try Again"
-                            type="error"
-                          />
-                        )}
+                    <CustomImageUploader
+                      getIds={(data, ids) => getMainIdValues(data, ids)}
+                      isMainImage={true}
+                      initialData={currentMain}
+                    />
+                    {mainImagesLoader && (
+                      <Alert message="Uploading..." type="info" />
+                    )}
+                    {!mainImagesLoader && showImageError && (
+                      <Alert
+                        message="Change Images and Try Again"
+                        type="error"
+                      />
+                    )}
 
-                        <p className="pt-2">Other Images</p>
+                    <p className="pt-2">Other Images</p>
 
-                        <CustomImageUploader
-                          getIds={(data, ids) => getIdValues(data, ids)}
-                          isMainImage={false}
-                        />
-
-                        {otherImagesLoader && (
-                          <Alert message="Uploading..." type="info" />
-                        )}
-                        {!otherImagesLoader && showImageError && (
-                          <Alert
-                            message="Change Images and Try Again"
-                            type="error"
-                          />
-                        )}
-                      </div>
-                    </Col>
-                  </Row>
-                </div>
+                    <CustomImageUploader
+                      getIds={(data, ids) => getSubIdValues(data, ids)}
+                      isMainImage={false}
+                      initialData={currentSub}
+                    />
+                    {otherImagesLoader && (
+                      <Alert message="Uploading..." type="info" />
+                    )}
+                    {!otherImagesLoader && showImageError && (
+                      <Alert
+                        message="Change Images and Try Again"
+                        type="error"
+                      />
+                    )}
+                  </div>
+                </Row>
               </CardBody>
             </Card>
 
@@ -357,10 +410,10 @@ const AddProduct = () => {
                 <button
                   disabled={!isUploading}
                   type="button"
-                  onClick={() => saveProduct()}
+                  onClick={() => handleUpdateProduct()}
                   className="w-100 btn btn-primary w-sm"
                 >
-                  Save Product
+                  Update Product
                 </button>
               </div>
             </div>
@@ -371,4 +424,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default UpdateProduct;

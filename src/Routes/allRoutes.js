@@ -25,6 +25,7 @@ import StaffManagement from "../pages/Pages/User Mangement/StaffManagement";
 import ProductManagement from "../pages/Pages/ProductManagement/ProductManagement";
 import CategoryManagement from "../pages/Pages/CategoryManagement/CategoryManagement";
 import AddProduct from "../pages/Pages/ProductManagement/AddProduct";
+import UpdateProduct from "../pages/Pages/ProductManagement/UpdateProduct";
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: <DashboardEcommerce /> },
@@ -51,6 +52,7 @@ const authProtectedRoutes = [
 
   { path: "/product-management", component: <ProductManagement /> },
   { path: "/add-new-product", component: <AddProduct /> },
+  { path: "/update-product", component: <UpdateProduct /> },
 
   { path: "/category-management", component: <CategoryManagement /> },
 ];

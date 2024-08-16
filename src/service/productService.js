@@ -10,6 +10,16 @@ export async function getAllProducts() {
   return await ApiService.callApi(apiObject);
 }
 
+export async function getProductById(productId) {
+  const apiObject = {};
+  apiObject.method = "GET",
+  apiObject.authentication = true,
+  apiObject.isWithoutPrefix = false;
+  apiObject.endpoint = ``;
+  apiObject.body = null;
+  return await ApiService.callApi(apiObject);
+}
+
 export async function addNewProduct(data) {
   const apiObject = {};
   apiObject.method = "POST",
