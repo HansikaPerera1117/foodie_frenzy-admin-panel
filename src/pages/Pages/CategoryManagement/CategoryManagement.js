@@ -28,6 +28,7 @@ import {
   getAllCategoriesToDropDown,
 } from "../../../service/categoryService";
 import { CategoriesTableColumns } from "../../../common/tableColumns";
+import AddCategoryModal from "../../../Components/Common/modal/AddCategoryModal";
 
 const CategoryManagement = () => {
   document.title = "Category | Restaurant";
@@ -38,13 +39,9 @@ const CategoryManagement = () => {
   const [categoryName, setCategoryName] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [catTableList, setCatTableList] = useState([]);
-  const [categoryList, setCategoryList] = useState([]);
-  const [selectedCategoryId, setSelectedCategoryId] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
   const [statusList, setStatusList] = useState([]);
 
-  const [categoryTypeList, setCategoryTypeList] = useState([]);
-  const [selectedType, setSelectedType] = useState("");
 
   //-------------------------- pagination --------------------------
 
@@ -294,6 +291,10 @@ const CategoryManagement = () => {
 
   return (
     <>
+      <AddCategoryModal
+        isOpen={isAddCategoryModalOpen}
+        toggle={() => toggleAddCategoryModal()}
+      />
       <div className="page-content">
         <Container fluid>
           <h4 className="mt-3">Category Management</h4>
