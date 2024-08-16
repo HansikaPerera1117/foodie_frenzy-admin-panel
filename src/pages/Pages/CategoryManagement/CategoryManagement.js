@@ -25,10 +25,10 @@ import defaultCategoryImg from "../../../assets/images/default-category-img.png"
 import {
   categoryFiltration,
   getAllCategories,
-  getAllCategoriesToDropDown,
 } from "../../../service/categoryService";
 import { CategoriesTableColumns } from "../../../common/tableColumns";
 import AddCategoryModal from "../../../Components/Common/modal/AddCategoryModal";
+import UpdateCategoryModal from "../../../Components/Common/modal/UpdateCategoryModal";
 
 const CategoryManagement = () => {
   document.title = "Category | Restaurant";
@@ -41,7 +41,6 @@ const CategoryManagement = () => {
   const [catTableList, setCatTableList] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState("");
   const [statusList, setStatusList] = useState([]);
-
 
   //-------------------------- pagination --------------------------
 
@@ -295,6 +294,13 @@ const CategoryManagement = () => {
         isOpen={isAddCategoryModalOpen}
         toggle={() => toggleAddCategoryModal()}
       />
+      {isUpdateCategoryModalOpen && (
+        <UpdateCategoryModal
+          isOpen={isUpdateCategoryModalOpen}
+          onClose={closeUpdateModal}
+          currentData={selectedCategory}
+        />
+      )}
       <div className="page-content">
         <Container fluid>
           <h4 className="mt-3">Category Management</h4>

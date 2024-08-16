@@ -14,24 +14,26 @@ import {
 } from "reactstrap";
 import {
   countDescription,
+  customSweetAlert,
   customToastMsg,
   handleError,
   popUploader,
 } from "../../../common/commonFunctions";
-import classnames from "classnames";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { useDispatch } from "react-redux";
 import { Alert } from "antd";
-
+import { Switch } from "antd";
 import CustomImageUploader from "../upload/ImageUploader";
-import { values } from "lodash";
-import { createCategory } from "../../../service/categoryService";
 import { desMaxLimit } from "../../../common/util";
+import { updateCategory } from "../../../service/categoryService";
 
-const AddCategoryModal = ({ isOpen, toggle }) => {
+const UpdateCategoryModal = ({ isOpen, currentData, onClose }) => {
   const [categoryName, setCategoryName] = useState("");
+
   const [categoryDes, setCategoryDes] = useState("");
+
+  const [categoryStatus, setCategoryStatus] = useState("");
 
   //--------------------image uploader----------------------
 
@@ -39,10 +41,28 @@ const AddCategoryModal = ({ isOpen, toggle }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [mainImagesLoader, setMainImagesLoader] = useState(false);
   const [showImageError, setShowImageError] = useState(false);
+  const [currentMain, setCurrentMain] = useState([]);
 
   let dispatch = useDispatch();
 
-  const handleAddCategory = () => {
+  useEffect(() => {
+    setDataToInputs();
+  }, [isOpen]);
+
+  const setDataToInputs = () => {
+    setCategoryName(currentData.name);
+    setCategoryDes(
+      currentData.description != null ? currentData.description : ""
+    );
+    currentData.files?.map(async (f, index) => {
+      if (f.isDefault) {
+        await setCurrentMain([f]);
+      }
+    });
+    setCategoryStatus(currentData.status);
+  };
+
+  const handleUpdateCategory = () => {
     let isValidated = false;
     if (categoryName === "") {
       customToastMsg("Category name cannot be empty");
@@ -58,32 +78,58 @@ const AddCategoryModal = ({ isOpen, toggle }) => {
 
     const data = {
       name: categoryName,
+      status: categoryStatus,
       description: categoryDes,
       files: mainImage,
     };
 
+    // console.log(data);
+
     if (isValidated) {
       popUploader(dispatch, true);
-      createCategory(data)
-        .then((response) => {
-          toggle();
+      updateCategory(currentData.id, data)
+        .then((resp) => {
+          onClose();
           clearFields();
           popUploader(dispatch, false);
-          customToastMsg("Category added successfully", 1);
+          customToastMsg("Category updated successfully", 1);
         })
-        .catch((error) => {
-          handleError(error);
+        .catch((err) => {
           popUploader(dispatch, false);
+          handleError(err);
         });
     }
   };
 
+  const changeStatusProduct = () => {
+    customSweetAlert(
+      categoryStatus === 1
+        ? "Do you want to deactivate this category?"
+        : "Do you want to active this category?",
+      2,
+
+      () => {
+        const newStatus = categoryStatus === 1 ? 2 : 1;
+        setCategoryStatus(newStatus);
+      }
+    );
+  };
+
+  const clearFields = () => {
+    setCategoryName("");
+    setCategoryStatus("");
+    setCategoryDes("");
+    setMainImages([]);
+  };
+
   const getMainIdValues = async (data) => {
     let temp = [];
-
     data.map((mediaFile, index) => {
       temp.push({
-        id: mediaFile?.response?.data?.id,
+        id:
+          mediaFile?.customId === undefined && mediaFile.originFileObj
+            ? mediaFile?.response?.data?.id
+            : mediaFile?.customId,
         isDefault: true,
       });
     });
@@ -91,35 +137,54 @@ const AddCategoryModal = ({ isOpen, toggle }) => {
     await setIsUploading(true);
   };
 
-  const clearFields = () => {
-    setCategoryName("");
-    setCategoryDes("");
-    setMainImages([]);
-  };
-
   return (
     <Modal
       size="md"
       isOpen={isOpen}
       toggle={() => {
-        toggle();
+        onClose();
         clearFields();
       }}
     >
       <ModalHeader
         toggle={() => {
-          toggle();
+          onClose();
           clearFields();
         }}
       >
-        Add New Category
+        Update Category
       </ModalHeader>
       <ModalBody>
         <Row>
           <Col sm="12">
             <Form className="mt-2">
+              <FormGroup>
+                <Label for="categoryStatus">Category Status</Label>
+                <Switch
+                  className="ms-4"
+                  checked={
+                    categoryStatus === 1
+                      ? true
+                      : categoryStatus === 2
+                      ? false
+                      : false
+                  }
+                  onChange={(e) => {
+                    changeStatusProduct();
+                  }}
+                  handleBg={categoryStatus === 1 ? "#60b24c" : "#bababa"}
+                  checkedChildren="Active"
+                  unCheckedChildren="Inactive"
+                  style={{
+                    backgroundColor:
+                      categoryStatus === 1 ? "#60b24c" : "#bababa",
+                  }}
+                />
+              </FormGroup>
+
               <Row>
                 <Col>
+                  {" "}
                   <FormGroup>
                     <Label for="categoryName">Category Name</Label>
                     <Input
@@ -203,12 +268,13 @@ const AddCategoryModal = ({ isOpen, toggle }) => {
                   />
                 </div>
               </FormGroup>
+
               <Row>
                 <Col sm={12} md={12} lg={6}>
                   <Row>
-                    <h5 className="fs-15 mb-1"> Add Category Image</h5>
+                    <h5 className="fs-15 mb-1"> Update Category Images</h5>
                     <p className="text-muted">
-                      Add category image.{" "}
+                      Update category image.{" "}
                       <small className="text-primary">
                         <b>(Add a PNG image for best view in customer page)</b>{" "}
                       </small>
@@ -217,8 +283,8 @@ const AddCategoryModal = ({ isOpen, toggle }) => {
                     <CustomImageUploader
                       getIds={(data, ids) => getMainIdValues(data, ids)}
                       isMainImage={true}
+                      initialData={currentMain}
                     />
-
                     {mainImagesLoader && (
                       <Alert message="Uploading..." type="info" />
                     )}
@@ -239,22 +305,18 @@ const AddCategoryModal = ({ isOpen, toggle }) => {
         <Button
           color="secondary"
           onClick={() => {
-            toggle();
+            onClose();
             clearFields();
           }}
         >
           Cancel
         </Button>{" "}
-        <Button
-          color="primary"
-          onClick={handleAddCategory}
-          disabled={!isUploading}
-        >
-          Add Category
+        <Button color="primary" onClick={handleUpdateCategory}>
+          Update Category
         </Button>
       </ModalFooter>
     </Modal>
   );
 };
 
-export default AddCategoryModal;
+export default UpdateCategoryModal;
