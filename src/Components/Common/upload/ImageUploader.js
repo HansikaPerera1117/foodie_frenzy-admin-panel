@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Upload, Input, Button } from "antd";
 import "../../../assets/scss/components/customeUploader.scss";
 import ImgCrop from "antd-img-crop";
-import { saveMediaFile } from "../../../service/mediaService";
 import { handleError, popUploader } from "../../../common/commonFunctions";
+import { saveMediaFile } from "../../../service/mediaService";
 
 const CustomImageUploader = ({
   isMainImage,

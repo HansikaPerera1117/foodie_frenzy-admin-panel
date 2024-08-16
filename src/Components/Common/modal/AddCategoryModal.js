@@ -24,7 +24,6 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { useDispatch } from "react-redux";
 import { Alert } from "antd";
 
-
 import CustomImageUploader from "../upload/ImageUploader";
 import { values } from "lodash";
 import { createCategory } from "../../../service/categoryService";
@@ -121,7 +120,7 @@ const AddCategoryModal = ({ isOpen, toggle }) => {
 
   return (
     <Modal
-      size="lg"
+      size="md"
       isOpen={isOpen}
       toggle={() => {
         toggle();
