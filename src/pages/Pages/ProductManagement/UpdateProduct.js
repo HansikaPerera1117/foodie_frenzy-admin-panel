@@ -248,7 +248,25 @@ const UpdateProduct = () => {
                       />
                     </div>
                   </Col>
-
+                  <Col md={4} lg={4} xl={4}>
+                    <div className="mb-3">
+                      <Label
+                        className="form-label"
+                        htmlFor="product-price-input"
+                      >
+                        Product Price
+                      </Label>
+                      <Input
+                        type="number"
+                        className="form-control"
+                        id="product-price-input"
+                        placeholder="Enter product price"
+                        name="price"
+                        value={productPrice}
+                        onChange={(e) => setProductPrice(e.target.value)}
+                      />
+                    </div>
+                  </Col>
                   <Col md={4} lg={4} xl={4}>
                     <div className="mb-3">
                       <Label className="form-label" htmlFor="product-unit-type">
