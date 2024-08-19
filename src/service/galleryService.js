@@ -5,7 +5,7 @@ export async function getAllGalleryImages(currentPage) {
   apiObject.method = "GET";
   apiObject.authentication = true;
   apiObject.isWithoutPrefix = false;
-  apiObject.endpoint = ``;
+  apiObject.endpoint = `api/gallery/find-all?perPage=${15}&page=${currentPage}`;
   apiObject.body = null;
   return await ApiService.callApi(apiObject);
 }
@@ -16,17 +16,17 @@ export async function addGalleryImages(data) {
   apiObject.authentication = true;
   apiObject.urlencoded = false;
   apiObject.isWithoutPrefix = false;
-  apiObject.endpoint = "";
+  apiObject.endpoint = "api/gallery/upload";
   apiObject.body = data;
   return await ApiService.callApi(apiObject);
 }
 
 export async function deleteGalleryImages(imageId) {
   const apiObject = {};
-  apiObject.method = "PATCH",
+  apiObject.method = "DELETE",
   apiObject.authentication = true,
   apiObject.isWithoutPrefix = false;
-  apiObject.endpoint = ``;
+  apiObject.endpoint = `api/gallery/delete/${imageId}`;
   apiObject.body = null;
   return await ApiService.callApi(apiObject);
 }
