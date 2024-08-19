@@ -5,7 +5,7 @@ export async function getAllCategories(currentPage) {
   apiObject.method = "GET";
   apiObject.authentication = true;
   apiObject.isWithoutPrefix = false;
-  apiObject.endpoint = ``;
+  apiObject.endpoint = `api/admin/category/find-all`;
   apiObject.body = null;
   return await ApiService.callApi(apiObject);
 }
@@ -15,7 +15,7 @@ export async function getAllCategoriesToDropDown() {
   apiObject.method = "GET";
   apiObject.authentication = true;
   apiObject.isWithoutPrefix = false;
-  apiObject.endpoint = ``;
+  apiObject.endpoint = `api/admin/category/find-all`;
   apiObject.body = null;
   return await ApiService.callApi(apiObject);
 }

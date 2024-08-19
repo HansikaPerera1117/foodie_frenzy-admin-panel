@@ -192,6 +192,19 @@ const Navdata = () => {
     },
     {
       id: "apps",
+      label: "Gallery Management",
+      icon: <FeatherIcon icon="shield" className="icon-dual" />,
+      link: "/gallery-management",
+      click: function (e) {
+        e.preventDefault();
+        setIsApps(!isApps);
+        setIscurrentState("Apps");
+        updateIconSidebar(e);
+      },
+      stateVariables: isApps,
+    },
+    {
+      id: "apps",
       label: "Role and Permissions",
       icon: <FeatherIcon icon="shield" className="icon-dual" />,
       link: "/role-permission-management",

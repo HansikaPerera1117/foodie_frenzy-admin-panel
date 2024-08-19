@@ -1,5 +1,6 @@
 import { Tag } from "antd";
 import moment from "moment";
+import parse from "html-react-parser";
 
 export const StaffTableColumns = [
   {

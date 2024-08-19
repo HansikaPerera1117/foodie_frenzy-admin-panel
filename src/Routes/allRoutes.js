@@ -26,6 +26,7 @@ import ProductManagement from "../pages/Pages/ProductManagement/ProductManagemen
 import CategoryManagement from "../pages/Pages/CategoryManagement/CategoryManagement";
 import AddProduct from "../pages/Pages/ProductManagement/AddProduct";
 import UpdateProduct from "../pages/Pages/ProductManagement/UpdateProduct";
+import GalleryManagement from "../pages/Pages/GalleryManagement/GalleryManagemnt";
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: <DashboardEcommerce /> },
@@ -51,10 +52,14 @@ const authProtectedRoutes = [
   { path: "/role-permission-management", component: <RoleAndPermission /> },
 
   { path: "/product-management", component: <ProductManagement /> },
+
   { path: "/add-new-product", component: <AddProduct /> },
+
   { path: "/update-product", component: <UpdateProduct /> },
 
   { path: "/category-management", component: <CategoryManagement /> },
+
+  { path: "/gallery-management", component: <GalleryManagement /> },
 ];
 
 const publicRoutes = [

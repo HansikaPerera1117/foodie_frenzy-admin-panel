@@ -18,7 +18,6 @@ import {
 } from "../../../common/commonFunctions";
 import Select from "react-select";
 import { Pagination, Table } from "antd";
-import parse from "html-react-parser";
 import debounce from "lodash/debounce";
 import { useDispatch } from "react-redux";
 import defaultCategoryImg from "../../../assets/images/default-category-img.png";
