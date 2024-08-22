@@ -118,13 +118,13 @@ const ProductCard = ({ productData, reload }) => {
         <div className="product-top-area">
           <div className="product-img">
             <div className="first-view w-100 h-100 object-fit-cover">
-              {productData?.productFile && productData.productFile.length > 0 ? (
-                productData.productFile.map((img, index) => {
-                  if (img?.isDefault) {
+              {productData?.files && productData.files.length > 0 ? (
+                productData.files.map((img, index) => {
+                  if (img?.isDeafult) {
                     return (
                       <img
                         className="w-100 h-100 object-fit-cover"
-                        src={img?.imageSizes?.originalPath}
+                        src={img?.originalPath}
                         alt="product image"
                         onError={(e) =>
                           (e.target.src =
@@ -169,9 +169,9 @@ const ProductCard = ({ productData, reload }) => {
           </h6>
 
           <h6 className="product-title text-truncate">
-            <Tooltip title={productData?.fromPrice}>
+            <Tooltip title={productData?.price}>
               Price LKR{" "}
-              {parseFloat(productData?.fromPrice).toLocaleString("en-US", {
+              {parseFloat(productData?.price).toLocaleString("en-US", {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
               })}

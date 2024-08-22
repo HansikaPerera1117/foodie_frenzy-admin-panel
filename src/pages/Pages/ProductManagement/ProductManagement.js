@@ -95,7 +95,7 @@ const ProductManagement = () => {
             name: product?.name,
             status: product?.status,
             price: product?.fromPrice,
-            files: product?.files,
+            files: product?.productFile,
             description: product?.description,
             category: product?.category,
           });
@@ -158,7 +158,7 @@ const ProductManagement = () => {
               name: product?.name,
               status: product?.status,
               price: product?.fromPrice,
-              files: product?.files,
+              files: product?.productFile,
               description: product?.description,
               category: product?.category,
             });
