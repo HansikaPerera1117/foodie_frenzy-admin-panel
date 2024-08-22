@@ -5,7 +5,7 @@ export async function getAllStaff(currentPage) {
   apiObject.method = "GET";
   apiObject.authentication = true;
   apiObject.isWithoutPrefix = false;
-  apiObject.endpoint = ``;
+  apiObject.endpoint = `api/staff/find-all?perPage=${15}&page=${currentPage}`;
   apiObject.body = null;
   return await ApiService.callApi(apiObject);
 }
@@ -16,7 +16,7 @@ export async function createStaff(data) {
   apiObject.authentication = true;
   apiObject.urlencoded = false;
   apiObject.isWithoutPrefix = false;
-  apiObject.endpoint = "";
+  apiObject.endpoint = "api/staff/create";
   apiObject.body = data;
   return await ApiService.callApi(apiObject);
 }
@@ -47,7 +47,7 @@ export async function staffFiltration(data, currentPage) {
   (apiObject.method = "GET"),
     (apiObject.authentication = true),
     (apiObject.isWithoutPrefix = false);
-  apiObject.endpoint = ``;
+  apiObject.endpoint = `api/staff/find-all?name=${data.name}&email=${data.email}&roleId=${data.role}&status=${data.status}&perPage=${15}&page=${currentPage}`;
   apiObject.body = null;
   return await ApiService.callApi(apiObject);
 }
