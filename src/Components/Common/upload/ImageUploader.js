@@ -3,7 +3,7 @@ import { Upload, Input, Button } from "antd";
 import "../../../assets/scss/components/customeUploader.scss";
 import ImgCrop from "antd-img-crop";
 import { handleError, popUploader } from "../../../common/commonFunctions";
-import { saveMediaFile } from "../../../service/mediaService";
+import { upload } from "../../../service/fileService";
 
 const CustomImageUploader = ({
   isMainImage,
@@ -52,7 +52,7 @@ const CustomImageUploader = ({
     formData.append("file", file);
 
     try {
-      const response = await saveMediaFile(formData);
+      const response = await upload(formData);
       await setUploadedFileIds((prevIds) => [...prevIds, response.data.id]); // Store the new ID
       const updatedFileList = fileList.map((fileNew) => {
         return fileNew.customId === undefined
