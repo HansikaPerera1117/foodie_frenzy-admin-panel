@@ -5,7 +5,7 @@ export async function getAllCategories(currentPage) {
   apiObject.method = "GET";
   apiObject.authentication = true;
   apiObject.isWithoutPrefix = false;
-  apiObject.endpoint = `api/admin/category/find-all`;
+  apiObject.endpoint = `api/admin/category/find-all?perPage=${15}&page=${currentPage}`;
   apiObject.body = null;
   return await ApiService.callApi(apiObject);
 }
@@ -26,7 +26,7 @@ export async function createCategory(data) {
   apiObject.authentication = true;
   apiObject.urlencoded = false;
   apiObject.isWithoutPrefix = false;
-  apiObject.endpoint = "";
+  apiObject.endpoint = `api/category/create`;
   apiObject.body = data;
   return await ApiService.callApi(apiObject);
 }
@@ -57,7 +57,7 @@ export async function categoryFiltration(data, currentPage) {
   apiObject.method = "GET";
   apiObject.authentication = true;
   apiObject.isWithoutPrefix = false;
-  apiObject.endpoint = ``;
+  apiObject.endpoint = `api/admin/category/find-all?name=${data.name}&status=${data.selectedStatus}&perPage=${15}&page=${currentPage}`;
   apiObject.body = null;
   return await ApiService.callApi(apiObject);
 }
