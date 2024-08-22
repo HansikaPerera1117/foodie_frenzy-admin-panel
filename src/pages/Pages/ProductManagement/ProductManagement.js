@@ -102,7 +102,7 @@ const ProductManagement = () => {
         });
         setProducts(temp);
         setCurrentPage(res?.data?.currentPage);
-        setTotalRecodes(res?.data?.totalRecords);
+        setTotalRecodes(res?.data?.totalCount);
         popUploader(dispatch, false);
       })
       .catch((err) => {
@@ -165,7 +165,7 @@ const ProductManagement = () => {
           });
           setProducts(temp);
           setCurrentPage(res?.data?.currentPage);
-          setTotalRecodes(res?.data?.totalRecords);
+          setTotalRecodes(res?.data?.totalCount);
           popUploader(dispatch, false);
         })
         .catch((c) => {

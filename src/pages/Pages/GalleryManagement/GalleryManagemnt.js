@@ -77,7 +77,7 @@ const GalleryManagement = () => {
 
         setGalleryList(temp);
         // setCurrentPage(resp?.data?.currentPage);
-        // setTotalRecodes(resp?.data?.totalRecords);
+        // setTotalRecodes(resp?.data?.totalCount);
         popUploader(dispatch, false);
       })
       .catch((err) => {

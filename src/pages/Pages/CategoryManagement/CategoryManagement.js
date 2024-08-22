@@ -150,7 +150,7 @@ const CategoryManagement = () => {
         });
         setCatTableList(temp);
         setCurrentPage(resp?.data?.currentPage);
-        setTotalRecodes(resp?.data?.totalRecords);
+        setTotalRecodes(resp?.data?.totalCount);
         popUploader(dispatch, false);
       })
       .catch((err) => {
@@ -242,7 +242,7 @@ const CategoryManagement = () => {
           });
           setCatTableList(temp);
           setCurrentPage(resp?.data?.currentPage);
-          setTotalRecodes(resp?.data?.totalRecords);
+          setTotalRecodes(resp?.data?.totalCount);
           popUploader(dispatch, false);
         })
         .catch((err) => {

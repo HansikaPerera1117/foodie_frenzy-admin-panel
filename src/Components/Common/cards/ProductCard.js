@@ -118,13 +118,13 @@ const ProductCard = ({ productData, reload }) => {
         <div className="product-top-area">
           <div className="product-img">
             <div className="first-view w-100 h-100 object-fit-cover">
-              {productData?.files && productData.files.length > 0 ? (
-                productData.files.map((img, index) => {
+              {productData?.productFile && productData.productFile.length > 0 ? (
+                productData.productFile.map((img, index) => {
                   if (img?.isDefault) {
                     return (
                       <img
                         className="w-100 h-100 object-fit-cover"
-                        src={img?.imageSizes?.original}
+                        src={img?.imageSizes?.originalPath}
                         alt="product image"
                         onError={(e) =>
                           (e.target.src =
