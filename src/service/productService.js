@@ -1,6 +1,6 @@
 import ApiService from "./apiService";
 
-export async function getAllProducts() {
+export async function getAllProducts(currentPage) {
   const apiObject = {};
   apiObject.method = "GET",
   apiObject.authentication = true,
