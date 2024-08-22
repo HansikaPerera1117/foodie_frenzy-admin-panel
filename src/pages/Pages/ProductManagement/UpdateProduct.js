@@ -182,7 +182,7 @@ const UpdateProduct = () => {
   const updateFinalProduct = () => {
     let saveData = {
       name: productName,
-      price: productPrice,
+      price: parseFloat(productPrice),
       description: productDesc,
       categoryId: selectedCategory,
       files: subImage.concat(mainImage),

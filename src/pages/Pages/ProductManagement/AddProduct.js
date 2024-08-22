@@ -48,7 +48,6 @@ const AddProduct = () => {
   const [otherImagesLoader, setOtherImagesLoader] = useState(false);
   const [showImageError, setShowImageError] = useState(false);
 
-  
   useEffect(() => {
     loadAllCategories();
   }, []);
@@ -123,7 +122,7 @@ const AddProduct = () => {
       let saveData = {
         name: productName,
         description: productDesc,
-        price: productPrice,
+        price: parseFloat(productPrice),
         categoryId: selectedCategory,
         fileIds: subImage.concat(mainImage),
       };
