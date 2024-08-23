@@ -123,15 +123,15 @@ const UpdateCategoryModal = ({ isOpen, currentData, onClose }) => {
   };
 
   const getMainIdValues = async (data) => {
-    let temp = [];
+    let temp = {};
     data.map((mediaFile, index) => {
-      temp.push({
+      temp = {
         id:
           mediaFile?.customId === undefined && mediaFile.originFileObj
             ? mediaFile?.response?.data?.id
             : mediaFile?.customId,
         isDefault: true,
-      });
+      };
     });
     await setMainImages(temp);
     await setIsUploading(true);

@@ -79,13 +79,12 @@ const AddCategoryModal = ({ isOpen, toggle }) => {
   };
 
   const getMainIdValues = async (data) => {
-    let temp = [];
-
+    let temp = {};
     data.map((mediaFile, index) => {
-      temp.push({
+      temp={
         id: mediaFile?.response?.data?.id,
         isDefault: true,
-      });
+      }
     });
     await setMainImages(temp);
     await setIsUploading(true);

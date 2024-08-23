@@ -86,19 +86,17 @@ const CategoryManagement = () => {
               >
                 {category?.files && category.files.length > 0 ? (
                   category.files.map((img, index) => {
-                    if (img?.isDefault) {
-                      return (
-                        <img
-                          key={index}
-                          src={img?.imageSizes?.original}
-                          alt="logo"
-                          className="object-fit-cover"
-                          width="100%"
-                          height="auto"
-                          onError={(e) => (e.target.src = defaultCategoryImg)}
-                        />
-                      );
-                    }
+                    return (
+                      <img
+                        key={index}
+                        src={img?.originalPath}
+                        alt="logo"
+                        className="object-fit-cover"
+                        width="100%"
+                        height="auto"
+                        onError={(e) => (e.target.src = defaultCategoryImg)}
+                      />
+                    );
                   })
                 ) : (
                   <img

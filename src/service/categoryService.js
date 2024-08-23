@@ -37,7 +37,7 @@ export async function updateCategory(id, data) {
   apiObject.authentication = true;
   apiObject.urlencoded = false;
   apiObject.isWithoutPrefix = false;
-  apiObject.endpoint = ``;
+  apiObject.endpoint = `api/category/update/${id}`;
   apiObject.body = data;
   return await ApiService.callApi(apiObject);
 }
