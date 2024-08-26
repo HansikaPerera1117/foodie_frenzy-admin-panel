@@ -204,3 +204,33 @@ export const CategoriesTableColumns = [
     render: (text, record) => <div>{record.action}</div>,
   },
 ];
+
+export const BranchTableColumns = [
+  {
+    title: "Name",
+    dataIndex: "name",
+    key: "name",
+  },
+  {
+    title: "Address",
+    dataIndex: "address",
+    key: "address",
+  },
+  {
+    title: "Facilities",
+    dataIndex: "facilities",
+    key: "facilities",
+  },
+  {
+    title: "URL",
+    key: "url",
+    dataIndex: "url",
+  },
+
+  {
+    title: "Action",
+    key: "action",
+    width: "24%",
+    render: (text, record) => <div>{record.action}</div>,
+  },
+];

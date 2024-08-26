@@ -24,6 +24,9 @@ import {
   getAllBranches,
   getAllBranchesFiltration,
 } from "../../../service/branchService";
+import { BranchTableColumns } from "../../../common/tableColumns";
+import BranchModal from "../../../Components/Common/modal/BranchModal";
+
 
 const BranchManagement = () => {
   document.title = "Branch Management| Restaurant";
@@ -187,7 +190,7 @@ const BranchManagement = () => {
     }
   };
 
-  const closeStoreModal = () => {
+  const closeBranchModal = () => {
     setIsAddBranchModalOpen(false);
     setIsUpdateBranchModalOpen(false);
     setSelectedBranch([]);
@@ -220,7 +223,7 @@ const BranchManagement = () => {
         isOpen={isAddBranchModalOpen}
         toggle={(e) => {
           loadAllBranches(currentPage);
-          closeStoreModal();
+          closeBranchModal();
         }}
       />
       <Container fluid>
