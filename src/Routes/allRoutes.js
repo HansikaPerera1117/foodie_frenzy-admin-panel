@@ -27,6 +27,7 @@ import CategoryManagement from "../pages/Pages/CategoryManagement/CategoryManage
 import AddProduct from "../pages/Pages/ProductManagement/AddProduct";
 import UpdateProduct from "../pages/Pages/ProductManagement/UpdateProduct";
 import GalleryManagement from "../pages/Pages/GalleryManagement/GalleryManagemnt";
+import BranchManagement from "../pages/Pages/BranchManagement/BranchManagement";
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: <DashboardEcommerce /> },
@@ -60,6 +61,8 @@ const authProtectedRoutes = [
   { path: "/category-management", component: <CategoryManagement /> },
 
   { path: "/gallery-management", component: <GalleryManagement /> },
+
+  { path: "/branch-management", component: <BranchManagement /> },
 ];
 
 const publicRoutes = [
