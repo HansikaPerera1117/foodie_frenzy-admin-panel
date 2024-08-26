@@ -24,6 +24,9 @@ import {
   getAllServicers,
   serviceFiltration,
 } from "../../../service/serviceService";
+import AddServiceModal from "../../../Components/Common/modal/AddServiceModal";
+import { ServiceTableColumns } from "../../../common/tableColumns";
+import UpdateServiceModal from "../../../Components/Common/modal/UpdateServiceModal";
 
 const ServiceManagement = () => {
   document.title = "Service | Restaurant";

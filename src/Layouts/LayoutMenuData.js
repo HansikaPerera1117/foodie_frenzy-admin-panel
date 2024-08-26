@@ -229,6 +229,19 @@ const Navdata = () => {
       },
       stateVariables: isApps,
     },
+    {
+      id: "serviceManagement",
+      label: "Service Management",
+      icon: <FeatherIcon icon="shield" className="icon-dual" />,
+      link: "/service-management",
+      click: function (e) {
+        e.preventDefault();
+        setIsApps(!isApps);
+        setIscurrentState("Apps");
+        updateIconSidebar(e);
+      },
+      stateVariables: isApps,
+    },
   ];
   return <React.Fragment>{menuItems}</React.Fragment>;
 };
