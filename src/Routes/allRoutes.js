@@ -28,6 +28,7 @@ import AddProduct from "../pages/Pages/ProductManagement/AddProduct";
 import UpdateProduct from "../pages/Pages/ProductManagement/UpdateProduct";
 import GalleryManagement from "../pages/Pages/GalleryManagement/GalleryManagemnt";
 import BranchManagement from "../pages/Pages/BranchManagement/BranchManagement";
+import ServiceManagement from "../pages/Pages/ServiceManagement/ServiceManagement";
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: <DashboardEcommerce /> },
@@ -63,6 +64,8 @@ const authProtectedRoutes = [
   { path: "/gallery-management", component: <GalleryManagement /> },
 
   { path: "/branch-management", component: <BranchManagement /> },
+
+  { path: "/service-management", component: <ServiceManagement /> },
 ];
 
 const publicRoutes = [

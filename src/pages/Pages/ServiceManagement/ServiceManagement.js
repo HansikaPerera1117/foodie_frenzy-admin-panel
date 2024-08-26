@@ -19,6 +19,11 @@ import {
 import { Pagination, Table } from "antd";
 import debounce from "lodash/debounce";
 import { useDispatch } from "react-redux";
+import {
+  deleteService,
+  getAllServicers,
+  serviceFiltration,
+} from "../../../service/serviceService";
 
 const ServiceManagement = () => {
   document.title = "Service | Restaurant";
@@ -247,7 +252,7 @@ const ServiceManagement = () => {
   const handleDeleteService = (cateId) => {
     customSweetAlert("Are you sure to delete this service?", 0, () => {
       popUploader(dispatch, true);
-      handleDeleteService(cateId)
+      deleteService(cateId)
         .then(() => {
           popUploader(dispatch, false);
           customToastMsg("Service deleted successfully", 1);
