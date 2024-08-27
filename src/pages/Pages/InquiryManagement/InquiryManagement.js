@@ -234,7 +234,6 @@ const InquiryManagement = () => {
       <div className="page-content">
         <Container fluid>
           <h4 className="mt-3">Inquiry Management</h4>
-
           <Card>
             <Row className="mx-2 mt-5">
               <Col sm={6} md={6} lg={3} xl={3}>
