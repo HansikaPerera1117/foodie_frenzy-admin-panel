@@ -294,3 +294,28 @@ export const ServiceTableColumns = [
     render: (text, record) => <div>{record.action}</div>,
   },
 ];
+
+export const InquiryTableColumns = [
+  {
+    title: "Customer Name",
+    dataIndex: "name",
+    key: "name",
+  },
+  {
+    title: "Email",
+    dataIndex: "email",
+    key: "email",
+  },
+  {
+    title: "Status",
+    dataIndex: "status",
+    key: "status",
+  },
+
+  {
+    title: "Action",
+    key: "action",
+    width: "20%",
+    render: (text, record) => <div>{record.action}</div>,
+  },
+];

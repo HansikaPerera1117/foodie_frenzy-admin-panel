@@ -242,6 +242,19 @@ const Navdata = () => {
       },
       stateVariables: isApps,
     },
+    {
+      id: "inquiryManagement",
+      label: "Inquiry Management",
+      icon: <FeatherIcon icon="shield" className="icon-dual" />,
+      link: "/inquiry-management",
+      click: function (e) {
+        e.preventDefault();
+        setIsApps(!isApps);
+        setIscurrentState("Apps");
+        updateIconSidebar(e);
+      },
+      stateVariables: isApps,
+    },
   ];
   return <React.Fragment>{menuItems}</React.Fragment>;
 };
