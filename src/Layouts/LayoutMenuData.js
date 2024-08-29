@@ -139,7 +139,7 @@ const Navdata = () => {
     {
       id: "apps",
       label: "Products",
-      icon: <FeatherIcon icon="grid" className="icon-dual" />,
+      icon: <FeatherIcon icon="codesandbox" className="icon-dual" />,
       link: "/product-management",
       click: function (e) {
         e.preventDefault();
@@ -152,7 +152,7 @@ const Navdata = () => {
     {
       id: "apps",
       label: "Order Management",
-      icon: <FeatherIcon icon="grid" className="icon-dual" />,
+      icon: <FeatherIcon icon="shopping-cart" className="icon-dual" />,
       link: "/",
       click: function (e) {
         e.preventDefault();
@@ -189,6 +189,19 @@ const Navdata = () => {
           stateVariables: isApps,
         },
       ],
+    },
+    {
+      id: "apps",
+      label: "Payment Management",
+      icon: <FeatherIcon icon="dollar-sign" className="icon-dual" />,
+      link: "/",
+      click: function (e) {
+        e.preventDefault();
+        setIsApps(!isApps);
+        setIscurrentState("Apps");
+        updateIconSidebar(e);
+      },
+      stateVariables: isApps,
     },
     {
       id: "userManagement",
@@ -234,7 +247,7 @@ const Navdata = () => {
     {
       id: "apps",
       label: "Gallery Management",
-      icon: <FeatherIcon icon="shield" className="icon-dual" />,
+      icon: <FeatherIcon icon="image" className="icon-dual" />,
       link: "/gallery-management",
       click: function (e) {
         e.preventDefault();
@@ -260,7 +273,7 @@ const Navdata = () => {
     {
       id: "branchManagement",
       label: "Branch Management",
-      icon: <FeatherIcon icon="shield" className="icon-dual" />,
+      icon: <FeatherIcon icon="archive" className="icon-dual" />,
       link: "/branch-management",
       click: function (e) {
         e.preventDefault();
@@ -273,7 +286,7 @@ const Navdata = () => {
     {
       id: "serviceManagement",
       label: "Service Management",
-      icon: <FeatherIcon icon="shield" className="icon-dual" />,
+      icon: <FeatherIcon icon="layers" className="icon-dual" />,
       link: "/service-management",
       click: function (e) {
         e.preventDefault();
@@ -286,7 +299,7 @@ const Navdata = () => {
     {
       id: "OffersManagement",
       label: "Offers Management",
-      icon: <FeatherIcon icon="shield" className="icon-dual" />,
+      icon: <FeatherIcon icon="thumbs-up" className="icon-dual" />,
       link: "/offer-management",
       click: function (e) {
         e.preventDefault();
@@ -299,7 +312,7 @@ const Navdata = () => {
     {
       id: "inquiryManagement",
       label: "Inquiry Management",
-      icon: <FeatherIcon icon="shield" className="icon-dual" />,
+      icon: <FeatherIcon icon="send" className="icon-dual" />,
       link: "/inquiry-management",
       click: function (e) {
         e.preventDefault();
