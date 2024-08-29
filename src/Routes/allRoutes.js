@@ -31,6 +31,8 @@ import BranchManagement from "../pages/Pages/BranchManagement/BranchManagement";
 import ServiceManagement from "../pages/Pages/ServiceManagement/ServiceManagement";
 import InquiryManagement from "../pages/Pages/InquiryManagement/InquiryManagement";
 import OffersManagement from "../pages/Pages/OffersManagement/OffersManagement";
+import DeliveryOrderManagement from "../pages/Pages/OrderManagement/DeliveryOrderManagement";
+import DingingOrderManagement from "../pages/Pages/OrderManagement/DingingOrderManagement";
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: <DashboardEcommerce /> },
@@ -72,6 +74,13 @@ const authProtectedRoutes = [
   { path: "/offer-management", component: <OffersManagement /> },
 
   { path: "/inquiry-management", component: <InquiryManagement /> },
+
+  {
+    path: "/delivery-order-management",
+    component: <DeliveryOrderManagement />,
+  },
+
+  { path: "/dinging-order-management", component: <DingingOrderManagement /> },
 ];
 
 const publicRoutes = [

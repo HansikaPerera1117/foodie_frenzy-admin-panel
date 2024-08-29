@@ -419,3 +419,88 @@ export const InquiryTableColumns = [
     render: (text, record) => <div>{record.action}</div>,
   },
 ];
+
+export const OrderListTableColumns = [
+  {
+    title: "Order Code",
+    dataIndex: "orderCode",
+    key: "orderCode",
+  },
+
+  {
+    title: "Tracking Code",
+    dataIndex: "trackingCode",
+    key: "trackingCode",
+  },
+
+  {
+    title: "Customer Email",
+    dataIndex: "cusEmail",
+    key: "cusEmail",
+  },
+
+  {
+    title: "Contact No",
+    dataIndex: "contactNo",
+    key: "contactNo",
+  },
+  {
+    title: "Order Date",
+    dataIndex: "orderDate",
+    key: "orderDate",
+  },
+
+  {
+    title: "Total",
+    dataIndex: "total",
+    key: "total",
+  },
+
+  {
+    title: "Status",
+    key: "status",
+    width: "15%",
+    dataIndex: "status",
+    render: (status) => (
+      <Tag
+        color={
+          status === "PENDING"
+            ? "warning"
+            : status === "PROCESSING"
+            ? "processing"
+            : status === "SHIPPED"
+            ? "purple"
+            : status === "DELIVERED"
+            ? "success"
+            : status === "CANCELLED"
+            ? "error"
+            : status === "REJECTED"
+            ? "magenta"
+            : "default"
+        }
+        key={status}
+      >
+        {status === "PENDING"
+          ? "PENDING"
+          : status === "PROCESSING"
+          ? "PROCESSING"
+          : status === "SHIPPED"
+          ? "SHIPPED"
+          : status === "DELIVERED"
+          ? "DELIVERED"
+          : status === "CANCELLED"
+          ? "CANCELLED"
+          : status === "REJECTED"
+          ? "REJECTED"
+          : "none"}
+      </Tag>
+    ),
+  },
+
+  {
+    title: "Action",
+    key: "action",
+
+    render: (text, record) => <div>{record.action}</div>,
+  },
+];

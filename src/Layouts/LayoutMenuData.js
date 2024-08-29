@@ -150,6 +150,47 @@ const Navdata = () => {
       stateVariables: isApps,
     },
     {
+      id: "apps",
+      label: "Order Management",
+      icon: <FeatherIcon icon="grid" className="icon-dual" />,
+      link: "/",
+      click: function (e) {
+        e.preventDefault();
+        setIsApps(!isApps);
+        setIscurrentState("Apps");
+        updateIconSidebar(e);
+      },
+      stateVariables: isApps,
+      subItems: [
+        {
+          id: "dingInOrder",
+          label: "Dinging Order",
+          icon: <FeatherIcon icon="grid" className="icon-dual" />,
+          link: "/dinging-order-management",
+          click: function (e) {
+            e.preventDefault();
+            setIsApps(!isApps);
+            setIscurrentState("Apps");
+            updateIconSidebar(e);
+          },
+          stateVariables: isApps,
+        },
+        {
+          id: "deliveryOrder",
+          label: "Delivery Order",
+          icon: <FeatherIcon icon="users" className="icon-dual" />,
+          link: "/delivery-order-management",
+          click: function (e) {
+            e.preventDefault();
+            setIsApps(!isApps);
+            setIscurrentState("Apps");
+            updateIconSidebar(e);
+          },
+          stateVariables: isApps,
+        },
+      ],
+    },
+    {
       id: "userManagement",
       label: "Users Management",
       icon: <FeatherIcon icon="users" className="icon-dual" />,
