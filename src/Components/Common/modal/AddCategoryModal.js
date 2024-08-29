@@ -59,7 +59,7 @@ const AddCategoryModal = ({ isOpen, toggle }) => {
     const data = {
       name: categoryName,
       description: categoryDes,
-      files: mainImage,
+      fileId: mainImage,
     };
 
     if (isValidated) {

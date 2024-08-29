@@ -220,6 +220,31 @@ export const BranchTableColumns = [
     title: "Facilities",
     dataIndex: "facilities",
     key: "facilities",
+    render: (text) => {
+      let displayText = "";
+
+      if (typeof text === "string") {
+        displayText = text.slice(0, 550);
+
+        if (text.length > 550) {
+          const lastSpaceIndex = displayText.lastIndexOf(" ");
+          displayText = displayText.slice(0, lastSpaceIndex) + "...";
+        }
+      } else {
+        displayText = "Invalid description";
+      }
+
+      return (
+        <div
+          style={{
+            maxWidth: 800,
+            minWidth: 200,
+          }}
+        >
+          {parse(displayText)}
+        </div>
+      );
+    },
   },
   {
     title: "URL",

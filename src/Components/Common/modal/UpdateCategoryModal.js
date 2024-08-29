@@ -80,7 +80,7 @@ const UpdateCategoryModal = ({ isOpen, currentData, onClose }) => {
       name: categoryName,
       status: categoryStatus,
       description: categoryDes,
-      files: mainImage,
+      fileId: mainImage,
     };
 
     // console.log(data);

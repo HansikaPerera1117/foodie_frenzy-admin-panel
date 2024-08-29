@@ -27,7 +27,6 @@ import {
 import { BranchTableColumns } from "../../../common/tableColumns";
 import BranchModal from "../../../Components/Common/modal/BranchModal";
 
-
 const BranchManagement = () => {
   document.title = "Branch Management| Restaurant";
 
@@ -56,8 +55,8 @@ const BranchManagement = () => {
     getAllBranches(currentPage)
       .then((res) => {
         const formattedData = res?.data?.records.map((record) => ({
-          name: record?.title,
-          address: record?.addressLine,
+          name: record?.name,
+          address: record?.address,
           url: (
             <a href={record.url} target="blank">
               {record.url}
@@ -112,8 +111,8 @@ const BranchManagement = () => {
       getAllBranchesFiltration(data, currentPage)
         .then((res) => {
           const formattedData = res?.data?.records.map((record) => ({
-            name: record?.title,
-            address: record?.addressLine,
+            name: record?.name,
+            address: record?.address,
             url: (
               <a href={record.url} target="blank">
                 {record.url}

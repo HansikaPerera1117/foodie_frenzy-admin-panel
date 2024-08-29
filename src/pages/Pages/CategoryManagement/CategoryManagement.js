@@ -254,7 +254,10 @@ const CategoryManagement = () => {
     debounce(searchByCategoryFiltration, 500),
     []
   );
+
   const deleteCategory = (cateId) => {
+    console.log(cateId);
+
     customSweetAlert("Are you sure to delete this category?", 0, () => {
       popUploader(dispatch, true);
       deleteCategory(cateId)
