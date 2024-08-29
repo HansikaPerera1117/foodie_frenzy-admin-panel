@@ -243,6 +243,19 @@ const Navdata = () => {
       stateVariables: isApps,
     },
     {
+      id: "OffersManagement",
+      label: "Offers Management",
+      icon: <FeatherIcon icon="shield" className="icon-dual" />,
+      link: "/offer-management",
+      click: function (e) {
+        e.preventDefault();
+        setIsApps(!isApps);
+        setIscurrentState("Apps");
+        updateIconSidebar(e);
+      },
+      stateVariables: isApps,
+    },
+    {
       id: "inquiryManagement",
       label: "Inquiry Management",
       icon: <FeatherIcon icon="shield" className="icon-dual" />,

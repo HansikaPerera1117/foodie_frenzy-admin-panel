@@ -320,6 +320,81 @@ export const ServiceTableColumns = [
   },
 ];
 
+export const OfferTableColumns = [
+  {
+    title: "Image",
+    dataIndex: "image",
+    key: "image",
+
+    render: (text, record) => (
+      <div
+        style={{
+          maxWidth: 150,
+          minWidth: 100,
+        }}
+      >
+        {record.image}
+      </div>
+    ),
+  },
+  {
+    title: "Name",
+    dataIndex: "name",
+    key: "name",
+  },
+  {
+    title: "Description",
+    dataIndex: "description",
+    key: "description",
+    render: (text) => {
+      let displayText = "";
+
+      if (typeof text === "string") {
+        displayText = text.slice(0, 550);
+
+        if (text.length > 550) {
+          const lastSpaceIndex = displayText.lastIndexOf(" ");
+          displayText = displayText.slice(0, lastSpaceIndex) + "...";
+        }
+      } else {
+        displayText = "Invalid description";
+      }
+
+      return (
+        <div
+          style={{
+            maxWidth: 800,
+            minWidth: 200,
+          }}
+        >
+          {parse(displayText)}
+        </div>
+      );
+    },
+  },
+  {
+    title: "Value",
+    dataIndex: "value",
+    key: "value",
+  },
+  {
+    title: "Start Date",
+    dataIndex: "startDate",
+    key: "startDate",
+  },
+  {
+    title: "End Date",
+    dataIndex: "endDate",
+    key: "endDate",
+  },
+  {
+    title: "Action",
+    key: "action",
+    width: "20%",
+    render: (text, record) => <div>{record.action}</div>,
+  },
+];
+
 export const InquiryTableColumns = [
   {
     title: "Customer Name",

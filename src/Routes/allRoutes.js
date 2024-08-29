@@ -30,6 +30,7 @@ import GalleryManagement from "../pages/Pages/GalleryManagement/GalleryManagemnt
 import BranchManagement from "../pages/Pages/BranchManagement/BranchManagement";
 import ServiceManagement from "../pages/Pages/ServiceManagement/ServiceManagement";
 import InquiryManagement from "../pages/Pages/InquiryManagement/InquiryManagement";
+import OffersManagement from "../pages/Pages/OffersManagement/OffersManagement";
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: <DashboardEcommerce /> },
@@ -67,6 +68,8 @@ const authProtectedRoutes = [
   { path: "/branch-management", component: <BranchManagement /> },
 
   { path: "/service-management", component: <ServiceManagement /> },
+
+  { path: "/offer-management", component: <OffersManagement /> },
 
   { path: "/inquiry-management", component: <InquiryManagement /> },
 ];
