@@ -84,20 +84,16 @@ const CategoryManagement = () => {
                 className="object-fit-cover d-flex justify-content-center"
                 key={index}
               >
-                {category?.files && category.files.length > 0 ? (
-                  category.files.map((img, index) => {
-                    return (
-                      <img
-                        key={index}
-                        src={img?.originalPath}
-                        alt="logo"
-                        className="object-fit-cover"
-                        width="100%"
-                        height="auto"
-                        onError={(e) => (e.target.src = defaultCategoryImg)}
-                      />
-                    );
-                  })
+                {category?.file && Object.keys(category?.file).length > 0 ? (
+                  <img
+                    key={index}
+                    src={category.file?.originalPath}
+                    alt="logo"
+                    className="object-fit-cover"
+                    width="100%"
+                    height="auto"
+                    onError={(e) => (e.target.src = defaultCategoryImg)}
+                  />
                 ) : (
                   <img
                     src={defaultCategoryImg}
@@ -177,22 +173,16 @@ const CategoryManagement = () => {
                   className="object-fit-cover d-flex justify-content-center"
                   key={index}
                 >
-                  {category?.files && category.files.length > 0 ? (
-                    category.files.map((img, index) => {
-                      if (img?.isDefault) {
-                        return (
-                          <img
-                            key={index}
-                            src={img?.imageSizes?.original}
-                            alt="logo"
-                            className="object-fit-cover"
-                            width="100%"
-                            height="auto"
-                            onError={(e) => (e.target.src = defaultCategoryImg)}
-                          />
-                        );
-                      }
-                    })
+                  {category?.file && Object.keys(category?.file).length > 0 ? (
+                    <img
+                      key={index}
+                      src={category.file?.originalPath}
+                      alt="logo"
+                      className="object-fit-cover"
+                      width="100%"
+                      height="auto"
+                      onError={(e) => (e.target.src = defaultCategoryImg)}
+                    />
                   ) : (
                     <img
                       src={defaultCategoryImg}
