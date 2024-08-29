@@ -19,15 +19,14 @@ import {
 import { Pagination, Table } from "antd";
 import debounce from "lodash/debounce";
 import { useDispatch } from "react-redux";
-
-import AddServiceModal from "../../../Components/Common/modal/AddServiceModal";
 import { OfferTableColumns } from "../../../common/tableColumns";
-import UpdateServiceModal from "../../../Components/Common/modal/UpdateServiceModal";
 import {
   deleteOffer,
   getAllOffers,
   offerFiltration,
 } from "../../../service/offersService";
+import AddOfferModal from "../../../Components/Common/modal/AddOfferModal";
+import UpdateOfferModal from "../../../Components/Common/modal/UpdateOfferModal";
 
 const OffersManagement = () => {
   document.title = "Offers | Restaurant";
@@ -279,12 +278,12 @@ const OffersManagement = () => {
 
   return (
     <>
-      <AddServiceModal
+      <AddOfferModal
         isOpen={isAddOfferModalOpen}
         toggle={() => toggleAddOfferModal()}
       />
       {isUpdateOfferModalOpen && (
-        <UpdateServiceModal
+        <UpdateOfferModal
           isOpen={isUpdateOfferModalOpen}
           onClose={closeUpdateModal}
           currentData={selectedSOffer}

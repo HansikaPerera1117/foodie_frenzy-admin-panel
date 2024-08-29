@@ -14,22 +14,27 @@ import {
 } from "reactstrap";
 import {
   countDescription,
+  customSweetAlert,
   customToastMsg,
   handleError,
   popUploader,
 } from "../../../common/commonFunctions";
-
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { useDispatch } from "react-redux";
 import { Alert } from "antd";
+import { Switch } from "antd";
 import CustomImageUploader from "../upload/ImageUploader";
 import { desMaxLimit } from "../../../common/util";
-import { createService } from "../../../service/serviceService";
+import { updateCategory } from "../../../service/categoryService";
+import { updateOffer } from "../../../service/offersService";
 
-const AddServiceModal = ({ isOpen, toggle }) => {
-  const [serviceName, setServiceName] = useState("");
-  const [serviceDes, setServiceDes] = useState("");
+const UpdateOfferModal = ({ isOpen, currentData, onClose }) => {
+  const [offerTitle, setOfferTitle] = useState("");
+  const [offerDes, setOfferDes] = useState("");
+  const [offerValue, setOfferValue] = useState("");
+  const [offerStartDate, setOfferStartDate] = useState("");
+  const [offerEndDate, setOfferEndDate] = useState("");
 
   //--------------------image uploader----------------------
 
@@ -37,50 +42,94 @@ const AddServiceModal = ({ isOpen, toggle }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [mainImagesLoader, setMainImagesLoader] = useState(false);
   const [showImageError, setShowImageError] = useState(false);
+  const [currentMain, setCurrentMain] = useState([]);
 
   let dispatch = useDispatch();
 
-  const handleAddService = () => {
+  useEffect(() => {
+    setDataToInputs();
+  }, [isOpen]);
+
+  const setDataToInputs = () => {
+    setOfferTitle(currentData.title);
+    setOfferValue(currentData.title);
+    setOfferStartDate(currentData.title);
+    setOfferEndDate(currentData.title);
+    setOfferDes(currentData.description != null ? currentData.description : "");
+    currentData.files?.map(async (f, index) => {
+      if (f.isDefault) {
+        await setCurrentMain([f]);
+      }
+    });
+  };
+
+  const handleUpdateOffer = () => {
     let isValidated = false;
-    if (serviceName === "") {
-      customToastMsg("Service name cannot be empty");
-    } else if (serviceDes === "") {
-      customToastMsg("Service description cannot be empty");
-    } else if (countDescription(serviceDes) > desMaxLimit) {
-      customToastMsg("Service description limit exceed", 2);
+    if (offerTitle === "") {
+      customToastMsg("Offer title cannot be empty");
+    } else if (offerDes === "") {
+      customToastMsg("Offer description cannot be empty");
+    } else if (countDescription(offerDes) > desMaxLimit) {
+      customToastMsg("Offer description limit exceed", 2);
+    }
+    if (offerValue === "") {
+      customToastMsg("Offer value cannot be empty");
+    }
+    if (offerStartDate === "") {
+      customToastMsg("Offer start date cannot be empty");
+    }
+    if (offerEndDate === "") {
+      customToastMsg("Offer end date cannot be empty");
     } else if (mainImage.length === 0) {
-      customToastMsg("Select service image first", 2);
+      customToastMsg("Select offer image first", 2);
     } else {
       isValidated = true;
     }
 
     const data = {
-      name: serviceName,
-      description: serviceDes,
-      files: mainImage?.id,
+      title: offerTitle,
+      description: offerDes,
+      value: offerValue,
+      startAt: offerStartDate,
+      endAt: offerEndDate,
+      fileId: mainImage?.id,
     };
+
+    // console.log(data);
 
     if (isValidated) {
       popUploader(dispatch, true);
-      createService(data)
-        .then((response) => {
-          toggle();
+      updateOffer(currentData.id, data)
+        .then((resp) => {
+          onClose();
           clearFields();
           popUploader(dispatch, false);
-          customToastMsg("Service added successfully", 1);
+          customToastMsg("Offer updated successfully", 1);
         })
-        .catch((error) => {
-          handleError(error);
+        .catch((err) => {
           popUploader(dispatch, false);
+          handleError(err);
         });
     }
+  };
+
+  const clearFields = () => {
+    setOfferTitle("");
+    setOfferDes("");
+    setOfferValue("");
+    setOfferStartDate("");
+    setOfferEndDate("");
+    setMainImages([]);
   };
 
   const getMainIdValues = async (data) => {
     let temp = {};
     data.map((mediaFile, index) => {
       temp = {
-        id: mediaFile?.response?.data?.id,
+        id:
+          mediaFile?.customId === undefined && mediaFile.originFileObj
+            ? mediaFile?.response?.data?.id
+            : mediaFile?.customId,
         isDefault: true,
       };
     });
@@ -88,28 +137,22 @@ const AddServiceModal = ({ isOpen, toggle }) => {
     await setIsUploading(true);
   };
 
-  const clearFields = () => {
-    setServiceName("");
-    setServiceDes("");
-    setMainImages([]);
-  };
-
   return (
     <Modal
       size="md"
       isOpen={isOpen}
       toggle={() => {
-        toggle();
+        onClose();
         clearFields();
       }}
     >
       <ModalHeader
         toggle={() => {
-          toggle();
+          onClose();
           clearFields();
         }}
       >
-        Add New Service
+        Update Offer
       </ModalHeader>
       <ModalBody>
         <Row>
@@ -118,14 +161,14 @@ const AddServiceModal = ({ isOpen, toggle }) => {
               <Row>
                 <Col>
                   <FormGroup>
-                    <Label for="serviceName">Service Name</Label>
+                    <Label for="offerTitle">Offer Title</Label>
                     <Input
                       type="text"
-                      name="serviceName"
-                      id="serviceName"
-                      placeholder="Eg: Vegetable"
-                      value={serviceName}
-                      onChange={(e) => setServiceName(e.target.value)}
+                      name="offerTitle"
+                      id="offerTitle"
+                      placeholder="Enter offer title"
+                      value={offerTitle}
+                      onChange={(e) => setOfferTitle(e.target.value)}
                     />
                   </FormGroup>
                 </Col>
@@ -135,23 +178,21 @@ const AddServiceModal = ({ isOpen, toggle }) => {
                 <div>
                   <div className="d-flex justify-content-between">
                     {" "}
-                    <Label>Service Description</Label>
-                    {countDescription(serviceDes) > desMaxLimit ? (
+                    <Label>Offer Description</Label>
+                    {countDescription(offerDes) > desMaxLimit ? (
                       <span class="text-count  text-danger">
-                        {countDescription(serviceDes)} of {desMaxLimit}{" "}
-                        Characters
+                        {countDescription(offerDes)} of {desMaxLimit} Characters
                       </span>
                     ) : (
                       <span class="text-count text-muted">
-                        {countDescription(serviceDes)} of {desMaxLimit}{" "}
-                        Characters
+                        {countDescription(offerDes)} of {desMaxLimit} Characters
                       </span>
                     )}
                   </div>
                   <CKEditor
                     onChange={(event, editor) => {
                       const data = editor.getData();
-                      setServiceDes(data);
+                      setOfferDes(data);
                     }}
                     config={{
                       toolbar: {
@@ -195,17 +236,61 @@ const AddServiceModal = ({ isOpen, toggle }) => {
                       },
                     }}
                     editor={ClassicEditor}
-                    data={serviceDes}
+                    data={offerDes}
                     onReady={(editor) => {}}
                   />
                 </div>
               </FormGroup>
+
+              <Row>
+                <Col sm={12}>
+                  <FormGroup>
+                    <Label for="offerValue">Offer Value</Label>
+                    <Input
+                      type="text"
+                      name="offerValue"
+                      id="offerValue"
+                      placeholder="Enter offer value"
+                      value={offerValue}
+                      onChange={(e) => setOfferValue(e.target.value)}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col sm={12}>
+                  <FormGroup>
+                    <Label for="offerStartDate">Offer Start Date</Label>
+                    <Input
+                      type="date"
+                      min={today}
+                      name="offerStartDate"
+                      id="offerStartDate"
+                      placeholder="Select"
+                      value={offerStartDate}
+                      onChange={(e) => setOfferStartDate(e.target.value)}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col sm={12}>
+                  <FormGroup>
+                    <Label for="offerEndDate">Offer End Date</Label>
+                    <Input
+                      type="date"
+                      min={today}
+                      name="offerEndDate"
+                      id="offerEndDate"
+                      placeholder="Select"
+                      value={offerEndDate}
+                      onChange={(e) => setOfferEndDate(e.target.value)}
+                    />
+                  </FormGroup>
+                </Col>
+              </Row>
               <Row>
                 <Col sm={12} md={12} lg={6}>
                   <Row>
-                    <h5 className="fs-15 mb-1"> Add Service Image</h5>
+                    <h5 className="fs-15 mb-1"> Add Offer Image</h5>
                     <p className="text-muted">
-                      Add service image.{" "}
+                      Add offer image.{" "}
                       <small className="text-primary">
                         <b>(Add a PNG image for best view in customer page)</b>{" "}
                       </small>
@@ -236,22 +321,18 @@ const AddServiceModal = ({ isOpen, toggle }) => {
         <Button
           color="secondary"
           onClick={() => {
-            toggle();
+            onClose();
             clearFields();
           }}
         >
           Cancel
         </Button>{" "}
-        <Button
-          color="primary"
-          onClick={handleAddService}
-          disabled={!isUploading}
-        >
-          Add Service
+        <Button color="primary" onClick={handleUpdateOffer}>
+          Update Offer
         </Button>
       </ModalFooter>
     </Modal>
   );
 };
 
-export default AddServiceModal;
+export default UpdateOfferModal;
