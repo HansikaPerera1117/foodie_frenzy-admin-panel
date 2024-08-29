@@ -243,7 +243,7 @@ const DingingOrderManagement = () => {
 
           <CardBody className="pt-0">
             <div>
-              <Row className="d-flex mt-4 mb-2 mx-1 justify-content-end">
+              <Row className="d-flex mb-2 mx-1 justify-content-end">
                 <Col
                   sm={12}
                   md={3}
@@ -260,7 +260,7 @@ const DingingOrderManagement = () => {
                       )
                     }
                   >
-                    <Plus size={24} /> Add New Dinging Order
+                    <Plus size={24} /> Add New Order
                   </Button>
                 </Col>
               </Row>
