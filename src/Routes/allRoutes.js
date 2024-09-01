@@ -36,6 +36,7 @@ import DingingOrderManagement from "../pages/Pages/OrderManagement/DingingOrderM
 import ViewProductDetails from "../pages/Pages/ProductManagement/ViewProductDetails";
 import ReservationManagement from "../pages/Pages/ReservationManagement/ReservationManagement";
 import OrderDetail from "../pages/Pages/OrderManagement/OrderDetail";
+import CreateDiningOrder from "../pages/Pages/OrderManagement/CreateDiningOrder";
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: <DashboardEcommerce /> },
@@ -90,6 +91,8 @@ const authProtectedRoutes = [
   { path: "/dinging-order-management", component: <DingingOrderManagement /> },
   
   { path: "/order-detail", component: <OrderDetail /> },
+
+  { path: "/place-dining-order", component: <CreateDiningOrder /> },
 ];
 
 const publicRoutes = [

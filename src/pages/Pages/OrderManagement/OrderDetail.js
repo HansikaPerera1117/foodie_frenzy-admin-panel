@@ -162,7 +162,11 @@ const OrderDetail = (props) => {
           style={{ cursor: "pointer" }}
           size={18}
           onClick={() => {
-            history("/order-management");
+            orderDetails.orderType === "DINING"
+              ? history("/dinging-order-management")
+              : orderDetails.orderType === "DELIVERY"
+              ? history("/delivery-order-management")
+              : history("/delivery-order-management");
           }}
         />{" "}
         <h4 className="mx-2">{orderDetails.orderCode}</h4>

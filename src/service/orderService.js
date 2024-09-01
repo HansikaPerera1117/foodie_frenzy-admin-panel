@@ -40,6 +40,16 @@ export async function updateOrdersStatus(orderId, status) {
   return await ApiService.callApi(apiObject);
 }
 
+export async function placeOrder(data) {
+  const apiObject = {};
+  apiObject.method = "POST";
+  apiObject.authentication = true;
+  apiObject.isWithoutPrefix = false;
+  apiObject.endpoint = "api/order/create";
+  apiObject.body = data;
+  return await ApiService.callApi(apiObject);
+}
+
 export async function ordersFiltration(data, currentPage) {
   const apiObject = {};
   apiObject.method = "GET";

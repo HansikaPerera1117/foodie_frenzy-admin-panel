@@ -118,7 +118,7 @@ const Login = (props) => {
                                             <img src={logoLight} alt="" height="100"/>
                                         </Link>
                                     </div>
-                                    <p className="mt-3 text-primary fs-15 fw-medium">NaaTree Admin Dashboard</p>
+                                    <p className="mt-3 text-primary fs-15 fw-medium">Restaurant Admin Dashboard</p>
                                 </div>
                             </Col>
                         </Row>
@@ -129,7 +129,7 @@ const Login = (props) => {
                                     <CardBody className="p-4">
                                         <div className="text-center mt-2">
                                             <h2 className="text-primary">Welcome !</h2>
-                                            <p className="text-muted">Sign in to continue to NaaTree.</p>
+                                            <p className="text-muted">Sign in to continue to Restaurant.</p>
                                         </div>
                                         {error && error ? (<Alert color="danger"> {error} </Alert>) : null}
                                         <div className="p-2 mt-4">

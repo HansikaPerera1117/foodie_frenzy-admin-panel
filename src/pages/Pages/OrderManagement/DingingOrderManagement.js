@@ -241,12 +241,7 @@ const DingingOrderManagement = () => {
                 >
                   <Button
                     color="primary"
-                    onClick={() =>
-                      window.open(
-                        "https://localhost:3000/reservation",
-                        "_blank"
-                      )
-                    }
+                    onClick={() => history("/place-dining-order")}
                   >
                     <Plus size={24} /> Add New Order
                   </Button>
