@@ -68,9 +68,9 @@ const UpdateProduct = () => {
     let temp = [];
     productDetails.files?.map(async (f, index) => {
       if (f.isDefault) {
-        await setCurrentMain([f]);
+        await setCurrentMain([f?.file]);
       } else {
-        temp.push(f);
+        temp.push(f?.file);
       }
     });
     setCurrentSub(temp);
@@ -98,7 +98,7 @@ const UpdateProduct = () => {
           price: response?.price,
           description: response?.description,
           category: response?.category,
-          files: response?.files,
+          files: response?.productFile,
         };
         setProductDetails(temp);
         popUploader(dispatch, false);
