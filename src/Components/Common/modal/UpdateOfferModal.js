@@ -242,7 +242,7 @@ const UpdateOfferModal = ({ isOpen, currentData, onClose }) => {
               <Row>
                 <Col sm={12}>
                   <FormGroup>
-                    <Label for="offerValue">Offer Value</Label>
+                    <Label for="offerValue">Offer Value (%)</Label>
                     <Input
                       type="text"
                       name="offerValue"

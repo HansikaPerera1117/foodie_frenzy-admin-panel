@@ -224,7 +224,7 @@ const AddOfferModal = ({ isOpen, toggle }) => {
               <Row>
                 <Col sm={12}>
                   <FormGroup>
-                    <Label for="offerValue">Offer Value</Label>
+                    <Label for="offerValue">Offer Value (%)</Label>
                     <Input
                       type="text"
                       name="offerValue"

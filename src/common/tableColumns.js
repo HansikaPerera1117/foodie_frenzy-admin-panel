@@ -373,7 +373,7 @@ export const OfferTableColumns = [
     },
   },
   {
-    title: "Value",
+    title: "Offer (%)",
     dataIndex: "value",
     key: "value",
   },
