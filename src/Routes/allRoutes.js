@@ -34,6 +34,8 @@ import OffersManagement from "../pages/Pages/OffersManagement/OffersManagement";
 import DeliveryOrderManagement from "../pages/Pages/OrderManagement/DeliveryOrderManagement";
 import DingingOrderManagement from "../pages/Pages/OrderManagement/DingingOrderManagement";
 import ViewProductDetails from "../pages/Pages/ProductManagement/ViewProductDetails";
+import ReservationManagement from "../pages/Pages/ReservationManagement/ReservationManagement";
+import OrderDetail from "../pages/Pages/OrderManagement/OrderDetail";
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: <DashboardEcommerce /> },
@@ -66,6 +68,8 @@ const authProtectedRoutes = [
 
   { path: "/view-product", component: <ViewProductDetails /> },
 
+  { path: "/reservation-management", component: <ReservationManagement /> },
+
   { path: "/category-management", component: <CategoryManagement /> },
 
   { path: "/gallery-management", component: <GalleryManagement /> },
@@ -84,6 +88,8 @@ const authProtectedRoutes = [
   },
 
   { path: "/dinging-order-management", component: <DingingOrderManagement /> },
+  
+  { path: "/order-detail", component: <OrderDetail /> },
 ];
 
 const publicRoutes = [

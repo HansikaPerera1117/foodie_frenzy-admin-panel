@@ -6,25 +6,15 @@ import {
   Col,
   CardBody,
   CardHeader,
-  Nav,
-  NavItem,
-  NavLink,
   Label,
   Input,
   Button,
 } from "reactstrap";
-import {
-  checkPermission,
-  customSweetAlert,
-  customToastMsg,
-  handleError,
-  popUploader,
-} from "../../../common/commonFunctions";
-import { OrderListTableColumns } from "../../../common/tableColumns";
-import classnames from "classnames";
+import { handleError, popUploader } from "../../../common/commonFunctions";
+import { DiningOrderListTableColumns } from "../../../common/tableColumns";
 import { Table } from "antd";
 import { Pagination } from "antd";
-import { DatePicker, Space } from "antd";
+import { DatePicker } from "antd";
 import moment from "moment"; // Import moment
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -38,7 +28,6 @@ const DingingOrderManagement = () => {
   const history = useNavigate();
   const dispatch = useDispatch();
 
-  const [activeTab, setActiveTab] = useState("1");
   const [orderList, setOrderList] = useState([]);
   const [searchOrderCode, setSearchOrderCode] = useState("");
   const [searchCustomerEmail, setSearchCustomerEmail] = useState("");
@@ -79,7 +68,7 @@ const DingingOrderManagement = () => {
                 <Button
                   onClick={() =>
                     history("/order-detail", {
-                      state: { orderData: ord?.id },
+                      state: { orderData: ord },
                     })
                   }
                   color="primary"
@@ -220,7 +209,6 @@ const DingingOrderManagement = () => {
   };
 
   const clearFiltrationFields = () => {
-    setActiveTab("1");
     setSearchOrderCode("");
     setSearchCustomerEmail("");
     setSearchDateRange("");
@@ -302,7 +290,7 @@ const DingingOrderManagement = () => {
                     }}
                   />
                 </Col>
-                <Col sm={12} md={6} lg={3} xl={3} xxl={2}>
+                <Col sm={12} md={6} lg={3} xl={3} xxl={3}>
                   <Label>Search By Contact No</Label>
                   <Input
                     placeholder="Enter contact no"
@@ -320,7 +308,7 @@ const DingingOrderManagement = () => {
                     }}
                   />
                 </Col>
-                <Col sm={12} md={12} lg={4} xl={4} xxl={3}>
+                <Col sm={12} md={12} lg={4} xl={4} xxl={4}>
                   <Label>Search By Order Date Range</Label>
                   <RangePicker
                     style={{ height: 40, width: "100%", borderRadius: 4 }}
@@ -357,7 +345,7 @@ const DingingOrderManagement = () => {
                   <Table
                     className="mx-3 my-4"
                     pagination={false}
-                    columns={OrderListTableColumns}
+                    columns={DiningOrderListTableColumns}
                     dataSource={orderList}
                     scroll={{ x: "fit-content" }}
                   />

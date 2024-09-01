@@ -10,33 +10,23 @@ import {
   Button,
   Input,
 } from "reactstrap";
-
 import classnames from "classnames";
 import { Link } from "react-router-dom";
-
-// import { productDetails } from "../../../common/data/ecommerce";
-// import avatar3 from "../../../assets/images/users/avatar-3.jpg";
 import { useLocation } from "react-router-dom";
 import {
   customSweetAlert,
   customToastMsg,
   handleError,
   popUploader,
-} from "../../common/commonFunctions";
+} from "../../../common/commonFunctions";
 import { ArrowLeft } from "react-feather";
 import { useDispatch } from "react-redux";
 import moment from "moment";
-
 import {
-  getAllOrderStatus,
   getOrderByOrderId,
   updateOrdersStatus,
-  updateTrackingCode,
-} from "../../service/orderService";
-import * as orderStatusService from "../../service/orderStatusService";
+} from "../../../service/orderService";
 import { useNavigate } from "react-router-dom";
-import Select from "react-select";
-// import defaultUser from "../../../assets/images/default_user_img.png";
 import { Tag } from "antd";
 import OrderItems from "./OrderItems";
 
@@ -56,7 +46,6 @@ const OrderDetail = (props) => {
   //   const [orderDetails, setorderDetails] = useState();
 
   const [orderId, setOrderId] = useState("");
-  const [trackingCode, setTrackingCode] = useState("");
 
   useEffect(() => {
     const { state } = location;
@@ -71,49 +60,28 @@ const OrderDetail = (props) => {
     if (state && state.orderData) {
       const { orderData } = state;
       console.log(orderData, "1010101010101011");
-      setOrderId(orderData);
-      getOrderDetails(orderData);
+      setOrderId(orderData?.id);
+      setOrderDetails(orderData);
+      // getOrderDetails(orderData);
     }
   }, [location]);
 
-  const getOrderDetails = (orderId) => {
-    popUploader(dispatch, true);
-    setOrderDetails([]);
-    getOrderByOrderId(orderId)
-      .then((res) => {
-        console.log(res);
-        let response = res?.data;
-        setOrderDetails(response);
-        setTrackingCode(response?.trackingCode);
-        // setSelectedStatus({ value: "", label: response?.status });
-        popUploader(dispatch, false);
-      })
-      .catch((err) => {
-        console.log(err);
-        popUploader(dispatch, false);
-        handleError(err);
-      });
-  };
-
-  // const loadAllOrderStatus = () => {
-  //   setStatusList([]);
-  //   let temp = [];
+  // const getOrderDetails = (orderId) => {
   //   popUploader(dispatch, true);
-  //   orderStatusService
-  //     .getAllOrderStatus()
-  //     .then((resp) => {
-  //       let temp = [];
-  //       resp.data.map((status, index) => {
-  //         temp.push({ value: status?.id, label: status?.name });
-  //       });
-  //       setStatusList(temp);
+  //   setOrderDetails([]);
+  //   getOrderByOrderId(orderId)
+  //     .then((res) => {
+  //       console.log(res);
+  //       let response = res?.data;
+  //       setOrderDetails(response);
+  //       // setSelectedStatus({ value: "", label: response?.status });
   //       popUploader(dispatch, false);
   //     })
   //     .catch((err) => {
+  //       console.log(err);
   //       popUploader(dispatch, false);
   //       handleError(err);
-  //     })
-  //     .finally();
+  //     });
   // };
 
   const updateStatusOfOrder = () => {
@@ -146,7 +114,7 @@ const OrderDetail = (props) => {
           .then((res) => {
             popUploader(dispatch, false);
             customToastMsg("Order status updated successfully", 1);
-            getOrderDetails(orderId);
+            // getOrderDetails(orderId);
           })
           .catch((c) => {
             popUploader(dispatch, false);
@@ -165,38 +133,13 @@ const OrderDetail = (props) => {
         .then((res) => {
           popUploader(dispatch, false);
           customToastMsg("Order rejected successfully", 1);
-          getOrderDetails(orderId);
+          // getOrderDetails(orderId);
         })
         .catch((c) => {
           popUploader(dispatch, false);
           handleError(c);
         });
     });
-  };
-
-  const assignTrackingCode = () => {
-    customSweetAlert(
-      orderDetails?.trackingCode === null
-        ? `Do you want to add tracking code?`
-        : `Do you want to update tracking code?`,
-      2,
-      () => {
-        popUploader(dispatch, true);
-        updateTrackingCode(orderDetails?.id, trackingCode)
-          .then((res) => {
-            popUploader(dispatch, false);
-            orderDetails?.trackingCode === null
-              ? customToastMsg("Tracking Code added successfully", 1)
-              : customToastMsg("Tracking Code updated successfully", 1);
-            getOrderDetails(orderId);
-          })
-          .catch((c) => {
-            console.log(c);
-            popUploader(dispatch, false);
-            handleError(c);
-          });
-      }
-    );
   };
 
   function togglecol1() {
@@ -330,7 +273,7 @@ const OrderDetail = (props) => {
                                 <th scope="row">Total :</th>
                                 <th className="text-end">
                                   LKR{" "}
-                                  {parseFloat(orderDetails.netTotal).toFixed(2)}
+                                  {parseFloat(orderDetails.subTotal).toFixed(2)}
                                 </th>
                               </tr>
                             </tbody>
@@ -487,20 +430,6 @@ const OrderDetail = (props) => {
                       )}
                     </span>
                   </p>
-                  {/* <p className="mb-2">Delivery Option : timeslot </p> */}
-                  {/* <p className="mb-2">
-                    Order Type :{" "}
-                    <Tag color="blue">{orderDetails?.deliveryType?.type}</Tag>
-                  </p> */}
-                  <p className="mb-2">
-                    Shipping Fee :{" "}
-                    <span className="fw-semibold">
-                      {" "}
-                      LKR {parseFloat(orderDetails?.shippingFee).toFixed(
-                        2
-                      )}{" "}
-                    </span>
-                  </p>
 
                   <p className="mb-2">
                     Payment Status :{" "}
@@ -516,44 +445,6 @@ const OrderDetail = (props) => {
 
             <Card>
               <CardHeader>
-                <div className="d-flex">
-                  <h5 className="card-title flex-grow-1 mb-0">
-                    Tracking Code{" "}
-                    {orderDetails?.trackingCode != null
-                      ? " : " + orderDetails?.trackingCode
-                      : ""}
-                  </h5>
-                </div>
-              </CardHeader>
-              <CardBody>
-                <ul className="list-unstyled mb-0 vstack gap-3">
-                  <li>
-                    <div className="d-flex align-items-center">
-                      <Input
-                        placeholder="Enter tracking code"
-                        value={trackingCode}
-                        className="mx-2"
-                        onChange={(e) => {
-                          setTrackingCode(e.target.value);
-                        }}
-                      />
-                      <Button
-                        color={"primary"}
-                        className="mx-2"
-                        onClick={() => {
-                          assignTrackingCode();
-                        }}
-                      >
-                        {orderDetails?.trackingCode != null ? "Update" : "Save"}
-                      </Button>
-                    </div>
-                  </li>{" "}
-                </ul>
-              </CardBody>
-            </Card>
-
-            <Card>
-              <CardHeader>
                 <div className="d-flex justify-content-between">
                   <h5 className="card-title mb-0">
                     <i className="ri-map-pin-line align-middle me-1 text-muted"></i>{" "}
@@ -564,31 +455,21 @@ const OrderDetail = (props) => {
               <CardBody>
                 <ul className="list-unstyled vstack gap-2 fs-13 mb-0">
                   <li className="fw-medium fs-14">
-                    {orderDetails?.billingDetail?.firstName}{" "}
-                    {orderDetails?.billingDetail?.lastName}
+                    {orderDetails?.firstName} {orderDetails?.lastName}
                   </li>
                   <li>
                     <span className="text-muted mb-0">Contact No :</span>
-                    {orderDetails?.billingDetail?.contactNo}
+                    {orderDetails?.contactNo}
                   </li>
                   <li>
                     {" "}
                     <span className="text-muted mb-0">Email :</span>
-                    {orderDetails?.billingDetail?.email}
+                    {orderDetails?.email}
                   </li>
                   <li>
                     {" "}
                     <span className="text-muted mb-0">Address :</span>
-                  </li>
-                  <li>{orderDetails?.billingDetail?.addressLine1}</li>
-                  <li>{orderDetails?.billingDetail?.addressLine2}</li>
-                  <li>{orderDetails?.billingDetail?.city}</li>
-                  <li>{orderDetails?.billingDetail?.state}</li>
-                  <li>{orderDetails?.billingDetail?.province}</li>
-                  <li>{orderDetails?.billingDetail?.country}</li>
-                  <li>
-                    <span className="text-muted mb-0">Postal code :</span>
-                    {orderDetails?.billingDetail?.postalCode}
+                    {orderDetails?.addressLine}
                   </li>
                 </ul>
               </CardBody>
@@ -606,86 +487,25 @@ const OrderDetail = (props) => {
               <CardBody>
                 <ul className="list-unstyled vstack gap-2 fs-13 mb-0">
                   <li className="fw-medium fs-14">
-                    {orderDetails?.billingDetail?.firstName}{" "}
-                    {orderDetails?.billingDetail?.lastName}
+                    {orderDetails?.firstName} {orderDetails?.lastName}
                   </li>
                   <li>
                     <span className="text-muted mb-0">Contact No :</span>
-                    {orderDetails?.billingDetail?.contactNo}
+                    {orderDetails?.contactNo}
                   </li>
                   <li>
                     {" "}
                     <span className="text-muted mb-0">Email :</span>
-                    {orderDetails?.billingDetail?.email}
+                    {orderDetails?.email}
                   </li>
                   <li>
                     {" "}
                     <span className="text-muted mb-0">Address :</span>
-                  </li>
-                  <li>{orderDetails?.billingDetail?.addressLine1}</li>
-                  <li>{orderDetails?.billingDetail?.addressLine2}</li>
-                  <li>{orderDetails?.billingDetail?.city}</li>
-                  <li>{orderDetails?.billingDetail?.state}</li>
-                  <li>{orderDetails?.billingDetail?.province}</li>
-                  <li>{orderDetails?.billingDetail?.country}</li>
-                  <li>
-                    <span className="text-muted mb-0">Postal code :</span>
-                    {orderDetails?.billingDetail?.postalCode}
+                    {orderDetails?.addressLine}
                   </li>
                 </ul>
               </CardBody>
             </Card>
-
-            {/*<Card>*/}
-            {/*    <CardHeader>*/}
-            {/*        <h5 className="card-title mb-0">*/}
-            {/*            <i className="ri-secure-payment-line align-bottom me-1 text-muted"></i>{" "}*/}
-            {/*            Payment Details*/}
-            {/*        </h5>*/}
-            {/*    </CardHeader>*/}
-            {/*    <CardBody>*/}
-            {/*        <div className="d-flex align-items-center mb-2">*/}
-            {/*            <div className="flex-shrink-0">*/}
-            {/*                <p className="text-muted mb-0">Transactions:</p>*/}
-            {/*            </div>*/}
-            {/*            <div className="flex-grow-1 ms-2">*/}
-            {/*                <h6 className="mb-0">#VLZ124561278124</h6>*/}
-            {/*            </div>*/}
-            {/*        </div>*/}
-            {/*        <div className="d-flex align-items-center mb-2">*/}
-            {/*            <div className="flex-shrink-0">*/}
-            {/*                <p className="text-muted mb-0">Payment Method:</p>*/}
-            {/*            </div>*/}
-            {/*            <div className="flex-grow-1 ms-2">*/}
-            {/*                <h6 className="mb-0">Debit Card</h6>*/}
-            {/*            </div>*/}
-            {/*        </div>*/}
-            {/*        <div className="d-flex align-items-center mb-2">*/}
-            {/*            <div className="flex-shrink-0">*/}
-            {/*                <p className="text-muted mb-0">Card Holder Name:</p>*/}
-            {/*            </div>*/}
-            {/*            <div className="flex-grow-1 ms-2">*/}
-            {/*                <h6 className="mb-0">Joseph Parker</h6>*/}
-            {/*            </div>*/}
-            {/*        </div>*/}
-            {/*        <div className="d-flex align-items-center mb-2">*/}
-            {/*            <div className="flex-shrink-0">*/}
-            {/*                <p className="text-muted mb-0">Card Number:</p>*/}
-            {/*            </div>*/}
-            {/*            <div className="flex-grow-1 ms-2">*/}
-            {/*                <h6 className="mb-0">xxxx xxxx xxxx 2456</h6>*/}
-            {/*            </div>*/}
-            {/*        </div>*/}
-            {/*        <div className="d-flex align-items-center">*/}
-            {/*            <div className="flex-shrink-0">*/}
-            {/*                <p className="text-muted mb-0">Total Amount:</p>*/}
-            {/*            </div>*/}
-            {/*            <div className="flex-grow-1 ms-2">*/}
-            {/*                <h6 className="mb-0">$415.96</h6>*/}
-            {/*            </div>*/}
-            {/*        </div>*/}
-            {/*    </CardBody>*/}
-            {/*</Card>*/}
           </Col>
         </Row>
       </Container>

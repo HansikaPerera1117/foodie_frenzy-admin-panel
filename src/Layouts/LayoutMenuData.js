@@ -230,6 +230,19 @@ const Navdata = () => {
       ],
     },
     {
+      id: "reservationManagement",
+      label: "Reservation Management",
+      icon: <FeatherIcon icon="bookmark" className="icon-dual" />,
+      link: "/reservation-management",
+      click: function (e) {
+        e.preventDefault();
+        setIsApps(!isApps);
+        setIscurrentState("Apps");
+        updateIconSidebar(e);
+      },
+      stateVariables: isApps,
+    },
+    {
       id: "apps",
       label: "Payment Management",
       icon: <FeatherIcon icon="dollar-sign" className="icon-dual" />,

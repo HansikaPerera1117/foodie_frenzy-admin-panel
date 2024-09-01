@@ -420,17 +420,11 @@ export const InquiryTableColumns = [
   },
 ];
 
-export const OrderListTableColumns = [
+export const DeliveryOrderListTableColumns = [
   {
     title: "Order Code",
     dataIndex: "orderCode",
     key: "orderCode",
-  },
-
-  {
-    title: "Tracking Code",
-    dataIndex: "trackingCode",
-    key: "trackingCode",
   },
 
   {
@@ -456,6 +450,30 @@ export const OrderListTableColumns = [
     key: "total",
   },
 
+  {
+    title: "Payment Type",
+    key: "paymentType",
+    width: "15%",
+    dataIndex: "paymentType",
+    render: (paymentType) => (
+      <Tag
+        color={
+          paymentType === "ONLINE_PAYMENT"
+            ? "processing"
+            : paymentType === "CASH_ON_DELIVERY"
+            ? "purple"
+            : "default"
+        }
+        key={paymentType}
+      >
+        {paymentType === "ONLINE_PAYMENT"
+          ? "ONLINE_PAYMENT"
+          : paymentType === "CASH_ON_DELIVERY"
+          ? "CASH_ON_DELIVERY"
+          : "none"}
+      </Tag>
+    ),
+  },
   {
     title: "Status",
     key: "status",
@@ -501,6 +519,144 @@ export const OrderListTableColumns = [
     title: "Action",
     key: "action",
 
+    render: (text, record) => <div>{record.action}</div>,
+  },
+];
+
+export const DiningOrderListTableColumns = [
+  {
+    title: "Order Code",
+    dataIndex: "orderCode",
+    key: "orderCode",
+  },
+
+  {
+    title: "Customer Email",
+    dataIndex: "cusEmail",
+    key: "cusEmail",
+  },
+
+  {
+    title: "Contact No",
+    dataIndex: "contactNo",
+    key: "contactNo",
+  },
+  {
+    title: "Order Date",
+    dataIndex: "orderDate",
+    key: "orderDate",
+  },
+
+  {
+    title: "Total",
+    dataIndex: "total",
+    key: "total",
+  },
+
+  {
+    title: "Payment Type",
+    key: "paymentType",
+    width: "15%",
+    dataIndex: "paymentType",
+    render: (paymentType) => (
+      <Tag
+        color={
+          paymentType === "ONLINE_PAYMENT"
+            ? "processing"
+            : paymentType === "CASH_ON_DELIVERY"
+            ? "purple"
+            : "default"
+        }
+        key={paymentType}
+      >
+        {paymentType === "ONLINE_PAYMENT"
+          ? "ONLINE_PAYMENT"
+          : paymentType === "CASH_ON_DELIVERY"
+          ? "CASH_ON_DELIVERY"
+          : "none"}
+      </Tag>
+    ),
+  },
+  {
+    title: "Action",
+    key: "action",
+    render: (text, record) => <div>{record.action}</div>,
+  },
+];
+
+export const ReservationListTableColumns = [
+  {
+    title: "Reservation Code",
+    dataIndex: "reservationCode",
+    key: "reservationCode",
+  },
+  {
+    title: "Name",
+    dataIndex: "cusName",
+    key: "cusName",
+  },
+  {
+    title: "Customer Email",
+    dataIndex: "cusEmail",
+    key: "cusEmail",
+  },
+
+  {
+    title: "Contact No",
+    dataIndex: "contactNo",
+    key: "contactNo",
+  },
+  {
+    title: "Reserved Date",
+    dataIndex: "reservedDate",
+    key: "reservedDate",
+  },
+  {
+    title: "Reserved Time",
+    dataIndex: "reservedTime",
+    key: "reservedTime",
+  },
+  {
+    title: "Person Count",
+    dataIndex: "personCount",
+    key: "personCount",
+  },
+  {
+    title: "Branch",
+    dataIndex: "branch",
+    key: "branch",
+  },
+  {
+    title: "Status",
+    key: "status",
+    // width: "15%",
+    dataIndex: "status",
+    render: (status) => (
+      <Tag
+        color={
+          status === "PENDING"
+            ? "warning"
+            : status === "ACCEPT"
+            ? "success"
+            : status === "REJECTED"
+            ? "error"
+            : "default"
+        }
+        key={status}
+      >
+        {status === "PENDING"
+          ? "PENDING"
+          : status === "ACCEPT"
+          ? "ACCEPT"
+          : status === "REJECTED"
+          ? "REJECTED"
+          : "none"}
+      </Tag>
+    ),
+  },
+  {
+    title: "Action",
+    key: "action",
     render: (text, record) => <div>{record.action}</div>,
   },
 ];

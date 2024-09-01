@@ -20,7 +20,6 @@ import {
   handleError,
   popUploader,
 } from "../../../common/commonFunctions";
-import { DeliveryOrderListTableColumns } from "../../../common/tableColumns";
 import classnames from "classnames";
 import { Table } from "antd";
 import { Pagination } from "antd";
@@ -29,22 +28,26 @@ import moment from "moment"; // Import moment
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import debounce from "lodash/debounce";
-import * as orderService from "../../../service/orderService";
+import Select from "react-select";
+import * as reservationService from "../../../service/reservationService";
+import { ReservationListTableColumns } from "../../../common/tableColumns";
 
-const DeliveryOrderManagement = () => {
-  document.title = "Orders | Restaurant";
+const ReservationManagement = () => {
+  document.title = "Table Reservation | Restaurant";
 
   const history = useNavigate();
   const dispatch = useDispatch();
 
   const [activeTab, setActiveTab] = useState("1");
-  const [orderList, setOrderList] = useState([]);
-  const [searchOrderCode, setSearchOrderCode] = useState("");
+  const [reservationList, setReservationList] = useState([]);
+  const [searchReservationCode, setSearchReservationCode] = useState("");
   const [searchCustomerEmail, setSearchCustomerEmail] = useState("");
   const [searchCustomerContactNo, setSearchCustomerContactNo] = useState("");
   const [searchDateRange, setSearchDateRange] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
   const [statusList, setStatusList] = useState([]);
+  const [selectedBranch, setSelectedBranch] = useState("");
+  const [branchList, setBranchList] = useState([]);
 
   //-------------------------- pagination --------------------------
 
@@ -54,46 +57,50 @@ const DeliveryOrderManagement = () => {
   const { RangePicker } = DatePicker;
 
   useEffect(() => {
-    loadAllOrders(currentPage);
+    loadAllReservations(currentPage);
   }, []);
 
-  const loadAllOrders = async (currentPage) => {
+  const loadAllReservations = async (currentPage) => {
     let temp = [];
     clearFiltrationFields();
     popUploader(dispatch, true);
-    await orderService
-      .getAllOrders(currentPage)
+    await reservationService
+      .getAllReservations(currentPage)
       .then((resp) => {
         console.log(resp);
-        resp?.data?.map((ord, index) => {
+        resp?.data?.records.map((ord, index) => {
           temp.push({
             orderCode: ord?.orderCode,
-            cusEmail: ord?.email,
-            contactNo: ord?.contactNo,
-            orderDate: moment(ord?.createdAt).format("YYYY-MM-DD"),
-            total: parseFloat(ord?.subTotal).toFixed(2),
-            paymentType: ord?.paymentType,
+            cusEmail: ord?.billingDetail[0]?.email,
+            contactNo: ord?.billingDetail[0]?.contactNo,
+            orderDate: moment(ord?.billingDetail[0]?.createdAt).format(
+              "YYYY-MM-DD"
+            ),
+            total: parseFloat(ord?.netTotal).toFixed(2),
             status: ord?.status,
             action: (
               <>
                 <Button
-                  onClick={() =>
-                    history("/order-detail", {
-                      state: { orderData: ord },
-                      // state: { orderData: ord?.id },
-                    })
-                  }
+                  onClick={() => handleReservationStatus(ord?.orderCode, 1)}
                   color="primary"
                   outline
                   className="m-2"
                 >
-                  View
+                  Accept
+                </Button>
+                <Button
+                  onClick={() => handleReservationStatus(ord?.orderCode, 2)}
+                  color="primary"
+                  outline
+                  className="m-2"
+                >
+                  Reject
                 </Button>
               </>
             ),
           });
         });
-        setOrderList(temp);
+        setReservationList(temp);
         setCurrentPage(resp?.data?.currentPage);
         setTotalRecodes(resp?.data?.totalRecords);
         popUploader(dispatch, false);
@@ -106,13 +113,15 @@ const DeliveryOrderManagement = () => {
       .finally();
   };
 
+  const handleReservationStatus = (reservationId, status) => {};
+
   const toggleTab = (tab, type) => {
     if (activeTab !== tab) {
       setActiveTab(tab);
       history("/order-management");
       setSelectedStatus(type);
       debounceHandleSearchOrderFiltration(
-        searchOrderCode,
+        searchReservationCode,
         searchCustomerEmail,
         searchCustomerContactNo,
         searchDateRange,
@@ -138,7 +147,7 @@ const DeliveryOrderManagement = () => {
       (dateRange === undefined || dateRange === null || dateRange === "") &&
       (Status === undefined || Status === null || Status === "")
     ) {
-      loadAllOrders(currentPage);
+      loadAllReservations(currentPage);
     } else {
       let startDate = "";
       let endDate = "";
@@ -148,7 +157,7 @@ const DeliveryOrderManagement = () => {
         endDate = moment(dateRange[1]).format("YYYY-MM-DD");
       }
 
-      setOrderList([]);
+      setReservationList([]);
       let data = {
         orderCode: orderCode,
         email: email,
@@ -162,26 +171,26 @@ const DeliveryOrderManagement = () => {
 
       let temp = [];
       popUploader(dispatch, true);
-      orderService
-        .ordersFiltration(data, currentPage)
+      reservationService
+        .reservationsFiltration(data, currentPage)
         .then((resp) => {
           console.log(resp);
-          resp?.data?.map((ord, index) => {
+          resp?.data?.records.map((ord, index) => {
             temp.push({
               orderCode: ord?.orderCode,
-              cusEmail: ord?.email,
-              contactNo: ord?.contactNo,
-              orderDate: moment(ord?.createdAt).format("YYYY-MM-DD"),
-              total: parseFloat(ord?.subTotal).toFixed(2),
-              paymentType: ord?.paymentType,
+              cusEmail: ord?.billingDetail[0]?.email,
+              contactNo: ord?.billingDetail[0]?.contactNo,
+              orderDate: moment(ord?.billingDetail[0]?.createdAt).format(
+                "YYYY-MM-DD"
+              ),
+              total: parseFloat(ord?.netTotal).toFixed(2),
               status: ord?.status,
               action: (
                 <>
                   <Button
                     onClick={() =>
                       history("/order-detail", {
-                        state: { orderData: ord },
-                        // state: { orderData: ord?.id },
+                        state: { orderData: ord?.id },
                       })
                     }
                     color="primary"
@@ -190,11 +199,16 @@ const DeliveryOrderManagement = () => {
                   >
                     View
                   </Button>
+                  {/* {checkPermission(UPDATE_ORDER) && (
+                    <Button color="warning" outline className="m-2">
+                      Update
+                    </Button>
+                  )} */}
                 </>
               ),
             });
           });
-          setOrderList(temp);
+          setReservationList(temp);
           setCurrentPage(resp?.data?.currentPage);
           setTotalRecodes(resp?.data?.totalRecords);
           popUploader(dispatch, false);
@@ -216,7 +230,7 @@ const DeliveryOrderManagement = () => {
     setCurrentPage(page);
 
     if (
-      !searchOrderCode &&
+      !searchReservationCode &&
       !searchCustomerEmail &&
       (searchDateRange === undefined ||
         searchDateRange === null ||
@@ -225,10 +239,10 @@ const DeliveryOrderManagement = () => {
         selectedStatus === null ||
         selectedStatus === "")
     ) {
-      loadAllOrders(page);
+      loadAllReservations(page);
     } else {
       debounceHandleSearchOrderFiltration(
-        searchOrderCode,
+        searchReservationCode,
         searchCustomerEmail,
         searchCustomerContactNo,
         searchDateRange,
@@ -241,7 +255,7 @@ const DeliveryOrderManagement = () => {
 
   const clearFiltrationFields = () => {
     setActiveTab("1");
-    setSearchOrderCode("");
+    setSearchReservationCode("");
     setSearchCustomerEmail("");
     setSearchDateRange("");
     setSelectedStatus("");
@@ -251,13 +265,13 @@ const DeliveryOrderManagement = () => {
     <div className="page-content">
       <Container fluid>
         <div className="row mt-3">
-          <h4>Delivery Order Management</h4>
+          <h4>Table Reservation Management</h4>
         </div>
-        <Card id="orderList">
+        <Card id="reservationList">
           <CardHeader className="card-header border-0">
             <Row className="align-items-center gy-3">
               <div className="col-sm">
-                <h5 className="card-title mb-0">Order History</h5>
+                <h5 className="card-title mb-0">Reservation History</h5>
               </div>
             </Row>
           </CardHeader>
@@ -277,7 +291,7 @@ const DeliveryOrderManagement = () => {
                     href="#"
                   >
                     <i className="ri-store-2-fill me-1 align-bottom"></i> All
-                    Orders
+                    Reservations
                   </NavLink>
                 </NavItem>
                 <NavItem>
@@ -292,59 +306,25 @@ const DeliveryOrderManagement = () => {
                     Pending
                   </NavLink>
                 </NavItem>
+
                 <NavItem>
                   <NavLink
                     className={classnames({ active: activeTab === "3" })}
                     onClick={() => {
-                      toggleTab("3", "PROCESSING");
-                    }}
-                    href="#"
-                  >
-                    <i className="ri-luggage-cart-line me-1 align-bottom"></i>{" "}
-                    Processing
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink
-                    className={classnames({ active: activeTab === "4" })}
-                    onClick={() => {
-                      toggleTab("4", "SHIPPED");
-                    }}
-                    href="#"
-                  >
-                    <i className="ri-truck-fill me-1 align-bottom"></i>
-                    Shipped
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink
-                    className={classnames({ active: activeTab === "5" })}
-                    onClick={() => {
-                      toggleTab("5", "DELIVERED");
+                      toggleTab("3", "ACCEPT");
                     }}
                     href="#"
                   >
                     <i className="ri-checkbox-circle-fill me-1 align-bottom"></i>{" "}
-                    Delivered
+                    Accept
                   </NavLink>
                 </NavItem>
+
                 <NavItem>
                   <NavLink
-                    className={classnames({ active: activeTab === "6" })}
+                    className={classnames({ active: activeTab === "4" })}
                     onClick={() => {
-                      toggleTab("6", "CANCELLED");
-                    }}
-                    href="#"
-                  >
-                    <i className="ri-close-circle-fill me-1 align-bottom"></i>{" "}
-                    Canceled
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink
-                    className={classnames({ active: activeTab === "7" })}
-                    onClick={() => {
-                      toggleTab("7", "REJECTED");
+                      toggleTab("4", "REJECTED");
                     }}
                     href="#"
                   >
@@ -355,11 +335,11 @@ const DeliveryOrderManagement = () => {
               </Nav>
 
               <Row className="mt-3">
-                <Col sm={12} md={6} lg={3} xl={3} xxl={2}>
-                  <Label>Search By Order Code</Label>
+                <Col sm={12} md={6} lg={4} xl={4} xxl={4}>
+                  <Label>Search By Reservation Code</Label>
                   <Input
                     placeholder="ORD-000000"
-                    value={searchOrderCode}
+                    value={searchReservationCode}
                     className="mb-3"
                     onChange={(e) => {
                       debounceHandleSearchOrderFiltration(
@@ -371,40 +351,19 @@ const DeliveryOrderManagement = () => {
                         selectedStatus,
                         1
                       );
-                      setSearchOrderCode(e.target.value);
+                      setSearchReservationCode(e.target.value);
                     }}
                   />
                 </Col>
-
-                <Col sm={12} md={6} lg={3} xl={3} xxl={3}>
-                  <Label>Search By Customer Email</Label>
-                  <Input
-                    placeholder="Enter customer email"
-                    value={searchCustomerEmail}
-                    type="email"
-                    onChange={(e) => {
-                      debounceHandleSearchOrderFiltration(
-                        searchOrderCode,
-                        e.target.value,
-                        searchCustomerContactNo,
-                        searchDateRange,
-
-                        selectedStatus,
-                        1
-                      );
-                      setSearchCustomerEmail(e.target.value);
-                    }}
-                  />
-                </Col>
-                <Col sm={12} md={6} lg={3} xl={3} xxl={3}>
-                  <Label>Search By Contact No</Label>
+                <Col sm={12} md={6} lg={4} xl={4} xxl={4}>
+                  <Label>Search By Customer Contact No</Label>
                   <Input
                     placeholder="Enter contact no"
                     type="number"
                     value={searchCustomerContactNo}
                     onChange={(e) => {
                       debounceHandleSearchOrderFiltration(
-                        searchOrderCode,
+                        searchReservationCode,
                         searchCustomerEmail,
                         e.target.value,
                         searchDateRange,
@@ -416,8 +375,53 @@ const DeliveryOrderManagement = () => {
                     }}
                   />
                 </Col>
-                <Col sm={12} md={12} lg={4} xl={4} xxl={4}>
-                  <Label>Search By Order Date Range</Label>
+                <Col sm={12} md={6} lg={4} xl={4} xxl={4}>
+                  <Label for="exampleEmail">Search by Branch</Label>
+                  <Select
+                    className="basic-single"
+                    classNamePrefix="select"
+                    isSearchable={true}
+                    isClearable
+                    onChange={(e) => {
+                      setSelectedBranch(
+                        e?.value === undefined ? "" : e === null ? "" : e.value
+                      );
+                      debounceHandleSearchOrderFiltration(
+                        searchOrderId,
+                        searchCustomerName,
+                        searchCustomerContactNo,
+                        searchDateRange,
+                        e?.value === undefined ? "" : e === null ? "" : e.value,
+                        selectedStatus,
+                        1
+                      );
+                    }}
+                    options={branchList}
+                  />
+                </Col>
+                <Col sm={12} md={6} lg={6} xl={4} xxl={4}>
+                  <Label>Search By Customer Email</Label>
+                  <Input
+                    placeholder="Enter customer email"
+                    value={searchCustomerEmail}
+                    type="email"
+                    onChange={(e) => {
+                      debounceHandleSearchOrderFiltration(
+                        searchReservationCode,
+                        e.target.value,
+                        searchCustomerContactNo,
+                        searchDateRange,
+
+                        selectedStatus,
+                        1
+                      );
+                      setSearchCustomerEmail(e.target.value);
+                    }}
+                  />
+                </Col>
+
+                <Col sm={12} md={12} lg={6} xl={4} xxl={4}>
+                  <Label>Search By Reserved Date Range</Label>
                   <RangePicker
                     style={{ height: 40, width: "100%", borderRadius: 4 }}
                     onChange={(selectedDates) => {
@@ -426,7 +430,7 @@ const DeliveryOrderManagement = () => {
                           date ? date.format("YYYY-MM-DD") : null
                         );
                         debounceHandleSearchOrderFiltration(
-                          searchOrderCode,
+                          searchReservationCode,
                           searchCustomerEmail,
                           searchCustomerContactNo,
                           formattedDates,
@@ -438,7 +442,7 @@ const DeliveryOrderManagement = () => {
                       } else {
                         setSearchDateRange("");
                         debounceHandleSearchOrderFiltration(
-                          searchOrderCode,
+                          searchReservationCode,
                           searchCustomerEmail,
                           searchCustomerContactNo,
                           "",
@@ -457,8 +461,8 @@ const DeliveryOrderManagement = () => {
                   <Table
                     className="mx-3 my-4"
                     pagination={false}
-                    columns={DeliveryOrderListTableColumns}
-                    dataSource={orderList}
+                    columns={ReservationListTableColumns}
+                    dataSource={reservationList}
                     scroll={{ x: "fit-content" }}
                   />
                 </Col>
@@ -490,4 +494,4 @@ const DeliveryOrderManagement = () => {
   );
 };
 
-export default DeliveryOrderManagement;
+export default ReservationManagement;
