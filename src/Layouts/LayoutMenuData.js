@@ -231,7 +231,7 @@ const Navdata = () => {
     },
     {
       id: "reservationManagement",
-      label: "Reservation Management",
+      label: "Table Reservations",
       icon: <FeatherIcon icon="bookmark" className="icon-dual" />,
       link: "/reservation-management",
       click: function (e) {
@@ -327,6 +327,19 @@ const Navdata = () => {
       label: "Inquiry Management",
       icon: <FeatherIcon icon="send" className="icon-dual" />,
       link: "/inquiry-management",
+      click: function (e) {
+        e.preventDefault();
+        setIsApps(!isApps);
+        setIscurrentState("Apps");
+        updateIconSidebar(e);
+      },
+      stateVariables: isApps,
+    },
+    {
+      id: "reportsManagement",
+      label: "Reports Management",
+      icon: <FeatherIcon icon="folder-minus" className="icon-dual" />,
+      link: "/",
       click: function (e) {
         e.preventDefault();
         setIsApps(!isApps);

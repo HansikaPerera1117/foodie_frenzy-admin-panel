@@ -53,33 +53,34 @@ const DingingOrderManagement = () => {
       .getAllOrders(currentPage)
       .then((resp) => {
         console.log(resp);
-        resp?.data?.records.map((ord, index) => {
-          temp.push({
-            orderCode: ord?.orderCode,
-            cusEmail: ord?.billingDetail[0]?.email,
-            contactNo: ord?.billingDetail[0]?.contactNo,
-            orderDate: moment(ord?.billingDetail[0]?.createdAt).format(
-              "YYYY-MM-DD"
-            ),
-            total: parseFloat(ord?.netTotal).toFixed(2),
-            status: ord?.status,
-            action: (
-              <>
-                <Button
-                  onClick={() =>
-                    history("/order-detail", {
-                      state: { orderData: ord },
-                    })
-                  }
-                  color="primary"
-                  outline
-                  className="m-2"
-                >
-                  View
-                </Button>
-              </>
-            ),
-          });
+        resp?.data?.map((ord, index) => {
+          if (ord?.orderType === "DINING") {
+            temp.push({
+              orderCode: ord?.orderCode,
+              cusEmail: ord?.email,
+              contactNo: ord?.contactNo,
+              orderDate: moment(ord?.createdAt).format("YYYY-MM-DD"),
+              total: parseFloat(ord?.subTotal).toFixed(2),
+              paymentType: ord?.paymentType,
+              action: (
+                <>
+                  <Button
+                    onClick={() =>
+                      history("/order-detail", {
+                        state: { orderData: ord },
+                        // state: { orderData: ord?.id },
+                      })
+                    }
+                    color="primary"
+                    outline
+                    className="m-2"
+                  >
+                    View
+                  </Button>
+                </>
+              ),
+            });
+          }
         });
         setOrderList(temp);
         setCurrentPage(resp?.data?.currentPage);
@@ -135,38 +136,34 @@ const DingingOrderManagement = () => {
         .ordersFiltration(data, currentPage)
         .then((resp) => {
           console.log(resp);
-          resp?.data?.records.map((ord, index) => {
-            temp.push({
-              orderCode: ord?.orderCode,
-              cusEmail: ord?.billingDetail[0]?.email,
-              contactNo: ord?.billingDetail[0]?.contactNo,
-              orderDate: moment(ord?.billingDetail[0]?.createdAt).format(
-                "YYYY-MM-DD"
-              ),
-              total: parseFloat(ord?.netTotal).toFixed(2),
-              status: ord?.status,
-              action: (
-                <>
-                  <Button
-                    onClick={() =>
-                      history("/order-detail", {
-                        state: { orderData: ord?.id },
-                      })
-                    }
-                    color="primary"
-                    outline
-                    className="m-2"
-                  >
-                    View
-                  </Button>
-                  {/* {checkPermission(UPDATE_ORDER) && (
-                    <Button color="warning" outline className="m-2">
-                      Update
+          resp?.data?.map((ord, index) => {
+            if (ord?.orderType === "DINING") {
+              temp.push({
+                orderCode: ord?.orderCode,
+                cusEmail: ord?.email,
+                contactNo: ord?.contactNo,
+                orderDate: moment(ord?.createdAt).format("YYYY-MM-DD"),
+                total: parseFloat(ord?.subTotal).toFixed(2),
+                paymentType: ord?.paymentType,
+                action: (
+                  <>
+                    <Button
+                      onClick={() =>
+                        history("/order-detail", {
+                          state: { orderData: ord },
+                          // state: { orderData: ord?.id },
+                        })
+                      }
+                      color="primary"
+                      outline
+                      className="m-2"
+                    >
+                      View
                     </Button>
-                  )} */}
-                </>
-              ),
-            });
+                  </>
+                ),
+              });
+            }
           });
           setOrderList(temp);
           setCurrentPage(resp?.data?.currentPage);

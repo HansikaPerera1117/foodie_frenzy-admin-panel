@@ -66,32 +66,34 @@ const DeliveryOrderManagement = () => {
       .then((resp) => {
         console.log(resp);
         resp?.data?.map((ord, index) => {
-          temp.push({
-            orderCode: ord?.orderCode,
-            cusEmail: ord?.email,
-            contactNo: ord?.contactNo,
-            orderDate: moment(ord?.createdAt).format("YYYY-MM-DD"),
-            total: parseFloat(ord?.subTotal).toFixed(2),
-            paymentType: ord?.paymentType,
-            status: ord?.status,
-            action: (
-              <>
-                <Button
-                  onClick={() =>
-                    history("/order-detail", {
-                      state: { orderData: ord },
-                      // state: { orderData: ord?.id },
-                    })
-                  }
-                  color="primary"
-                  outline
-                  className="m-2"
-                >
-                  View
-                </Button>
-              </>
-            ),
-          });
+          if (ord?.orderType === "DELIVERY") {
+            temp.push({
+              orderCode: ord?.orderCode,
+              cusEmail: ord?.email,
+              contactNo: ord?.contactNo,
+              orderDate: moment(ord?.createdAt).format("YYYY-MM-DD"),
+              total: parseFloat(ord?.subTotal).toFixed(2),
+              paymentType: ord?.paymentType,
+              status: ord?.status,
+              action: (
+                <>
+                  <Button
+                    onClick={() =>
+                      history("/order-detail", {
+                        state: { orderData: ord },
+                        // state: { orderData: ord?.id },
+                      })
+                    }
+                    color="primary"
+                    outline
+                    className="m-2"
+                  >
+                    View
+                  </Button>
+                </>
+              ),
+            });
+          }
         });
         setOrderList(temp);
         setCurrentPage(resp?.data?.currentPage);
@@ -167,32 +169,34 @@ const DeliveryOrderManagement = () => {
         .then((resp) => {
           console.log(resp);
           resp?.data?.map((ord, index) => {
-            temp.push({
-              orderCode: ord?.orderCode,
-              cusEmail: ord?.email,
-              contactNo: ord?.contactNo,
-              orderDate: moment(ord?.createdAt).format("YYYY-MM-DD"),
-              total: parseFloat(ord?.subTotal).toFixed(2),
-              paymentType: ord?.paymentType,
-              status: ord?.status,
-              action: (
-                <>
-                  <Button
-                    onClick={() =>
-                      history("/order-detail", {
-                        state: { orderData: ord },
-                        // state: { orderData: ord?.id },
-                      })
-                    }
-                    color="primary"
-                    outline
-                    className="m-2"
-                  >
-                    View
-                  </Button>
-                </>
-              ),
-            });
+            if (ord?.orderType === "DELIVERY") {
+              temp.push({
+                orderCode: ord?.orderCode,
+                cusEmail: ord?.email,
+                contactNo: ord?.contactNo,
+                orderDate: moment(ord?.createdAt).format("YYYY-MM-DD"),
+                total: parseFloat(ord?.subTotal).toFixed(2),
+                paymentType: ord?.paymentType,
+                status: ord?.status,
+                action: (
+                  <>
+                    <Button
+                      onClick={() =>
+                        history("/order-detail", {
+                          state: { orderData: ord },
+                          // state: { orderData: ord?.id },
+                        })
+                      }
+                      color="primary"
+                      outline
+                      className="m-2"
+                    >
+                      View
+                    </Button>
+                  </>
+                ),
+              });
+            }
           });
           setOrderList(temp);
           setCurrentPage(resp?.data?.currentPage);
