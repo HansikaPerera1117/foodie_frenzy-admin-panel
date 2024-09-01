@@ -70,7 +70,7 @@ const ServiceManagement = () => {
     popUploader(dispatch, true);
     getAllServicers(currentPage)
       .then((resp) => {
-        resp?.data?.records.map((service, index) => {
+        resp?.data?.map((service, index) => {
           temp.push({
             image: (
               <div
@@ -144,6 +144,8 @@ const ServiceManagement = () => {
         popUploader(dispatch, false);
       })
       .catch((err) => {
+        console.log(err);
+
         popUploader(dispatch, false);
         handleError(err);
       });
@@ -161,7 +163,7 @@ const ServiceManagement = () => {
 
       serviceFiltration(data, currentPage)
         .then((resp) => {
-          resp?.data?.records.map((service, index) => {
+          resp?.data?.map((service, index) => {
             temp.push({
               image: (
                 <div

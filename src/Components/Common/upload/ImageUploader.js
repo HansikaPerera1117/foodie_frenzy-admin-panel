@@ -26,8 +26,8 @@ const CustomImageUploader = ({
               uid: data?.id,
               name: "52254",
               status: "done",
-              url: data?.imageSizes?.original,
-              thumbUrl: data?.imageSizes?.original,
+              url: data?.originalPath,
+              thumbUrl: data?.originalPath,
               customId: data?.id,
               // altText: data?.altTag,
             }

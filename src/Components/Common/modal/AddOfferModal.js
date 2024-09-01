@@ -73,7 +73,7 @@ const AddOfferModal = ({ isOpen, toggle }) => {
     const data = {
       title: offerTitle,
       description: offerDes,
-      value: offerValue,
+      value: parseFloat(offerValue),
       startAt: offerStartDate,
       endAt: offerEndDate,
       fileId: mainImage?.id,

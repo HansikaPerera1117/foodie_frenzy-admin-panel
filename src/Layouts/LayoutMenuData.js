@@ -133,6 +133,45 @@ const Navdata = () => {
       stateVariables: isApps,
     },
     {
+      id: "branchManagement",
+      label: "Branch Management",
+      icon: <FeatherIcon icon="archive" className="icon-dual" />,
+      link: "/branch-management",
+      click: function (e) {
+        e.preventDefault();
+        setIsApps(!isApps);
+        setIscurrentState("Apps");
+        updateIconSidebar(e);
+      },
+      stateVariables: isApps,
+    },
+    {
+      id: "serviceManagement",
+      label: "Service Management",
+      icon: <FeatherIcon icon="layers" className="icon-dual" />,
+      link: "/service-management",
+      click: function (e) {
+        e.preventDefault();
+        setIsApps(!isApps);
+        setIscurrentState("Apps");
+        updateIconSidebar(e);
+      },
+      stateVariables: isApps,
+    },
+    {
+      id: "OffersManagement",
+      label: "Offers Management",
+      icon: <FeatherIcon icon="thumbs-up" className="icon-dual" />,
+      link: "/offer-management",
+      click: function (e) {
+        e.preventDefault();
+        setIsApps(!isApps);
+        setIscurrentState("Apps");
+        updateIconSidebar(e);
+      },
+      stateVariables: isApps,
+    },
+    {
       label: "Pages",
       isHeader: true,
     },
@@ -150,7 +189,7 @@ const Navdata = () => {
       stateVariables: isApps,
     },
     {
-      id: "apps",
+      id: "orderManagement",
       label: "Order Management",
       icon: <FeatherIcon icon="shopping-cart" className="icon-dual" />,
       link: "/",
@@ -262,45 +301,6 @@ const Navdata = () => {
       label: "Role and Permissions",
       icon: <FeatherIcon icon="shield" className="icon-dual" />,
       link: "/role-permission-management",
-      click: function (e) {
-        e.preventDefault();
-        setIsApps(!isApps);
-        setIscurrentState("Apps");
-        updateIconSidebar(e);
-      },
-      stateVariables: isApps,
-    },
-    {
-      id: "branchManagement",
-      label: "Branch Management",
-      icon: <FeatherIcon icon="archive" className="icon-dual" />,
-      link: "/branch-management",
-      click: function (e) {
-        e.preventDefault();
-        setIsApps(!isApps);
-        setIscurrentState("Apps");
-        updateIconSidebar(e);
-      },
-      stateVariables: isApps,
-    },
-    {
-      id: "serviceManagement",
-      label: "Service Management",
-      icon: <FeatherIcon icon="layers" className="icon-dual" />,
-      link: "/service-management",
-      click: function (e) {
-        e.preventDefault();
-        setIsApps(!isApps);
-        setIscurrentState("Apps");
-        updateIconSidebar(e);
-      },
-      stateVariables: isApps,
-    },
-    {
-      id: "OffersManagement",
-      label: "Offers Management",
-      icon: <FeatherIcon icon="thumbs-up" className="icon-dual" />,
-      link: "/offer-management",
       click: function (e) {
         e.preventDefault();
         setIsApps(!isApps);

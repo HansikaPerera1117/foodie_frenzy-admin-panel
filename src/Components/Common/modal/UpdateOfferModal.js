@@ -45,6 +45,7 @@ const UpdateOfferModal = ({ isOpen, currentData, onClose }) => {
   const [currentMain, setCurrentMain] = useState([]);
 
   let dispatch = useDispatch();
+  const today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD format
 
   useEffect(() => {
     setDataToInputs();
@@ -52,15 +53,11 @@ const UpdateOfferModal = ({ isOpen, currentData, onClose }) => {
 
   const setDataToInputs = () => {
     setOfferTitle(currentData.title);
-    setOfferValue(currentData.title);
-    setOfferStartDate(currentData.title);
-    setOfferEndDate(currentData.title);
+    setOfferValue(currentData.value);
+    setOfferStartDate(currentData.startAt);
+    setOfferEndDate(currentData.endAt);
     setOfferDes(currentData.description != null ? currentData.description : "");
-    currentData.files?.map(async (f, index) => {
-      if (f.isDefault) {
-        await setCurrentMain([f]);
-      }
-    });
+    setCurrentMain([currentData.file]);
   };
 
   const handleUpdateOffer = () => {
@@ -89,7 +86,7 @@ const UpdateOfferModal = ({ isOpen, currentData, onClose }) => {
     const data = {
       title: offerTitle,
       description: offerDes,
-      value: offerValue,
+      value: parseFloat(offerValue),
       startAt: offerStartDate,
       endAt: offerEndDate,
       fileId: mainImage?.id,

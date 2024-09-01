@@ -23,6 +23,7 @@ import { useDispatch } from "react-redux";
 import defaultCategoryImg from "../../../assets/images/default-category-img.png";
 import {
   categoryFiltration,
+  deleteCategory,
   getAllCategories,
 } from "../../../service/categoryService";
 import { CategoriesTableColumns } from "../../../common/tableColumns";
@@ -132,7 +133,7 @@ const CategoryManagement = () => {
                   className="m-2"
                   outline
                   onClick={(e) => {
-                    deleteCategory(category?.id);
+                    handleDeleteCategory(category?.id);
                   }}
                 >
                   <span>Remove</span>
@@ -218,7 +219,7 @@ const CategoryManagement = () => {
                     className="m-2"
                     outline
                     onClick={(e) => {
-                      deleteCategory(category?.id);
+                      handleDeleteCategory(category?.id);
                     }}
                   >
                     <span>Remove</span>
@@ -245,13 +246,13 @@ const CategoryManagement = () => {
     []
   );
 
-  const deleteCategory = (cateId) => {
+  const handleDeleteCategory = (cateId) => {
     console.log(cateId);
 
     customSweetAlert("Are you sure to delete this category?", 0, () => {
       popUploader(dispatch, true);
       deleteCategory(cateId)
-        .then(() => {
+        .then((res) => {
           popUploader(dispatch, false);
           customToastMsg("Category deleted successfully", 1);
           loadAllCatagories(currentPage);

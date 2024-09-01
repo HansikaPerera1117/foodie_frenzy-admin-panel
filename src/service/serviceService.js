@@ -5,7 +5,7 @@ export async function getAllServicers(currentPage) {
   apiObject.method = "GET";
   apiObject.authentication = true;
   apiObject.isWithoutPrefix = false;
-  apiObject.endpoint = `api/admin/service/find-all?perPage=${15}&page=${currentPage}`;
+  apiObject.endpoint = `api/service/find-all?perPage=${15}&page=${currentPage}`;
   apiObject.body = null;
   return await ApiService.callApi(apiObject);
 }
@@ -32,12 +32,12 @@ export async function updateService(id, data) {
   return await ApiService.callApi(apiObject);
 }
 
-export async function deleteService(catId) {
+export async function deleteService(serviceId) {
   const apiObject = {};
-  (apiObject.method = "PATCH"),
+  (apiObject.method = "DELETE"),
     (apiObject.authentication = true),
     (apiObject.isWithoutPrefix = false);
-  apiObject.endpoint = ``;
+  apiObject.endpoint = `api/service/delete/${serviceId}`;
   apiObject.body = null;
   return await ApiService.callApi(apiObject);
 }
@@ -47,7 +47,9 @@ export async function serviceFiltration(data, currentPage) {
   apiObject.method = "GET";
   apiObject.authentication = true;
   apiObject.isWithoutPrefix = false;
-  apiObject.endpoint = `api/admin/service/find-all?name=${data.name}&perPage=${15}&page=${currentPage}`;
+  apiObject.endpoint = `api/service/find-all?name=${
+    data.name
+  }&perPage=${15}&page=${currentPage}`;
   apiObject.body = null;
   return await ApiService.callApi(apiObject);
 }

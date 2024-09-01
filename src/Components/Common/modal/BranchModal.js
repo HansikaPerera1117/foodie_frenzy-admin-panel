@@ -42,11 +42,11 @@ const BranchModal = ({ isOpen, toggle, updateValue, isUpdate }) => {
   }, [isOpen]);
 
   const setUpdateDetails = async () => {
-    await setBranchName(updateValue?.title);
-    await setAddress(updateValue?.addressLine);
+    await setBranchName(updateValue?.name);
+    await setAddress(updateValue?.address);
     await setLocationUrl(updateValue?.url);
     await setFacilities(
-      updateValue.facilities != null ? updateValue.facilities : ""
+      updateValue?.facilities != null ? updateValue?.facilities : ""
     );
     return true;
   };
@@ -180,6 +180,9 @@ const BranchModal = ({ isOpen, toggle, updateValue, isUpdate }) => {
                   )}
                 </div>
                 <CKEditor
+                  key={branchName}
+                  value={facilities}
+                  data={facilities}
                   onChange={(event, editor) => {
                     const data = editor.getData();
                     setFacilities(data);
@@ -226,7 +229,6 @@ const BranchModal = ({ isOpen, toggle, updateValue, isUpdate }) => {
                     },
                   }}
                   editor={ClassicEditor}
-                  data={facilities}
                   onReady={(editor) => {}}
                 />
               </div>

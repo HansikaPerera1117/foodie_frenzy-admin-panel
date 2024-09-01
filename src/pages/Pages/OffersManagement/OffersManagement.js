@@ -69,7 +69,7 @@ const OffersManagement = () => {
     popUploader(dispatch, true);
     getAllOffers(currentPage)
       .then((resp) => {
-        resp?.data?.records.map((offer, index) => {
+        resp?.data?.map((offer, index) => {
           temp.push({
             image: (
               <div
@@ -101,11 +101,11 @@ const OffersManagement = () => {
               </div>
             ),
 
-            name: offer?.name,
+            name: offer?.title,
             description: offer?.description != null ? offer?.description : "",
-            value: offer?.status,
-            startDate: offer?.status,
-            endDate: offer?.status,
+            value: offer?.value,
+            startDate: offer?.startAt,
+            endDate: offer?.endAt,
 
             action: (
               <>
@@ -161,7 +161,7 @@ const OffersManagement = () => {
 
       offerFiltration(data, currentPage)
         .then((resp) => {
-          resp?.data?.records.map((offer, index) => {
+          resp?.data?.map((offer, index) => {
             temp.push({
               image: (
                 <div
@@ -193,11 +193,11 @@ const OffersManagement = () => {
                 </div>
               ),
 
-              name: offer?.name,
+              name: offer?.title,
               description: offer?.description != null ? offer?.description : "",
-              value: offer?.status,
-              startDate: offer?.status,
-              endDate: offer?.status,
+              value: offer?.value,
+              startDate: offer?.startAt,
+              endDate: offer?.endAt,
 
               action: (
                 <>
