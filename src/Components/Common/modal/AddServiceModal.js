@@ -57,7 +57,7 @@ const AddServiceModal = ({ isOpen, toggle }) => {
     const data = {
       name: serviceName,
       description: serviceDes,
-      files: mainImage,
+      files: mainImage?.id,
     };
 
     if (isValidated) {

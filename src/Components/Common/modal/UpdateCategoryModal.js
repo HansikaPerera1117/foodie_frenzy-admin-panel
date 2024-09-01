@@ -54,11 +54,7 @@ const UpdateCategoryModal = ({ isOpen, currentData, onClose }) => {
     setCategoryDes(
       currentData.description != null ? currentData.description : ""
     );
-    currentData.files?.map(async (f, index) => {
-      if (f.isDefault) {
-        await setCurrentMain([f]);
-      }
-    });
+    setCurrentMain([currentData.file]);
     setCategoryStatus(currentData.status);
   };
 
@@ -80,7 +76,7 @@ const UpdateCategoryModal = ({ isOpen, currentData, onClose }) => {
       name: categoryName,
       status: categoryStatus,
       description: categoryDes,
-      files: mainImage,
+      fileId: mainImage?.id,
     };
 
     // console.log(data);

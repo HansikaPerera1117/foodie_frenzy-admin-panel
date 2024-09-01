@@ -5,7 +5,7 @@ export async function getAllBranches(currentPage) {
   apiObject.method = "GET";
   apiObject.authentication = true;
   apiObject.isWithoutPrefix = false;
-  apiObject.endpoint = ``;
+  apiObject.endpoint = `api/store-locator/find-all?perPage=${15}&page=${currentPage}`;
   apiObject.body = null;
   return await ApiService.callApi(apiObject);
 }
@@ -16,7 +16,7 @@ export async function createBranch(data) {
   apiObject.authentication = true;
   apiObject.urlencoded = false;
   apiObject.isWithoutPrefix = false;
-  apiObject.endpoint = "";
+  apiObject.endpoint = "api/store-locator/create";
   apiObject.body = data;
   return await ApiService.callApi(apiObject);
 }
@@ -27,7 +27,7 @@ export async function updateBranch(storeId, data) {
   apiObject.authentication = true;
   apiObject.urlencoded = false;
   apiObject.isWithoutPrefix = false;
-  apiObject.endpoint = ``;
+  apiObject.endpoint = `api/store-locator/update/${storeId}`;
   apiObject.body = data;
   return await ApiService.callApi(apiObject);
 }
@@ -37,7 +37,7 @@ export async function deleteBranch(storeId) {
   apiObject.method = "DELETE",
   apiObject.authentication = true,
   apiObject.isWithoutPrefix = false;
-  apiObject.endpoint = ``;
+  apiObject.endpoint = `api/store-locator/delete/${storeId}`;
   apiObject.body = null;
   return await ApiService.callApi(apiObject);
 }
@@ -47,7 +47,7 @@ export async function getAllBranchesFiltration(data, currentPage) {
   apiObject.method = "GET",
   apiObject.authentication = true,
   apiObject.isWithoutPrefix = false;
-  apiObject.endpoint = ``;
+  apiObject.endpoint = `api/store-locator/find-all?name=${data?.name}&address=${data?.address}&perPage=${15}&page=${currentPage}`;
   apiObject.body = null;
   return await ApiService.callApi(apiObject);
 }

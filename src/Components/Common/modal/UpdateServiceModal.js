@@ -74,7 +74,7 @@ const UpdateServiceModal = ({ isOpen, currentData, onClose }) => {
     const data = {
       name: serviceName,
       description: serviceDes,
-      files: mainImage,
+      files: mainImage?.id,
     };
 
     if (isValidated) {

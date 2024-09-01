@@ -30,6 +30,12 @@ import GalleryManagement from "../pages/Pages/GalleryManagement/GalleryManagemnt
 import BranchManagement from "../pages/Pages/BranchManagement/BranchManagement";
 import ServiceManagement from "../pages/Pages/ServiceManagement/ServiceManagement";
 import InquiryManagement from "../pages/Pages/InquiryManagement/InquiryManagement";
+import OffersManagement from "../pages/Pages/OffersManagement/OffersManagement";
+import DeliveryOrderManagement from "../pages/Pages/OrderManagement/DeliveryOrderManagement";
+import DingingOrderManagement from "../pages/Pages/OrderManagement/DingingOrderManagement";
+import ViewProductDetails from "../pages/Pages/ProductManagement/ViewProductDetails";
+import ReservationManagement from "../pages/Pages/ReservationManagement/ReservationManagement";
+import OrderDetail from "../pages/Pages/OrderManagement/OrderDetail";
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: <DashboardEcommerce /> },
@@ -60,6 +66,10 @@ const authProtectedRoutes = [
 
   { path: "/update-product", component: <UpdateProduct /> },
 
+  { path: "/view-product", component: <ViewProductDetails /> },
+
+  { path: "/reservation-management", component: <ReservationManagement /> },
+
   { path: "/category-management", component: <CategoryManagement /> },
 
   { path: "/gallery-management", component: <GalleryManagement /> },
@@ -68,7 +78,18 @@ const authProtectedRoutes = [
 
   { path: "/service-management", component: <ServiceManagement /> },
 
+  { path: "/offer-management", component: <OffersManagement /> },
+
   { path: "/inquiry-management", component: <InquiryManagement /> },
+
+  {
+    path: "/delivery-order-management",
+    component: <DeliveryOrderManagement />,
+  },
+
+  { path: "/dinging-order-management", component: <DingingOrderManagement /> },
+  
+  { path: "/order-detail", component: <OrderDetail /> },
 ];
 
 const publicRoutes = [

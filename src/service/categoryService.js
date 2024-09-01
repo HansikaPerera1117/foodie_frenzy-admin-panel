@@ -47,7 +47,7 @@ export async function deleteCategory(catId) {
   apiObject.method = "PATCH",
   apiObject.authentication = true,
   apiObject.isWithoutPrefix = false;
-  apiObject.endpoint = ``;
+  apiObject.endpoint = `api/category/change-status/${catId}?status=${0}`;
   apiObject.body = null;
   return await ApiService.callApi(apiObject);
 }

@@ -54,11 +54,7 @@ const CustomerManagement = () => {
         const formattedData = res.data.map((record) => {
           return {
             name: record.user.firstName + " " + record.user.lastName,
-            contactNo:
-              record.user.customer.dialCode +
-              " " +
-              record.user.customer.contactNo,
-
+            contactNo: record.user.customer.contactNo,
             email: record.user.email,
             status: record.user.status,
           };
@@ -94,11 +90,7 @@ const CustomerManagement = () => {
           const formattedData = res.data.map((record) => {
             return {
               name: record.user.firstName + " " + record.user.lastName,
-              contactNo:
-                record.user.customer.dialCode +
-                " " +
-                record.user.customer.contactNo,
-
+              contactNo: record.user.customer.contactNo,
               email: record.user.email,
               status: record.user.status,
             };

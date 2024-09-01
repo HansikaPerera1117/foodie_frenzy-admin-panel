@@ -23,6 +23,7 @@ import { useDispatch } from "react-redux";
 import defaultCategoryImg from "../../../assets/images/default-category-img.png";
 import {
   categoryFiltration,
+  deleteCategory,
   getAllCategories,
 } from "../../../service/categoryService";
 import { CategoriesTableColumns } from "../../../common/tableColumns";
@@ -84,20 +85,16 @@ const CategoryManagement = () => {
                 className="object-fit-cover d-flex justify-content-center"
                 key={index}
               >
-                {category?.files && category.files.length > 0 ? (
-                  category.files.map((img, index) => {
-                    return (
-                      <img
-                        key={index}
-                        src={img?.originalPath}
-                        alt="logo"
-                        className="object-fit-cover"
-                        width="100%"
-                        height="auto"
-                        onError={(e) => (e.target.src = defaultCategoryImg)}
-                      />
-                    );
-                  })
+                {category?.file && Object.keys(category?.file).length > 0 ? (
+                  <img
+                    key={index}
+                    src={category.file?.originalPath}
+                    alt="logo"
+                    className="object-fit-cover"
+                    width="100%"
+                    height="auto"
+                    onError={(e) => (e.target.src = defaultCategoryImg)}
+                  />
                 ) : (
                   <img
                     src={defaultCategoryImg}
@@ -136,7 +133,7 @@ const CategoryManagement = () => {
                   className="m-2"
                   outline
                   onClick={(e) => {
-                    deleteCategory(category?.id);
+                    handleDeleteCategory(category?.id);
                   }}
                 >
                   <span>Remove</span>
@@ -177,22 +174,16 @@ const CategoryManagement = () => {
                   className="object-fit-cover d-flex justify-content-center"
                   key={index}
                 >
-                  {category?.files && category.files.length > 0 ? (
-                    category.files.map((img, index) => {
-                      if (img?.isDefault) {
-                        return (
-                          <img
-                            key={index}
-                            src={img?.imageSizes?.original}
-                            alt="logo"
-                            className="object-fit-cover"
-                            width="100%"
-                            height="auto"
-                            onError={(e) => (e.target.src = defaultCategoryImg)}
-                          />
-                        );
-                      }
-                    })
+                  {category?.file && Object.keys(category?.file).length > 0 ? (
+                    <img
+                      key={index}
+                      src={category.file?.originalPath}
+                      alt="logo"
+                      className="object-fit-cover"
+                      width="100%"
+                      height="auto"
+                      onError={(e) => (e.target.src = defaultCategoryImg)}
+                    />
                   ) : (
                     <img
                       src={defaultCategoryImg}
@@ -228,7 +219,7 @@ const CategoryManagement = () => {
                     className="m-2"
                     outline
                     onClick={(e) => {
-                      deleteCategory(category?.id);
+                      handleDeleteCategory(category?.id);
                     }}
                   >
                     <span>Remove</span>
@@ -254,11 +245,14 @@ const CategoryManagement = () => {
     debounce(searchByCategoryFiltration, 500),
     []
   );
-  const deleteCategory = (cateId) => {
+
+  const handleDeleteCategory = (cateId) => {
+    console.log(cateId);
+
     customSweetAlert("Are you sure to delete this category?", 0, () => {
       popUploader(dispatch, true);
       deleteCategory(cateId)
-        .then(() => {
+        .then((res) => {
           popUploader(dispatch, false);
           customToastMsg("Category deleted successfully", 1);
           loadAllCatagories(currentPage);

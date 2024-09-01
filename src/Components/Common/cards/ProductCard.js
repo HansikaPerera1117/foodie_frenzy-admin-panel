@@ -68,13 +68,13 @@ const ProductCard = ({ productData, reload }) => {
   };
 
   const updateProductDetails = () => {
-    // history("/update-product", {
-    //   state: { productData: productData.id },
-    // });
+    history("/update-product", {
+      state: { productData: productData.id },
+    });
   };
 
   const viewMoreProductDetails = () => {
-    // history("/view-product", { state: { productId: productData.id } });
+    history("/view-product", { state: { productId: productData.id } });
   };
   const content = (
     <div className="d-flex flex-column">
@@ -152,34 +152,33 @@ const ProductCard = ({ productData, reload }) => {
             </div>
           </div>
         </div>
-        <div
-          className="product-info"
-          style={{ cursor: "pointer" }}
-          onClick={() => {
-            viewMoreProductDetails();
-          }}
-        >
-          <h6 className="product-category text-truncate d-flex">
-            <Tooltip title={productData?.category?.name}>
-              {productData?.category?.name}
-            </Tooltip>
-          </h6>
-          <h6 className="product-title text-truncate">
-            <Tooltip title={productData?.name}>{productData?.name}</Tooltip>
-          </h6>
+        <div className="product-info">
+          <div
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              viewMoreProductDetails();
+            }}
+          >
+            <h6 className="product-category text-truncate d-flex">
+              <Tooltip title={productData?.category?.name}>
+                {productData?.category?.name}
+              </Tooltip>
+            </h6>
+            <h6 className="product-title text-truncate">
+              <Tooltip title={productData?.name}>{productData?.name}</Tooltip>
+            </h6>
 
-          <h6 className="product-title text-truncate">
-            <Tooltip title={productData?.price}>
-              Price LKR{" "}
-              {parseFloat(productData?.price).toLocaleString("en-US", {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
-            </Tooltip>
-          </h6>
-
-          <div className=""></div>
-          <h6 className="product-title text-truncate">
+            <h6 className="product-title text-truncate">
+              <Tooltip title={productData?.price}>
+                LKR{" "}
+                {parseFloat(productData?.price).toLocaleString("en-US", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </Tooltip>
+            </h6>
+          </div>
+          <h6 className="product-title text-truncate" style={{ zIndex: 1000 }}>
             <Switch
               checked={
                 productData.status === 1

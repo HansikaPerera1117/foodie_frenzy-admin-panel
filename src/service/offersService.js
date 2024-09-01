@@ -1,55 +1,53 @@
 import ApiService from "./apiService";
 
-export async function getAllServicers(currentPage) {
+export async function getAllOffers(currentPage) {
   const apiObject = {};
   apiObject.method = "GET";
   apiObject.authentication = true;
   apiObject.isWithoutPrefix = false;
-  apiObject.endpoint = `api/service/find-all?perPage=${15}&page=${currentPage}`;
+  apiObject.endpoint = `api/discount/find-all?perPage=${15}&page=${currentPage}`;
   apiObject.body = null;
   return await ApiService.callApi(apiObject);
 }
 
-export async function createService(data) {
+export async function createOffer(data) {
   const apiObject = {};
   apiObject.method = "POST";
   apiObject.authentication = true;
   apiObject.urlencoded = false;
   apiObject.isWithoutPrefix = false;
-  apiObject.endpoint = `api/service/create`;
+  apiObject.endpoint = `api/discount/create`;
   apiObject.body = data;
   return await ApiService.callApi(apiObject);
 }
 
-export async function updateService(id, data) {
+export async function updateOffer(id, data) {
   const apiObject = {};
   apiObject.method = "PUT";
   apiObject.authentication = true;
   apiObject.urlencoded = false;
   apiObject.isWithoutPrefix = false;
-  apiObject.endpoint = `api/service/update/${id}`;
+  apiObject.endpoint = ``;
   apiObject.body = data;
   return await ApiService.callApi(apiObject);
 }
 
-export async function deleteService(serviceId) {
+export async function deleteOffer(catId) {
   const apiObject = {};
-  (apiObject.method = "DELETE"),
+  (apiObject.method = "PATCH"),
     (apiObject.authentication = true),
     (apiObject.isWithoutPrefix = false);
-  apiObject.endpoint = `api/service/delete/${serviceId}`;
+  apiObject.endpoint = ``;
   apiObject.body = null;
   return await ApiService.callApi(apiObject);
 }
 
-export async function serviceFiltration(data, currentPage) {
+export async function offerFiltration(data, currentPage) {
   const apiObject = {};
   apiObject.method = "GET";
   apiObject.authentication = true;
   apiObject.isWithoutPrefix = false;
-  apiObject.endpoint = `api/service/find-all?name=${
-    data.name
-  }&perPage=${15}&page=${currentPage}`;
+  apiObject.endpoint = `api/discount/find-all?title=${data.title}&perPage=${15}&page=${currentPage}`;
   apiObject.body = null;
   return await ApiService.callApi(apiObject);
 }

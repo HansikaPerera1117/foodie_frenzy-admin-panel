@@ -19,24 +19,23 @@ import {
 import { Pagination, Table } from "antd";
 import debounce from "lodash/debounce";
 import { useDispatch } from "react-redux";
+import { OfferTableColumns } from "../../../common/tableColumns";
 import {
-  deleteService,
-  getAllServicers,
-  serviceFiltration,
-} from "../../../service/serviceService";
-import AddServiceModal from "../../../Components/Common/modal/AddServiceModal";
-import { ServiceTableColumns } from "../../../common/tableColumns";
-import UpdateServiceModal from "../../../Components/Common/modal/UpdateServiceModal";
+  deleteOffer,
+  getAllOffers,
+  offerFiltration,
+} from "../../../service/offersService";
+import AddOfferModal from "../../../Components/Common/modal/AddOfferModal";
+import UpdateOfferModal from "../../../Components/Common/modal/UpdateOfferModal";
 
-const ServiceManagement = () => {
-  document.title = "Service | Restaurant";
+const OffersManagement = () => {
+  document.title = "Offers | Restaurant";
 
-  const [isAddServiceModalOpen, setIsAddServiceModalOpen] = useState(false);
-  const [isUpdateServiceModalOpen, setIsUpdateServiceModalOpen] =
-    useState(false);
-  const [serviceName, setServiceName] = useState("");
-  const [selectedService, setSelectedService] = useState("");
-  const [serviceTableList, setServiceTableList] = useState([]);
+  const [isAddOfferModalOpen, setIsAddOfferModalOpen] = useState(false);
+  const [isUpdateOfferModalOpen, setIsUpdateOfferModalOpen] = useState(false);
+  const [offerTitle, setOfferTitle] = useState("");
+  const [selectedSOffer, setSelectedSOffer] = useState("");
+  const [offerTableList, setOfferTableList] = useState([]);
 
   //-------------------------- pagination --------------------------
 
@@ -46,41 +45,41 @@ const ServiceManagement = () => {
   let dispatch = useDispatch();
 
   useEffect(() => {
-    loadAllServicers(currentPage);
+    loadAllOffers(currentPage);
   }, []);
 
-  const toggleAddServiceModal = () => {
-    setIsAddServiceModalOpen(!isAddServiceModalOpen);
-    loadAllServicers(currentPage);
+  const toggleAddOfferModal = () => {
+    setIsAddOfferModalOpen(!isAddOfferModalOpen);
+    loadAllOffers(currentPage);
   };
 
-  const openUpdateServiceModal = (selectService) => {
-    setSelectedService(selectService);
-    setIsUpdateServiceModalOpen(true);
+  const openUpdateOfferModal = (selectOffer) => {
+    setSelectedSOffer(selectOffer);
+    setIsUpdateOfferModalOpen(true);
   };
 
   const closeUpdateModal = () => {
-    setIsUpdateServiceModalOpen(false);
-    loadAllServicers(currentPage);
+    setIsUpdateOfferModalOpen(false);
+    loadAllOffers(currentPage);
   };
 
-  const loadAllServicers = (currentPage) => {
+  const loadAllOffers = (currentPage) => {
     let temp = [];
     clearFiltrationFields();
     popUploader(dispatch, true);
-    getAllServicers(currentPage)
+    getAllOffers(currentPage)
       .then((resp) => {
-        resp?.data?.map((service, index) => {
+        resp?.data?.map((offer, index) => {
           temp.push({
             image: (
               <div
                 className="object-fit-cover d-flex justify-content-center"
                 key={index}
               >
-                {service?.file && Object.keys(service?.file).length > 0 ? (
+                {offer?.file && Object.keys(offer?.file).length > 0 ? (
                   <img
                     key={index}
-                    src={img?.originalPath}
+                    src={offer.file?.originalPath}
                     alt="logo"
                     className="object-fit-cover"
                     width="100%"
@@ -102,33 +101,34 @@ const ServiceManagement = () => {
               </div>
             ),
 
-            name: service?.name,
-            description:
-              service?.description != null ? service?.description : "",
-            categories_status: service?.status,
+            name: offer?.title,
+            description: offer?.description != null ? offer?.description : "",
+            value: offer?.value,
+            startDate: offer?.startAt,
+            endDate: offer?.endAt,
 
             action: (
               <>
-                {/* {checkPermission(UPDATE_SERVICE) && ( */}
+                {/* {checkPermission(UPDATE_OFFER) && ( */}
                 <Button
                   color="warning"
                   className="m-2"
                   outline
                   onClick={(e) => {
-                    openUpdateServiceModal(service);
+                    openUpdateOfferModal(offer);
                   }}
                 >
                   <span>Update</span>
                 </Button>
                 {/* )} */}
 
-                {/* {checkPermission(DELETE_SERVICE) && ( */}
+                {/* {checkPermission(DELETE_OFFER) && ( */}
                 <Button
                   color="danger"
                   className="m-2"
                   outline
                   onClick={(e) => {
-                    handleDeleteService(service?.id);
+                    handleDeleteOffer(offer?.id);
                   }}
                 >
                   <span>Remove</span>
@@ -138,42 +138,40 @@ const ServiceManagement = () => {
             ),
           });
         });
-        setServiceTableList(temp);
+        setOfferTableList(temp);
         setCurrentPage(resp?.data?.currentPage);
         setTotalRecodes(resp?.data?.totalCount);
         popUploader(dispatch, false);
       })
       .catch((err) => {
-        console.log(err);
-
         popUploader(dispatch, false);
         handleError(err);
       });
   };
 
-  const searchByServiceFiltration = (name, currentPage) => {
+  const searchByOfferFiltration = (title, currentPage) => {
     let temp = [];
-    if (name === "") {
-      loadAllServicers(currentPage);
+    if (title === "") {
+      loadAllOffers(currentPage);
     } else {
       popUploader(dispatch, true);
       let data = {
-        name: name,
+        title: title,
       };
 
-      serviceFiltration(data, currentPage)
+      offerFiltration(data, currentPage)
         .then((resp) => {
-          resp?.data?.map((service, index) => {
+          resp?.data?.map((offer, index) => {
             temp.push({
               image: (
                 <div
                   className="object-fit-cover d-flex justify-content-center"
                   key={index}
                 >
-                  {service?.file && Object.keys(service?.file).length > 0 ? (
+                  {offer?.file && Object.keys(offer?.file).length > 0 ? (
                     <img
                       key={index}
-                      src={img?.originalPath}
+                      src={offer.file?.originalPath}
                       alt="logo"
                       className="object-fit-cover"
                       width="100%"
@@ -194,31 +192,35 @@ const ServiceManagement = () => {
                   )}
                 </div>
               ),
-              name: service?.name,
-              description:
-                service?.description != null ? service?.description : "",
-              categories_status: service?.status,
+
+              name: offer?.title,
+              description: offer?.description != null ? offer?.description : "",
+              value: offer?.value,
+              startDate: offer?.startAt,
+              endDate: offer?.endAt,
+
               action: (
                 <>
-                  {/* {checkPermission(UPDATE_SERVICE) && ( */}
+                  {/* {checkPermission(UPDATE_OFFER) && ( */}
                   <Button
                     color="warning"
                     className="m-2"
                     outline
                     onClick={(e) => {
-                      openUpdateServiceModal(service);
+                      openUpdateOfferModal(offer);
                     }}
                   >
                     <span>Update</span>
                   </Button>
                   {/* )} */}
-                  {/* {checkPermission(DELETE_SERVICE) && ( */}
+
+                  {/* {checkPermission(DELETE_OFFER) && ( */}
                   <Button
                     color="danger"
                     className="m-2"
                     outline
                     onClick={(e) => {
-                      handleDeleteService(service?.id);
+                      handleDeleteOffer(offer?.id);
                     }}
                   >
                     <span>Remove</span>
@@ -228,7 +230,7 @@ const ServiceManagement = () => {
               ),
             });
           });
-          setServiceTableList(temp);
+          setOfferTableList(temp);
           setCurrentPage(resp?.data?.currentPage);
           setTotalRecodes(resp?.data?.totalCount);
           popUploader(dispatch, false);
@@ -240,18 +242,18 @@ const ServiceManagement = () => {
     }
   };
 
-  const debounceSearchByServiceFiltration = React.useCallback(
-    debounce(searchByServiceFiltration, 500),
+  const debounceSearchByOfferFiltration = React.useCallback(
+    debounce(searchByOfferFiltration, 500),
     []
   );
-  const handleDeleteService = (cateId) => {
-    customSweetAlert("Are you sure to delete this service?", 0, () => {
+  const handleDeleteOffer = (cateId) => {
+    customSweetAlert("Are you sure to delete this offer?", 0, () => {
       popUploader(dispatch, true);
-      deleteService(cateId)
+      deleteOffer(cateId)
         .then(() => {
           popUploader(dispatch, false);
-          customToastMsg("Service deleted successfully", 1);
-          loadAllServicers(currentPage);
+          customToastMsg("Offer deleted successfully", 1);
+          loadAllOffers(currentPage);
         })
         .catch((err) => {
           popUploader(dispatch, false);
@@ -263,44 +265,44 @@ const ServiceManagement = () => {
 
   const onChangePagination = (page) => {
     setCurrentPage(page);
-    if (serviceName === "") {
-      loadAllServicers(page);
+    if (offerTitle === "") {
+      loadAllOffers(page);
     } else {
-      debounceSearchByServiceFiltration(serviceName, page);
+      debounceSearchByOfferFiltration(offerTitle, page);
     }
   };
 
   const clearFiltrationFields = () => {
-    setServiceName("");
+    setOfferTitle("");
   };
 
   return (
     <>
-      <AddServiceModal
-        isOpen={isAddServiceModalOpen}
-        toggle={() => toggleAddServiceModal()}
+      <AddOfferModal
+        isOpen={isAddOfferModalOpen}
+        toggle={() => toggleAddOfferModal()}
       />
-      {isUpdateServiceModalOpen && (
-        <UpdateServiceModal
-          isOpen={isUpdateServiceModalOpen}
+      {isUpdateOfferModalOpen && (
+        <UpdateOfferModal
+          isOpen={isUpdateOfferModalOpen}
           onClose={closeUpdateModal}
-          currentData={selectedService}
+          currentData={selectedSOffer}
         />
       )}
       <div className="page-content">
         <Container fluid>
-          <h4 className="mt-3">Service Management</h4>
+          <h4 className="mt-3">Offers Management</h4>
 
           <Card>
             <Row className="d-flex my-4 mx-1 justify-content-end">
-              {/* {checkPermission(CREATE_SERVICE) && ( */}
+              {/* {checkPermission(CREATE_OFFER) && ( */}
               <Col sm={12} md={3} lg={3} xl={3}>
                 <Button
                   color="primary"
                   className="w-100"
-                  onClick={toggleAddServiceModal}
+                  onClick={toggleAddOfferModal}
                 >
-                  <Plus size={24} /> Add New Service
+                  <Plus size={24} /> Add New Offer
                 </Button>
               </Col>
               {/* )} */}
@@ -309,16 +311,16 @@ const ServiceManagement = () => {
             <Row className="mx-2">
               <Col sm={6} md={6} lg={3} xl={3}>
                 <FormGroup>
-                  <Label for="exampleEmail">Search by Service Name</Label>
+                  <Label for="exampleEmail">Search by Offer Title</Label>
                   <Input
                     id="exampleEmail"
                     name="email"
-                    value={serviceName}
-                    placeholder="Search by service name"
+                    value={offerTitle}
+                    placeholder="Search by offer title"
                     type="text"
                     onChange={(e) => {
-                      setServiceName(e.target.value);
-                      debounceSearchByServiceFiltration(e.target.value, 1);
+                      setOfferTitle(e.target.value);
+                      debounceSearchByOfferFiltration(e.target.value, 1);
                     }}
                   />
                 </FormGroup>
@@ -329,8 +331,8 @@ const ServiceManagement = () => {
                 <Table
                   className="mx-3 my-4"
                   pagination={false}
-                  columns={ServiceTableColumns}
-                  dataSource={serviceTableList}
+                  columns={OfferTableColumns}
+                  dataSource={offerTableList}
                   scroll={{ x: "fit-content" }}
                 />
               </Col>
@@ -361,4 +363,4 @@ const ServiceManagement = () => {
   );
 };
 
-export default ServiceManagement;
+export default OffersManagement;

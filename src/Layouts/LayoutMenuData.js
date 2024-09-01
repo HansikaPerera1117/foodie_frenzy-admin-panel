@@ -133,14 +133,120 @@ const Navdata = () => {
       stateVariables: isApps,
     },
     {
+      id: "branchManagement",
+      label: "Branch Management",
+      icon: <FeatherIcon icon="archive" className="icon-dual" />,
+      link: "/branch-management",
+      click: function (e) {
+        e.preventDefault();
+        setIsApps(!isApps);
+        setIscurrentState("Apps");
+        updateIconSidebar(e);
+      },
+      stateVariables: isApps,
+    },
+    {
+      id: "serviceManagement",
+      label: "Service Management",
+      icon: <FeatherIcon icon="layers" className="icon-dual" />,
+      link: "/service-management",
+      click: function (e) {
+        e.preventDefault();
+        setIsApps(!isApps);
+        setIscurrentState("Apps");
+        updateIconSidebar(e);
+      },
+      stateVariables: isApps,
+    },
+    {
+      id: "OffersManagement",
+      label: "Offers Management",
+      icon: <FeatherIcon icon="thumbs-up" className="icon-dual" />,
+      link: "/offer-management",
+      click: function (e) {
+        e.preventDefault();
+        setIsApps(!isApps);
+        setIscurrentState("Apps");
+        updateIconSidebar(e);
+      },
+      stateVariables: isApps,
+    },
+    {
       label: "Pages",
       isHeader: true,
     },
     {
       id: "apps",
       label: "Products",
-      icon: <FeatherIcon icon="grid" className="icon-dual" />,
+      icon: <FeatherIcon icon="codesandbox" className="icon-dual" />,
       link: "/product-management",
+      click: function (e) {
+        e.preventDefault();
+        setIsApps(!isApps);
+        setIscurrentState("Apps");
+        updateIconSidebar(e);
+      },
+      stateVariables: isApps,
+    },
+    {
+      id: "orderManagement",
+      label: "Order Management",
+      icon: <FeatherIcon icon="shopping-cart" className="icon-dual" />,
+      link: "/",
+      click: function (e) {
+        e.preventDefault();
+        setIsApps(!isApps);
+        setIscurrentState("Apps");
+        updateIconSidebar(e);
+      },
+      stateVariables: isApps,
+      subItems: [
+        {
+          id: "dingInOrder",
+          label: "Dinging Order",
+          icon: <FeatherIcon icon="grid" className="icon-dual" />,
+          link: "/dinging-order-management",
+          click: function (e) {
+            e.preventDefault();
+            setIsApps(!isApps);
+            setIscurrentState("Apps");
+            updateIconSidebar(e);
+          },
+          stateVariables: isApps,
+        },
+        {
+          id: "deliveryOrder",
+          label: "Delivery Order",
+          icon: <FeatherIcon icon="users" className="icon-dual" />,
+          link: "/delivery-order-management",
+          click: function (e) {
+            e.preventDefault();
+            setIsApps(!isApps);
+            setIscurrentState("Apps");
+            updateIconSidebar(e);
+          },
+          stateVariables: isApps,
+        },
+      ],
+    },
+    {
+      id: "reservationManagement",
+      label: "Reservation Management",
+      icon: <FeatherIcon icon="bookmark" className="icon-dual" />,
+      link: "/reservation-management",
+      click: function (e) {
+        e.preventDefault();
+        setIsApps(!isApps);
+        setIscurrentState("Apps");
+        updateIconSidebar(e);
+      },
+      stateVariables: isApps,
+    },
+    {
+      id: "apps",
+      label: "Payment Management",
+      icon: <FeatherIcon icon="dollar-sign" className="icon-dual" />,
+      link: "/",
       click: function (e) {
         e.preventDefault();
         setIsApps(!isApps);
@@ -193,7 +299,7 @@ const Navdata = () => {
     {
       id: "apps",
       label: "Gallery Management",
-      icon: <FeatherIcon icon="shield" className="icon-dual" />,
+      icon: <FeatherIcon icon="image" className="icon-dual" />,
       link: "/gallery-management",
       click: function (e) {
         e.preventDefault();
@@ -217,35 +323,9 @@ const Navdata = () => {
       stateVariables: isApps,
     },
     {
-      id: "branchManagement",
-      label: "Branch Management",
-      icon: <FeatherIcon icon="shield" className="icon-dual" />,
-      link: "/branch-management",
-      click: function (e) {
-        e.preventDefault();
-        setIsApps(!isApps);
-        setIscurrentState("Apps");
-        updateIconSidebar(e);
-      },
-      stateVariables: isApps,
-    },
-    {
-      id: "serviceManagement",
-      label: "Service Management",
-      icon: <FeatherIcon icon="shield" className="icon-dual" />,
-      link: "/service-management",
-      click: function (e) {
-        e.preventDefault();
-        setIsApps(!isApps);
-        setIscurrentState("Apps");
-        updateIconSidebar(e);
-      },
-      stateVariables: isApps,
-    },
-    {
       id: "inquiryManagement",
       label: "Inquiry Management",
-      icon: <FeatherIcon icon="shield" className="icon-dual" />,
+      icon: <FeatherIcon icon="send" className="icon-dual" />,
       link: "/inquiry-management",
       click: function (e) {
         e.preventDefault();
