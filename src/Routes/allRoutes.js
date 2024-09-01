@@ -33,6 +33,7 @@ import InquiryManagement from "../pages/Pages/InquiryManagement/InquiryManagemen
 import OffersManagement from "../pages/Pages/OffersManagement/OffersManagement";
 import DeliveryOrderManagement from "../pages/Pages/OrderManagement/DeliveryOrderManagement";
 import DingingOrderManagement from "../pages/Pages/OrderManagement/DingingOrderManagement";
+import ViewProductDetails from "../pages/Pages/ProductManagement/ViewProductDetails";
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: <DashboardEcommerce /> },
@@ -62,6 +63,8 @@ const authProtectedRoutes = [
   { path: "/add-new-product", component: <AddProduct /> },
 
   { path: "/update-product", component: <UpdateProduct /> },
+
+  { path: "/view-product", component: <ViewProductDetails /> },
 
   { path: "/category-management", component: <CategoryManagement /> },
 

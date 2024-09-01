@@ -330,39 +330,43 @@ const AddProduct = () => {
                   <Row>
                     <Col sm={12} md={12} lg={12}>
                       <div className="w-100">
-                        <p>Main Image</p>
+                        <div className="d-flex">
+                          <div className="me-5">
+                            {" "}
+                            <p>Main Image</p>
+                            <CustomImageUploader
+                              getIds={(data, ids) => getMainIdValues(data, ids)}
+                              isMainImage={true}
+                            />
+                            {mainImagesLoader && (
+                              <Alert message="Uploading..." type="info" />
+                            )}
+                            {!mainImagesLoader && showImageError && (
+                              <Alert
+                                message="Change Images and Try Again"
+                                type="error"
+                              />
+                            )}
+                          </div>
+                          <div>
+                            <p>Other Images</p>
 
-                        <CustomImageUploader
-                          getIds={(data, ids) => getMainIdValues(data, ids)}
-                          isMainImage={true}
-                        />
+                            <CustomImageUploader
+                              getIds={(data, ids) => getIdValues(data, ids)}
+                              isMainImage={false}
+                            />
 
-                        {mainImagesLoader && (
-                          <Alert message="Uploading..." type="info" />
-                        )}
-                        {!mainImagesLoader && showImageError && (
-                          <Alert
-                            message="Change Images and Try Again"
-                            type="error"
-                          />
-                        )}
-
-                        <p className="pt-2">Other Images</p>
-
-                        <CustomImageUploader
-                          getIds={(data, ids) => getIdValues(data, ids)}
-                          isMainImage={false}
-                        />
-
-                        {otherImagesLoader && (
-                          <Alert message="Uploading..." type="info" />
-                        )}
-                        {!otherImagesLoader && showImageError && (
-                          <Alert
-                            message="Change Images and Try Again"
-                            type="error"
-                          />
-                        )}
+                            {otherImagesLoader && (
+                              <Alert message="Uploading..." type="info" />
+                            )}
+                            {!otherImagesLoader && showImageError && (
+                              <Alert
+                                message="Change Images and Try Again"
+                                type="error"
+                              />
+                            )}
+                          </div>
+                        </div>
                       </div>
                     </Col>
                   </Row>

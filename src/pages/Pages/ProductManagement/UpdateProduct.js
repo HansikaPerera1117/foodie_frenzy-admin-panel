@@ -384,40 +384,45 @@ const UpdateProduct = () => {
                         <b>(Add a PNG image for best view in customer page)</b>{" "}
                       </small>
                     </p>
+                    <div className="d-flex">
+                      <div className="me-5">
+                        <p>Main Image</p>
 
-                    <p>Main Image</p>
+                        <CustomImageUploader
+                          getIds={(data, ids) => getMainIdValues(data, ids)}
+                          isMainImage={true}
+                          initialData={currentMain}
+                        />
+                        {mainImagesLoader && (
+                          <Alert message="Uploading..." type="info" />
+                        )}
+                        {!mainImagesLoader && showImageError && (
+                          <Alert
+                            message="Change Images and Try Again"
+                            type="error"
+                          />
+                        )}
+                      </div>
 
-                    <CustomImageUploader
-                      getIds={(data, ids) => getMainIdValues(data, ids)}
-                      isMainImage={true}
-                      initialData={currentMain}
-                    />
-                    {mainImagesLoader && (
-                      <Alert message="Uploading..." type="info" />
-                    )}
-                    {!mainImagesLoader && showImageError && (
-                      <Alert
-                        message="Change Images and Try Again"
-                        type="error"
-                      />
-                    )}
+                      <div>
+                        <p>Other Images</p>
 
-                    <p className="pt-2">Other Images</p>
-
-                    <CustomImageUploader
-                      getIds={(data, ids) => getSubIdValues(data, ids)}
-                      isMainImage={false}
-                      initialData={currentSub}
-                    />
-                    {otherImagesLoader && (
-                      <Alert message="Uploading..." type="info" />
-                    )}
-                    {!otherImagesLoader && showImageError && (
-                      <Alert
-                        message="Change Images and Try Again"
-                        type="error"
-                      />
-                    )}
+                        <CustomImageUploader
+                          getIds={(data, ids) => getSubIdValues(data, ids)}
+                          isMainImage={false}
+                          initialData={currentSub}
+                        />
+                        {otherImagesLoader && (
+                          <Alert message="Uploading..." type="info" />
+                        )}
+                        {!otherImagesLoader && showImageError && (
+                          <Alert
+                            message="Change Images and Try Again"
+                            type="error"
+                          />
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </Row>
               </CardBody>
