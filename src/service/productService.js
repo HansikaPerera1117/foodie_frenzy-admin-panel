@@ -55,7 +55,7 @@ export async function productsFiltration(data, currentPage) {
   apiObject.method = "GET";
   apiObject.authentication = true;
   apiObject.isWithoutPrefix = false;
-  apiObject.endpoint = `api/product/find-all?name=${data.name}&category=${
+  apiObject.endpoint = `api/product/find-all?name=${data.name}&categoryId=${
     data.category
   }&status=${data.status}&maxPrice=${data.maxPrice}&minPrice=${
     data.minPrice
