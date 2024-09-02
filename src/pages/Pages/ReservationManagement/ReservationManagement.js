@@ -40,14 +40,10 @@ const ReservationManagement = () => {
 
   const [activeTab, setActiveTab] = useState("1");
   const [reservationList, setReservationList] = useState([]);
-  const [searchReservationCode, setSearchReservationCode] = useState("");
   const [searchCustomerEmail, setSearchCustomerEmail] = useState("");
   const [searchCustomerContactNo, setSearchCustomerContactNo] = useState("");
   const [searchDateRange, setSearchDateRange] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
-  const [statusList, setStatusList] = useState([]);
-  const [selectedBranch, setSelectedBranch] = useState("");
-  const [branchList, setBranchList] = useState([]);
 
   //-------------------------- pagination --------------------------
 
@@ -83,10 +79,7 @@ const ReservationManagement = () => {
               <>
                 <Button
                   onClick={() =>
-                    handleReservationStatus(
-                      reservation?.id,
-                      "ACCEPT"
-                    )
+                    handleReservationStatus(reservation?.id, "ACCEPT")
                   }
                   color="success"
                   outline
@@ -96,10 +89,7 @@ const ReservationManagement = () => {
                 </Button>
                 <Button
                   onClick={() =>
-                    handleReservationStatus(
-                      reservation?.id,
-                      "REJECTED"
-                    )
+                    handleReservationStatus(reservation?.id, "REJECTED")
                   }
                   color="danger"
                   outline
@@ -224,10 +214,7 @@ const ReservationManagement = () => {
                 <>
                   <Button
                     onClick={() =>
-                      handleReservationStatus(
-                        reservation?.id,
-                        "ACCEPT"
-                      )
+                      handleReservationStatus(reservation?.id, "ACCEPT")
                     }
                     color="success"
                     outline
@@ -237,10 +224,7 @@ const ReservationManagement = () => {
                   </Button>
                   <Button
                     onClick={() =>
-                      handleReservationStatus(
-                        reservation?.id,
-                        "REJECTED"
-                      )
+                      handleReservationStatus(reservation?.id, "REJECTED")
                     }
                     color="danger"
                     outline
@@ -297,7 +281,6 @@ const ReservationManagement = () => {
 
   const clearFiltrationFields = () => {
     setActiveTab("1");
-    setSearchReservationCode("");
     setSearchCustomerEmail("");
     setSearchDateRange("");
     setSelectedStatus("");

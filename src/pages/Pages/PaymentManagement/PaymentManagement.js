@@ -38,14 +38,9 @@ export default function PaymentManagement() {
   const [activeTab, setActiveTab] = useState("1");
   const [paymentTableList, setPaymentTableList] = useState([]);
   const [selectedPaymentStatus, setSelectedPaymentStatus] = useState("");
-
   const [searchOrderCode, setSearchOrderCode] = useState("");
-  const [searchTrackingCode, setSearchTrackingCode] = useState("");
   const [searchCustomerEmail, setSearchCustomerEmail] = useState("");
   const [searchDateRange, setSearchDateRange] = useState("");
-  const [selectedOrderStatus, setSelectedOrderStatus] = useState("");
-  const [orderStatusList, setOrderStatusList] = useState([]);
-
   const [selectedPayment, setSelectedPayment] = useState("");
   const [isOpenViewPaymentModal, setIsOpenViewPaymentModal] = useState(false);
 
@@ -231,10 +226,8 @@ export default function PaymentManagement() {
     setActiveTab("1");
     setSelectedPaymentStatus("");
     setSearchOrderCode("");
-    setSearchTrackingCode("");
     setSearchCustomerEmail("");
     setSearchDateRange(null);
-    setSelectedOrderStatus("");
   };
 
   const toggleViewPaymentModal = (selectedPayment) => {
