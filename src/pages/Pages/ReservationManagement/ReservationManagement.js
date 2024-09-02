@@ -67,30 +67,41 @@ const ReservationManagement = () => {
     await reservationService
       .getAllReservations(currentPage)
       .then((resp) => {
-        console.log(resp);
-        resp?.data?.records.map((ord, index) => {
+        resp?.data?.map((reservation, index) => {
           temp.push({
-            orderCode: ord?.orderCode,
-            cusEmail: ord?.billingDetail[0]?.email,
-            contactNo: ord?.billingDetail[0]?.contactNo,
-            orderDate: moment(ord?.billingDetail[0]?.createdAt).format(
-              "YYYY-MM-DD"
-            ),
-            total: parseFloat(ord?.netTotal).toFixed(2),
-            status: ord?.status,
-            action: (
+            reservationCode: reservation?.reservationCode,
+            cusName:
+              reservation?.user?.firstName + " " + reservation?.user?.lastName,
+            cusEmail: reservation?.email,
+            contactNo: reservation?.contactNo,
+            reservedDate: moment(reservation?.date).format("YYYY-MM-DD"),
+            reservedTime: reservation?.time,
+            personCount: reservation?.personCount,
+            // branch: reservation?.status,
+            status: reservation?.status,
+            action: reservation?.status === "PENDING" && (
               <>
                 <Button
-                  onClick={() => handleReservationStatus(ord?.orderCode, 1)}
-                  color="primary"
+                  onClick={() =>
+                    handleReservationStatus(
+                      reservation?.id,
+                      "ACCEPT"
+                    )
+                  }
+                  color="success"
                   outline
                   className="m-2"
                 >
                   Accept
                 </Button>
                 <Button
-                  onClick={() => handleReservationStatus(ord?.orderCode, 2)}
-                  color="primary"
+                  onClick={() =>
+                    handleReservationStatus(
+                      reservation?.id,
+                      "REJECTED"
+                    )
+                  }
+                  color="danger"
                   outline
                   className="m-2"
                 >
@@ -113,7 +124,33 @@ const ReservationManagement = () => {
       .finally();
   };
 
-  const handleReservationStatus = (reservationId, status) => {};
+  const handleReservationStatus = (reservationId, status) => {
+    customSweetAlert(
+      status === "ACCEPT"
+        ? "Do you want to accept this reservation?"
+        : status === "REJECTED"
+        ? "Do you want to reject this reservation?"
+        : "",
+      2,
+      () => {
+        popUploader(dispatch, true);
+        reservationService
+          .updateReservationsStatus(reservationId, status)
+          .then((res) => {
+            status === "ACCEPT"
+              ? customToastMsg("Product successfully accepted", 1)
+              : status === "REJECTED"
+              ? customToastMsg("Product successfully rejected", 1)
+              : "",
+              popUploader(dispatch, false);
+          })
+          .catch((c) => {
+            popUploader(dispatch, false);
+            handleError(c);
+          });
+      }
+    );
+  };
 
   const toggleTab = (tab, type) => {
     if (activeTab !== tab) {
@@ -121,9 +158,7 @@ const ReservationManagement = () => {
       history("/reservation-management");
       setSelectedStatus(type);
       debounceHandleSearchReservationFiltration(
-        searchReservationCode,
         searchCustomerContactNo,
-        selectedBranch,
         searchCustomerEmail,
         searchDateRange,
         type,
@@ -133,18 +168,14 @@ const ReservationManagement = () => {
   };
 
   const handleSearchReservationFiltration = (
-    reservationCode,
     contact,
-    branch,
     email,
     dateRange,
     Status,
     currentPage
   ) => {
     if (
-      !reservationCode &&
       !contact &&
-      (branch === undefined || branch === null || branch === "") &&
       !email &&
       (dateRange === undefined || dateRange === null || dateRange === "") &&
       (Status === undefined || Status === null || Status === "")
@@ -161,9 +192,7 @@ const ReservationManagement = () => {
 
       setReservationList([]);
       let data = {
-        reservationCode: reservationCode,
         contact: contact,
-        branch: branch,
         email: email,
         startDate: startDate,
         endDate: endDate,
@@ -177,36 +206,48 @@ const ReservationManagement = () => {
       reservationService
         .reservationsFiltration(data, currentPage)
         .then((resp) => {
-          console.log(resp);
-          resp?.data?.records.map((ord, index) => {
+          resp?.data?.map((reservation, index) => {
             temp.push({
-              orderCode: ord?.orderCode,
-              cusEmail: ord?.billingDetail[0]?.email,
-              contactNo: ord?.billingDetail[0]?.contactNo,
-              orderDate: moment(ord?.billingDetail[0]?.createdAt).format(
-                "YYYY-MM-DD"
-              ),
-              total: parseFloat(ord?.netTotal).toFixed(2),
-              status: ord?.status,
-              action: (
+              reservationCode: reservation?.reservationCode,
+              cusName:
+                reservation?.user?.firstName +
+                " " +
+                reservation?.user?.lastName,
+              cusEmail: reservation?.email,
+              contactNo: reservation?.contactNo,
+              reservedDate: moment(reservation?.date).format("YYYY-MM-DD"),
+              reservedTime: reservation?.time,
+              personCount: reservation?.personCount,
+              // branch: reservation?.status,
+              status: reservation?.status,
+              action: reservation?.status === "PENDING" && (
                 <>
                   <Button
                     onClick={() =>
-                      history("/order-detail", {
-                        state: { orderData: ord?.id },
-                      })
+                      handleReservationStatus(
+                        reservation?.id,
+                        "ACCEPT"
+                      )
                     }
-                    color="primary"
+                    color="success"
                     outline
                     className="m-2"
                   >
-                    View
+                    Accept
                   </Button>
-                  {/* {checkPermission(UPDATE_ORDER) && (
-                    <Button color="warning" outline className="m-2">
-                      Update
-                    </Button>
-                  )} */}
+                  <Button
+                    onClick={() =>
+                      handleReservationStatus(
+                        reservation?.id,
+                        "REJECTED"
+                      )
+                    }
+                    color="danger"
+                    outline
+                    className="m-2"
+                  >
+                    Reject
+                  </Button>
                 </>
               ),
             });
@@ -233,11 +274,7 @@ const ReservationManagement = () => {
     setCurrentPage(page);
 
     if (
-      !searchReservationCode &&
       !searchCustomerContactNo &&
-      (selectedBranch === undefined ||
-        selectedBranch === null ||
-        selectedBranch === "") &&
       !searchCustomerEmail &&
       (searchDateRange === undefined ||
         searchDateRange === null ||
@@ -249,9 +286,7 @@ const ReservationManagement = () => {
       loadAllReservations(page);
     } else {
       debounceHandleSearchReservationFiltration(
-        searchReservationCode,
         searchCustomerContactNo,
-        selectedBranch,
         searchCustomerEmail,
         searchDateRange,
         selectedStatus,
@@ -343,26 +378,6 @@ const ReservationManagement = () => {
 
               <Row className="mt-3">
                 <Col sm={12} md={6} lg={4} xl={4} xxl={4}>
-                  <Label>Search By Reservation Code</Label>
-                  <Input
-                    placeholder="ORD-000000"
-                    value={searchReservationCode}
-                    className="mb-3"
-                    onChange={(e) => {
-                      debounceHandleSearchReservationFiltration(
-                        e.target.value,
-                        searchCustomerContactNo,
-                        selectedBranch,
-                        searchCustomerEmail,
-                        searchDateRange,
-                        selectedStatus,
-                        1
-                      );
-                      setSearchReservationCode(e.target.value);
-                    }}
-                  />
-                </Col>
-                <Col sm={12} md={6} lg={4} xl={4} xxl={4}>
                   <Label>Search By Customer Contact No</Label>
                   <Input
                     placeholder="Enter contact no"
@@ -370,9 +385,7 @@ const ReservationManagement = () => {
                     value={searchCustomerContactNo}
                     onChange={(e) => {
                       debounceHandleSearchReservationFiltration(
-                        searchReservationCode,
                         e.target.value,
-                        selectedBranch,
                         searchCustomerEmail,
                         searchDateRange,
                         selectedStatus,
@@ -380,30 +393,6 @@ const ReservationManagement = () => {
                       );
                       setSearchCustomerContactNo(e.target.value);
                     }}
-                  />
-                </Col>
-                <Col sm={12} md={6} lg={4} xl={4} xxl={4}>
-                  <Label for="exampleEmail">Search by Branch</Label>
-                  <Select
-                    className="basic-single"
-                    classNamePrefix="select"
-                    isSearchable={true}
-                    isClearable
-                    onChange={(e) => {
-                      setSelectedBranch(
-                        e?.value === undefined ? "" : e === null ? "" : e.value
-                      );
-                      debounceHandleSearchReservationFiltration(
-                        searchReservationCode,
-                        searchCustomerContactNo,
-                        e?.value === undefined ? "" : e === null ? "" : e.value,
-                        searchCustomerEmail,
-                        searchDateRange,
-                        selectedStatus,
-                        1
-                      );
-                    }}
-                    options={branchList}
                   />
                 </Col>
                 <Col sm={12} md={6} lg={6} xl={4} xxl={4}>
@@ -414,9 +403,7 @@ const ReservationManagement = () => {
                     type="email"
                     onChange={(e) => {
                       debounceHandleSearchReservationFiltration(
-                        searchReservationCode,
                         searchCustomerContactNo,
-                        selectedBranch,
                         e.target.value,
                         searchDateRange,
                         selectedStatus,
@@ -437,9 +424,7 @@ const ReservationManagement = () => {
                           date ? date.format("YYYY-MM-DD") : null
                         );
                         debounceHandleSearchReservationFiltration(
-                          searchReservationCode,
                           searchCustomerContactNo,
-                          selectedBranch,
                           searchCustomerEmail,
                           formattedDates,
                           selectedStatus,
@@ -449,9 +434,7 @@ const ReservationManagement = () => {
                       } else {
                         setSearchDateRange("");
                         debounceHandleSearchReservationFiltration(
-                          searchReservationCode,
                           searchCustomerContactNo,
-                          selectedBranch,
                           searchCustomerEmail,
                           "",
                           selectedStatus,

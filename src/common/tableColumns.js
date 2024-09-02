@@ -621,11 +621,11 @@ export const ReservationListTableColumns = [
     dataIndex: "personCount",
     key: "personCount",
   },
-  {
-    title: "Branch",
-    dataIndex: "branch",
-    key: "branch",
-  },
+  // {
+  //   title: "Branch",
+  //   dataIndex: "branch",
+  //   key: "branch",
+  // },
   {
     title: "Status",
     key: "status",
