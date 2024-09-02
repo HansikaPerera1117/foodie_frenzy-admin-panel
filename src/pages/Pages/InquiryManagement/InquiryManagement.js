@@ -25,6 +25,7 @@ import {
   inquiriesFiltration,
 } from "../../../service/inquiryService";
 import InquiryModal from "../../../Components/Common/modal/InquiryModal";
+import moment from "moment";
 
 const InquiryManagement = () => {
   document.title = "Inquiry | Restaurant";
@@ -67,16 +68,29 @@ const InquiryManagement = () => {
     popUploader(dispatch, true);
     getAllInquiries(currentPage)
       .then((resp) => {
-        resp?.data?.records.map((inquiry, index) => {
+        resp?.data?.map((inquiry, index) => {
           temp.push({
-            name: inquiry?.name,
             email: inquiry?.email,
+            sendDate: moment(inquiry?.createdAt).format("YYYY-MM-DD"),
+            inquiry: inquiry?.message,
             status: inquiry?.status,
             action: (
               <>
-                {/* {checkPermission(UPDATE_INQUIRY) && ( */}
+                {inquiry?.replyMessage !== null && (
+                  <Button
+                    color="warning"
+                    className="m-2"
+                    outline
+                    onClick={(e) => {
+                      toggleInquiryModal(inquiry);
+                    }}
+                  >
+                    <span>View</span>
+                  </Button>
+                )}
+
                 <Button
-                  color="warning"
+                  color="success"
                   className="m-2"
                   outline
                   onClick={(e) => {
@@ -85,20 +99,6 @@ const InquiryManagement = () => {
                 >
                   <span>Send Response</span>
                 </Button>
-                {/* )} */}
-
-                {/* {checkPermission(DELETE_INQUIRY) && ( */}
-                <Button
-                  color="danger"
-                  className="m-2"
-                  outline
-                  onClick={(e) => {
-                    toggleInquiryModal(inquiry);
-                  }}
-                >
-                  <span>View</span>
-                </Button>
-                {/* )} */}
               </>
             ),
           });
@@ -109,6 +109,8 @@ const InquiryManagement = () => {
         popUploader(dispatch, false);
       })
       .catch((err) => {
+        console.log(err);
+
         popUploader(dispatch, false);
         handleError(err);
       });
@@ -149,7 +151,6 @@ const InquiryManagement = () => {
               status: inquiry?.status,
               action: (
                 <>
-                  {/* {checkPermission(UPDATE_INQUIRY) && ( */}
                   <Button
                     color="warning"
                     className="m-2"
@@ -160,9 +161,7 @@ const InquiryManagement = () => {
                   >
                     <span>Send Response</span>
                   </Button>
-                  {/* )} */}
 
-                  {/* {checkPermission(DELETE_INQUIRY) && ( */}
                   <Button
                     color="danger"
                     className="m-2"
@@ -173,7 +172,6 @@ const InquiryManagement = () => {
                   >
                     <span>View</span>
                   </Button>
-                  {/* )} */}
                 </>
               ),
             });

@@ -397,19 +397,72 @@ export const OfferTableColumns = [
 
 export const InquiryTableColumns = [
   {
-    title: "Customer Name",
-    dataIndex: "name",
-    key: "name",
-  },
-  {
-    title: "Email",
+    title: "Customer Email",
     dataIndex: "email",
     key: "email",
+  },
+  {
+    title: "Inquiry Send Date",
+    dataIndex: "sendDate",
+    key: "sendDate",
+  },
+  {
+    title: "Inquiry",
+    dataIndex: "inquiry",
+    key: "inquiry",
+    render: (text) => {
+      let displayText = "";
+
+      if (typeof text === "string") {
+        displayText = text.slice(0, 550);
+
+        if (text.length > 550) {
+          const lastSpaceIndex = displayText.lastIndexOf(" ");
+          displayText = displayText.slice(0, lastSpaceIndex) + "...";
+        }
+      } else {
+        displayText = "Invalid message";
+      }
+
+      return (
+        <div
+          style={{
+            maxWidth: 800,
+            minWidth: 200,
+          }}
+        >
+          {parse(displayText)}
+        </div>
+      );
+    },
   },
   {
     title: "Status",
     dataIndex: "status",
     key: "status",
+    dataIndex: "status",
+    render: (status) => (
+      <Tag
+        color={
+          status === "PENDING"
+            ? "warning"
+            : status === "ACCEPT"
+            ? "success"
+            : status === "REJECTED"
+            ? "error"
+            : "default"
+        }
+        key={status}
+      >
+        {status === "PENDING"
+          ? "PENDING"
+          : status === "ACCEPT"
+          ? "ACCEPT"
+          : status === "REJECTED"
+          ? "REJECTED"
+          : "none"}
+      </Tag>
+    ),
   },
 
   {
@@ -1022,13 +1075,13 @@ export const OrderPaymentReportTableColumns = [
     title: "Order Code",
     dataIndex: "orderCode",
     key: "orderCode",
-     width: "10%",
+    width: "10%",
   },
   {
     title: "Customer Email",
     dataIndex: "cusEmail",
     key: "cusEmail",
-     width: "10%",
+    width: "10%",
   },
   {
     title: "Contact No",
@@ -1039,7 +1092,7 @@ export const OrderPaymentReportTableColumns = [
     title: "Order Date",
     dataIndex: "orderDate",
     key: "orderDate",
-     width: "10%",
+    width: "10%",
   },
   {
     title: "Order Status",
@@ -1085,7 +1138,7 @@ export const OrderPaymentReportTableColumns = [
     title: "Payment Date",
     dataIndex: "payment_date",
     key: "payment_date",
-     width: "10%",
+    width: "10%",
   },
   {
     title: "Payment Status",
