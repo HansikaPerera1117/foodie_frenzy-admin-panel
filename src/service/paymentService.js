@@ -27,10 +27,8 @@ export async function paymentsFiltration(data, currentPage) {
   apiObject.isWithoutPrefix = false;
   apiObject.endpoint = `api/admin/payment/find-all?orderCode=${
     data?.orderCode
-  }&email=${data?.email}&trackingCode=${data?.trackingCode}&paymentStartDate=${
-    data?.startDate
-  }&paymentEndDate=${data?.endDate}&orderStatus=${
-    data?.OrderStatus
+  }&email=${data?.email}&paymentStartDate=${data?.startDate}&paymentEndDate=${
+    data?.endDate
   }&paymentStatus=${data?.PaymentStatus}&perPage=${15}&page=${currentPage}`;
   apiObject.body = null;
   return await ApiService.callApi(apiObject);

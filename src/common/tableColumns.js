@@ -674,6 +674,12 @@ export const PaymentTableColumns = [
     key: "cusEmail",
   },
   {
+    title: "Order Date",
+    dataIndex: "orderDate",
+    key: "orderDate",
+    width: "17%",
+  },
+  {
     title: "Payment Date",
     dataIndex: "payment_date",
     key: "payment_date",
@@ -689,6 +695,8 @@ export const PaymentTableColumns = [
         color={
           payment_status === "SUCCESS"
             ? "success"
+            : payment_status === "PENDING"
+            ? "processing"
             : payment_status === "FAILED"
             ? "error"
             : payment_status === "REFUNDED"
@@ -701,6 +709,8 @@ export const PaymentTableColumns = [
       >
         {payment_status === "SUCCESS"
           ? "SUCCESS"
+          : payment_status === "PENDING"
+          ? "PENDING"
           : payment_status === "FAILED"
           ? "FAILED"
           : payment_status === "REFUNDED"
@@ -718,47 +728,25 @@ export const PaymentTableColumns = [
     key: "total",
   },
   {
-    title: "Order Date",
-    dataIndex: "orderDate",
-    key: "orderDate",
-    width: "17%",
-  },
-  {
-    title: "Order Status",
-    key: "order_status",
+    title: "Payment Type",
+    key: "paymentType",
     width: "15%",
-    dataIndex: "order_status",
-    render: (order_status) => (
+    dataIndex: "paymentType",
+    render: (paymentType) => (
       <Tag
         color={
-          order_status === "PENDING"
-            ? "warning"
-            : order_status === "PROCESSING"
+          paymentType === "ONLINE_PAYMENT"
             ? "processing"
-            : order_status === "SHIPPED"
+            : paymentType === "CASH_ON_DELIVERY"
             ? "purple"
-            : order_status === "DELIVERED"
-            ? "success"
-            : order_status === "CANCELLED"
-            ? "error"
-            : order_status === "REJECTED"
-            ? "magenta"
             : "default"
         }
-        key={order_status}
+        key={paymentType}
       >
-        {order_status === "PENDING"
-          ? "PENDING"
-          : order_status === "PROCESSING"
-          ? "PROCESSING"
-          : order_status === "SHIPPED"
-          ? "SHIPPED"
-          : order_status === "DELIVERED"
-          ? "DELIVERED"
-          : order_status === "CANCELLED"
-          ? "CANCELLED"
-          : order_status === "REJECTED"
-          ? "REJECTED"
+        {paymentType === "ONLINE_PAYMENT"
+          ? "ONLINE_PAYMENT"
+          : paymentType === "CASH_ON_DELIVERY"
+          ? "CASH_ON_DELIVERY"
           : "none"}
       </Tag>
     ),

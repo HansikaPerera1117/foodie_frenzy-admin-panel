@@ -65,32 +65,30 @@ export default function PaymentManagement() {
     popUploader(dispatch, true);
     getAllPayments(currentPage)
       .then((resp) => {
-        console.log(resp);
-        resp?.data?.records.map((payment, index) => {
-          temp.push({
-            orderCode: payment?.order?.orderCode,
-            cusEmail: payment?.order?.deliveryDetail[0].email,
-            trackingCode: payment?.order?.trackingCode
-              ? payment?.order?.trackingCode
-              : "-",
-            payment_status: payment?.status,
-            payment_date: moment(payment?.createdAt).format("YYYY-MM-DD"),
-            orderDate: moment(payment?.order?.createdAt).format("YYYY-MM-DD"),
-            total: parseFloat(payment?.order?.netTotal).toFixed(2),
-            order_status: payment?.order?.status,
-            action: (
-              <>
-                <Button
-                  onClick={() => toggleViewPaymentModal(payment)}
-                  color="primary"
-                  outline
-                  className="m-2"
-                >
-                  View
-                </Button>
-              </>
-            ),
-          });
+        resp?.data?.map((payment, index) => {
+          if (payment?.order !== null) {
+            temp.push({
+              orderCode: payment?.order?.orderCode,
+              cusEmail: payment?.order?.email,
+              payment_status: payment?.status,
+              payment_date: moment(payment?.createdAt).format("YYYY-MM-DD"),
+              orderDate: moment(payment?.order?.createdAt).format("YYYY-MM-DD"),
+              total: parseFloat(payment?.order?.subTotal).toFixed(2),
+              paymentType: payment?.order?.paymentType,
+              action: (
+                <>
+                  <Button
+                    onClick={() => toggleViewPaymentModal(payment)}
+                    color="primary"
+                    outline
+                    className="m-2"
+                  >
+                    View
+                  </Button>
+                </>
+              ),
+            });
+          }
         });
         setPaymentTableList(temp);
         setCurrentPage(resp?.data?.currentPage);
@@ -111,48 +109,27 @@ export default function PaymentManagement() {
       debounceHandleSearchPaymentFiltration(
         searchOrderCode,
         searchCustomerEmail,
-        searchTrackingCode,
         searchDateRange,
-        selectedOrderStatus,
         type,
         1
       );
     }
   };
 
-  const handleChangeOrderStatus = (e) => {
-    debounceHandleSearchPaymentFiltration(
-      searchOrderCode,
-      searchCustomerEmail,
-      searchTrackingCode,
-      searchDateRange,
-      e?.value === undefined ? "" : e === null ? "" : e?.label,
-      selectedPaymentStatus,
-      1
-    );
-    setSelectedOrderStatus(
-      e?.value === undefined ? "" : e === null ? "" : e?.label
-    );
-  };
-
   const handleSearchPaymentFiltration = (
     orderCode,
     email,
-    trackingCode,
     dateRange,
-    OrderStatus,
     PaymentStatus,
     currentPage
   ) => {
     if (
       !orderCode &&
       !email &&
-      trackingCode === "" &&
       (dateRange === undefined || dateRange === null || dateRange === "") &&
       (PaymentStatus === undefined ||
         PaymentStatus === null ||
-        PaymentStatus === "") &&
-      (OrderStatus === undefined || OrderStatus === null || OrderStatus === "")
+        PaymentStatus === "")
     ) {
       loadAllPayments(currentPage);
     } else {
@@ -168,15 +145,8 @@ export default function PaymentManagement() {
       let data = {
         orderCode: orderCode,
         email: email,
-        trackingCode: trackingCode,
         startDate: startDate,
         endDate: endDate,
-        OrderStatus:
-          OrderStatus === undefined
-            ? ""
-            : OrderStatus === null
-            ? ""
-            : OrderStatus,
         PaymentStatus:
           PaymentStatus === undefined
             ? ""
@@ -189,32 +159,32 @@ export default function PaymentManagement() {
       popUploader(dispatch, true);
       paymentsFiltration(data, currentPage)
         .then((resp) => {
-          console.log(resp);
-          resp?.data?.records.map((payment, index) => {
-            temp.push({
-              orderCode: payment?.order?.orderCode,
-              cusEmail: payment?.order?.deliveryDetail[0].email,
-              trackingCode: payment?.order?.trackingCode
-                ? payment?.order?.trackingCode
-                : "-",
-              payment_status: payment?.status,
-              payment_date: moment(payment?.createdAt).format("YYYY-MM-DD"),
-              orderDate: moment(payment?.order?.createdAt).format("YYYY-MM-DD"),
-              total: parseFloat(payment?.order?.netTotal).toFixed(2),
-              order_status: payment?.order?.status,
-              action: (
-                <>
-                  <Button
-                    onClick={() => toggleViewPaymentModal(payment)}
-                    color="primary"
-                    outline
-                    className="m-2"
-                  >
-                    View
-                  </Button>
-                </>
-              ),
-            });
+          resp?.data?.map((payment, index) => {
+            if (payment?.order !== null) {
+              temp.push({
+                orderCode: payment?.order?.orderCode,
+                cusEmail: payment?.order?.email,
+                payment_status: payment?.status,
+                payment_date: moment(payment?.createdAt).format("YYYY-MM-DD"),
+                orderDate: moment(payment?.order?.createdAt).format(
+                  "YYYY-MM-DD"
+                ),
+                total: parseFloat(payment?.order?.subTotal).toFixed(2),
+                paymentType: payment?.order?.paymentType,
+                action: (
+                  <>
+                    <Button
+                      onClick={() => toggleViewPaymentModal(payment)}
+                      color="primary"
+                      outline
+                      className="m-2"
+                    >
+                      View
+                    </Button>
+                  </>
+                ),
+              });
+            }
           });
           setPaymentTableList(temp);
           setCurrentPage(resp?.data?.currentPage);
@@ -238,25 +208,19 @@ export default function PaymentManagement() {
     if (
       !searchOrderCode &&
       !searchCustomerEmail &&
-      searchTrackingCode === "" &&
       (searchDateRange === undefined ||
         searchDateRange === null ||
         searchDateRange === "") &&
       (selectedPaymentStatus === undefined ||
         selectedPaymentStatus === null ||
-        selectedPaymentStatus === "") &&
-      (selectedOrderStatus === undefined ||
-        selectedOrderStatus === null ||
-        selectedOrderStatus === "")
+        selectedPaymentStatus === "")
     ) {
       loadAllPayments(page);
     } else {
       debounceHandleSearchPaymentFiltration(
         searchOrderCode,
         searchCustomerEmail,
-        searchTrackingCode,
         searchDateRange,
-        selectedOrderStatus,
         selectedPaymentStatus,
         page
       );
@@ -333,7 +297,17 @@ export default function PaymentManagement() {
                   <NavItem>
                     <NavLink
                       className={classnames({ active: activeTab === "3" })}
-                      onClick={() => toggleTab("3", "CANCELLED")}
+                      onClick={() => toggleTab("3", "PENDING")}
+                      href="#"
+                    >
+                      <i className="ri-restart-line me-1 align-bottom"></i>
+                      Pending
+                    </NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink
+                      className={classnames({ active: activeTab === "4" })}
+                      onClick={() => toggleTab("4", "CANCELLED")}
                       href="#"
                     >
                       <i className="ri-close-circle-fill me-1 align-bottom"></i>
@@ -342,8 +316,8 @@ export default function PaymentManagement() {
                   </NavItem>
                   <NavItem>
                     <NavLink
-                      className={classnames({ active: activeTab === "4" })}
-                      onClick={() => toggleTab("4", "REFUNDED")}
+                      className={classnames({ active: activeTab === "5" })}
+                      onClick={() => toggleTab("5", "REFUNDED")}
                       href="#"
                     >
                       <i className="ri-refund-fill me-1 align-bottom"></i>
@@ -352,8 +326,8 @@ export default function PaymentManagement() {
                   </NavItem>
                   <NavItem>
                     <NavLink
-                      className={classnames({ active: activeTab === "5" })}
-                      onClick={() => toggleTab("5", "FAILED")}
+                      className={classnames({ active: activeTab === "6" })}
+                      onClick={() => toggleTab("6", "FAILED")}
                       href="#"
                     >
                       <i className="ri-error-warning-fill me-1 align-bottom"></i>
@@ -373,9 +347,7 @@ export default function PaymentManagement() {
                         debounceHandleSearchPaymentFiltration(
                           e.target.value,
                           searchCustomerEmail,
-                          searchTrackingCode,
                           searchDateRange,
-                          selectedOrderStatus,
                           selectedPaymentStatus,
                           1
                         );
@@ -393,50 +365,11 @@ export default function PaymentManagement() {
                         debounceHandleSearchPaymentFiltration(
                           searchOrderCode,
                           e.target.value,
-                          searchTrackingCode,
                           searchDateRange,
-                          selectedOrderStatus,
                           selectedPaymentStatus,
                           1
                         );
                       }}
-                    />
-                  </Col>
-
-                  <Col sm={12} md={6} lg={3}>
-                    <Label>Search By Tracking Code</Label>
-                    <Input
-                      placeholder="Search order by tracking code"
-                      value={searchTrackingCode}
-                      onChange={(e) => {
-                        setSearchTrackingCode(e.target.value);
-                        debounceHandleSearchPaymentFiltration(
-                          searchOrderCode,
-                          searchCustomerEmail,
-                          e.target.value,
-                          searchDateRange,
-                          selectedOrderStatus,
-                          selectedPaymentStatus,
-                          1
-                        );
-                      }}
-                    />
-                  </Col>
-
-                  <Col sm={12} md={6} lg={3}>
-                    <Label>Search By Order Status</Label>
-                    <Select
-                      value={
-                        orderStatusList.find(
-                          (option) => option.label === selectedOrderStatus
-                        ) || null
-                      }
-                      className="basic-single"
-                      classNamePrefix="Search payment by order status"
-                      isSearchable={true}
-                      isClearable
-                      onChange={handleChangeOrderStatus}
-                      options={orderStatusList}
                     />
                   </Col>
 
@@ -452,9 +385,7 @@ export default function PaymentManagement() {
                           debounceHandleSearchPaymentFiltration(
                             searchOrderCode,
                             searchCustomerEmail,
-                            searchTrackingCode,
                             formattedDates,
-                            selectedOrderStatus,
                             selectedPaymentStatus,
                             1
                           );
@@ -464,9 +395,7 @@ export default function PaymentManagement() {
                           debounceHandleSearchPaymentFiltration(
                             searchOrderCode,
                             searchCustomerEmail,
-                            searchTrackingCode,
                             "",
-                            selectedOrderStatus,
                             selectedPaymentStatus,
                             1
                           );

@@ -39,18 +39,13 @@ const ViewPaymentModal = ({ isOpen, currentData, onClose }) => {
         <Row className="mb-3">
           <h6 className="text-muted fw-semibold">
             Name :{" "}
-            {currentData?.order?.deliveryDetail[0]?.firstName +
-              " " +
-              currentData?.order?.deliveryDetail[0]?.lastName}
+            {currentData?.order?.firstName + " " + currentData?.order?.lastName}
           </h6>
           <h6 className="text-muted fw-semibold">
-            Email : {currentData?.order?.deliveryDetail[0]?.email}
+            Email : {currentData?.order?.email}
           </h6>
           <h6 className="text-muted fw-semibold">
-            Contact No :
-            {currentData?.order?.deliveryDetail[0]?.dialCode +
-              " " +
-              currentData?.order?.deliveryDetail[0]?.contactNo}
+            Contact No :{currentData?.order?.contactNo}
           </h6>
         </Row>
         <Row className="d-flex justify-content-center">
@@ -83,64 +78,7 @@ const ViewPaymentModal = ({ isOpen, currentData, onClose }) => {
                     fontWeight: "bold",
                   }}
                 >
-                  Tracking Code
-                </td>
-                <td
-                  style={{
-                    border: "1px solid #ddd",
-                    padding: "8px",
-                  }}
-                >
-                  {currentData?.order?.trackingCode || " - "}
-                </td>
-              </tr>
-              <tr>
-                <td
-                  style={{
-                    border: "1px solid #ddd",
-                    padding: "8px",
-                    fontWeight: "bold",
-                  }}
-                >
                   Net Total
-                </td>
-                <td
-                  style={{
-                    border: "1px solid #ddd",
-                    padding: "8px",
-                  }}
-                >
-                  LKR {currentData?.order?.netTotal}
-                </td>
-              </tr>
-              <tr>
-                <td
-                  style={{
-                    border: "1px solid #ddd",
-                    padding: "8px",
-                    fontWeight: "bold",
-                  }}
-                >
-                  Shipping Fee
-                </td>
-                <td
-                  style={{
-                    border: "1px solid #ddd",
-                    padding: "8px",
-                  }}
-                >
-                  LKR {currentData?.order?.shippingFee}
-                </td>
-              </tr>
-              <tr>
-                <td
-                  style={{
-                    border: "1px solid #ddd",
-                    padding: "8px",
-                    fontWeight: "bold",
-                  }}
-                >
-                  Sub Total
                 </td>
                 <td
                   style={{
@@ -180,7 +118,7 @@ const ViewPaymentModal = ({ isOpen, currentData, onClose }) => {
                     fontWeight: "bold",
                   }}
                 >
-                  Order Status
+                  Payment Type
                 </td>
                 <td
                   style={{
@@ -190,34 +128,18 @@ const ViewPaymentModal = ({ isOpen, currentData, onClose }) => {
                 >
                   <Tag
                     color={
-                      currentData?.order?.status === "PENDING"
-                        ? "warning"
-                        : currentData?.order?.status === "PROCESSING"
+                      currentData?.order?.paymentType === "ONLINE_PAYMENT"
                         ? "processing"
-                        : currentData?.order?.status === "SHIPPED"
+                        : currentData?.order?.paymentType === "CASH_ON_DELIVERY"
                         ? "purple"
-                        : currentData?.order?.status === "DELIVERED"
-                        ? "success"
-                        : currentData?.order?.status === "CANCELLED"
-                        ? "error"
-                        : currentData?.order?.status === "REJECTED"
-                        ? "magenta"
                         : "default"
                     }
-                    key={currentData?.order?.status}
+                    key={currentData?.order?.paymentType}
                   >
-                    {currentData?.order?.status === "PENDING"
-                      ? "PENDING"
-                      : currentData?.order?.status === "PROCESSING"
-                      ? "PROCESSING"
-                      : currentData?.order?.status === "SHIPPED"
-                      ? "SHIPPED"
-                      : currentData?.order?.status === "DELIVERED"
-                      ? "DELIVERED"
-                      : currentData?.order?.status === "CANCELLED"
-                      ? "CANCELLED"
-                      : currentData?.order?.status === "REJECTED"
-                      ? "REJECTED"
+                    {currentData?.order?.paymentType === "ONLINE_PAYMENT"
+                      ? "ONLINE_PAYMENT"
+                      : currentData?.order?.paymentType === "CASH_ON_DELIVERY"
+                      ? "CASH_ON_DELIVERY"
                       : "none"}
                   </Tag>
                 </td>
@@ -242,6 +164,8 @@ const ViewPaymentModal = ({ isOpen, currentData, onClose }) => {
                     color={
                       currentData?.status === "SUCCESS"
                         ? "success"
+                        : currentData?.status === "PENDING"
+                        ? "processing"
                         : currentData?.status === "FAILED"
                         ? "error"
                         : currentData?.status === "REFUNDED"
@@ -254,6 +178,8 @@ const ViewPaymentModal = ({ isOpen, currentData, onClose }) => {
                   >
                     {currentData?.status === "SUCCESS"
                       ? "SUCCESS"
+                      : currentData?.status === "PENDING"
+                      ? "PENDING"
                       : currentData?.status === "FAILED"
                       ? "FAILED"
                       : currentData?.status === "REFUNDED"
