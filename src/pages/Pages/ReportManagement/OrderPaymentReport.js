@@ -30,10 +30,9 @@ import {
   getAllPayments,
   paymentsFiltration,
 } from "../../../service/paymentService";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 import { FileText } from "react-feather";
-import Cookies from "js-cookie";
-import * as constants from "../../../common/constants";
-import axios from "axios";
 
 export default function OrderPaymentReport() {
   document.title = "Order Payments Report | Restaurant";
@@ -217,41 +216,21 @@ export default function OrderPaymentReport() {
     setSearchDateRange(null);
   };
 
-  const downloadReservationDataExcel = async () => {
-    popUploader(dispatch, true);
-    let startDate = "";
-    let endDate = "";
+  const downloadReservationDataExcel = () => {
+    const worksheet = XLSX.utils.json_to_sheet(paymentTableList);
 
-    if (searchDateRange && searchDateRange.length === 2) {
-      startDate = moment(searchDateRange[0]).format("YYYY-MM-DD");
-      endDate = moment(searchDateRange[1]).format("YYYY-MM-DD");
-    }
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Order Payments");
 
-    let access_token = Cookies.get(constants.ACCESS_TOKEN);
-    await axios
-      .get(
-        // `https://api.eazykitchen.lk/api/excel-report/report/orders?orderId=${searchOrderId}&contactNo=${searchCustomerContactNo}&orderStatus=${selectedStatus}&deliverySlot=${selectedDeliverySlot}&paymentType=${selectedPaymentType}&paymentStatus=${selectedPaymentStatus}&deliveryStartDate=${startDate}&deliveryEndDate=${endDate}`,
-        {
-          responseType: "blob",
-          headers: {
-            Authorization: `Bearer ${access_token}`,
-          },
-        }
-      )
-      .then((res) => {
-        const url = window.URL.createObjectURL(new Blob([res.data]));
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", `reservation_detail_report.xlsx`);
-        document.body.appendChild(link);
-        link.click();
-        popUploader(dispatch, false);
-        customToastMsg("Excel file download successfully", 1);
-      })
-      .catch((err) => {
-        popUploader(dispatch, false);
-        handleError(err);
-      });
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+    const data = new Blob([excelBuffer], { type: "application/octet-stream" });
+    saveAs(
+      data,
+      `order_payment_detail_report_${moment().format("YYYYMMDD")}.xlsx`
+    );
   };
 
   return (

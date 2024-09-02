@@ -35,7 +35,7 @@ import { useNavigate } from "react-router-dom";
 import debounce from "lodash/debounce";
 import * as orderService from "../../../service/orderService";
 import { FileText } from "react-feather";
-import XLSX from "xlsx";
+import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 
 const OrderReport = () => {
@@ -195,24 +195,19 @@ const OrderReport = () => {
   );
 
   const downloadReservationDataExcel = () => {
-    // Create a worksheet from the paymentTableList data
-    const worksheet = XLSX.utils.json_to_sheet(paymentTableList);
+    const worksheet = XLSX.utils.json_to_sheet(orderList);
 
-    // Create a new workbook and append the worksheet
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Order Payments");
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Orders");
 
-    // Generate a binary string representation of the workbook
     const excelBuffer = XLSX.write(workbook, {
       bookType: "xlsx",
       type: "array",
     });
-
-    // Create a Blob object and save the file
     const data = new Blob([excelBuffer], { type: "application/octet-stream" });
     saveAs(
       data,
-      `reservation_detail_report_${moment().format("YYYYMMDD")}.xlsx`
+      `order_detail_report_${moment().format("YYYYMMDD")}.xlsx`
     );
   };
 
