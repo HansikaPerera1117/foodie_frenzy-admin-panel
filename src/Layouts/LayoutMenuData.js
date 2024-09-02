@@ -339,7 +339,7 @@ const Navdata = () => {
       id: "reportsManagement",
       label: "Reports Management",
       icon: <FeatherIcon icon="folder-minus" className="icon-dual" />,
-      link: "/",
+      link: "/report-management",
       click: function (e) {
         e.preventDefault();
         setIsApps(!isApps);

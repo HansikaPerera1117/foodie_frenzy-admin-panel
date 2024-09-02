@@ -118,12 +118,13 @@ const ReservationManagement = () => {
   const toggleTab = (tab, type) => {
     if (activeTab !== tab) {
       setActiveTab(tab);
-      history("/order-management");
+      history("/reservation-management");
       setSelectedStatus(type);
-      debounceHandleSearchOrderFiltration(
+      debounceHandleSearchReservationFiltration(
         searchReservationCode,
-        searchCustomerEmail,
         searchCustomerContactNo,
+        selectedBranch,
+        searchCustomerEmail,
         searchDateRange,
         type,
         1
@@ -131,19 +132,20 @@ const ReservationManagement = () => {
     }
   };
 
-  const handleSearchOrderFiltration = (
-    orderCode,
+  const handleSearchReservationFiltration = (
+    reservationCode,
+    contact,
+    branch,
     email,
-    Contact,
     dateRange,
-
     Status,
     currentPage
   ) => {
     if (
-      !orderCode &&
+      !reservationCode &&
+      !contact &&
+      (branch === undefined || branch === null || branch === "") &&
       !email &&
-      !Contact &&
       (dateRange === undefined || dateRange === null || dateRange === "") &&
       (Status === undefined || Status === null || Status === "")
     ) {
@@ -159,9 +161,10 @@ const ReservationManagement = () => {
 
       setReservationList([]);
       let data = {
-        orderCode: orderCode,
+        reservationCode: reservationCode,
+        reservationCode: contact,
+        branch: branch,
         email: email,
-        contact: Contact,
         startDate: startDate,
         endDate: endDate,
         status: Status === undefined ? "" : Status === null ? "" : Status,
@@ -220,8 +223,8 @@ const ReservationManagement = () => {
     }
   };
 
-  const debounceHandleSearchOrderFiltration = React.useCallback(
-    debounce(handleSearchOrderFiltration, 500),
+  const debounceHandleSearchReservationFiltration = React.useCallback(
+    debounce(handleSearchReservationFiltration, 500),
     []
   );
 
@@ -241,12 +244,12 @@ const ReservationManagement = () => {
     ) {
       loadAllReservations(page);
     } else {
-      debounceHandleSearchOrderFiltration(
+      debounceHandleSearchReservationFiltration(
         searchReservationCode,
-        searchCustomerEmail,
         searchCustomerContactNo,
+        selectedBranch,
+        searchCustomerEmail,
         searchDateRange,
-
         selectedStatus,
         page
       );
@@ -342,12 +345,12 @@ const ReservationManagement = () => {
                     value={searchReservationCode}
                     className="mb-3"
                     onChange={(e) => {
-                      debounceHandleSearchOrderFiltration(
+                      debounceHandleSearchReservationFiltration(
                         e.target.value,
-                        searchCustomerEmail,
                         searchCustomerContactNo,
+                        selectedBranch,
+                        searchCustomerEmail,
                         searchDateRange,
-
                         selectedStatus,
                         1
                       );
@@ -362,12 +365,12 @@ const ReservationManagement = () => {
                     type="number"
                     value={searchCustomerContactNo}
                     onChange={(e) => {
-                      debounceHandleSearchOrderFiltration(
+                      debounceHandleSearchReservationFiltration(
                         searchReservationCode,
-                        searchCustomerEmail,
                         e.target.value,
+                        selectedBranch,
+                        searchCustomerEmail,
                         searchDateRange,
-
                         selectedStatus,
                         1
                       );
@@ -386,12 +389,12 @@ const ReservationManagement = () => {
                       setSelectedBranch(
                         e?.value === undefined ? "" : e === null ? "" : e.value
                       );
-                      debounceHandleSearchOrderFiltration(
-                        searchOrderId,
-                        searchCustomerName,
+                      debounceHandleSearchReservationFiltration(
+                        searchReservationCode,
                         searchCustomerContactNo,
-                        searchDateRange,
                         e?.value === undefined ? "" : e === null ? "" : e.value,
+                        searchCustomerEmail,
+                        searchDateRange,
                         selectedStatus,
                         1
                       );
@@ -406,12 +409,12 @@ const ReservationManagement = () => {
                     value={searchCustomerEmail}
                     type="email"
                     onChange={(e) => {
-                      debounceHandleSearchOrderFiltration(
+                      debounceHandleSearchReservationFiltration(
                         searchReservationCode,
-                        e.target.value,
                         searchCustomerContactNo,
+                        selectedBranch,
+                        e.target.value,
                         searchDateRange,
-
                         selectedStatus,
                         1
                       );
@@ -429,24 +432,24 @@ const ReservationManagement = () => {
                         const formattedDates = selectedDates.map((date) =>
                           date ? date.format("YYYY-MM-DD") : null
                         );
-                        debounceHandleSearchOrderFiltration(
+                        debounceHandleSearchReservationFiltration(
                           searchReservationCode,
-                          searchCustomerEmail,
                           searchCustomerContactNo,
+                          selectedBranch,
+                          searchCustomerEmail,
                           formattedDates,
-
                           selectedStatus,
                           1
                         );
                         setSearchDateRange(formattedDates);
                       } else {
                         setSearchDateRange("");
-                        debounceHandleSearchOrderFiltration(
+                        debounceHandleSearchReservationFiltration(
                           searchReservationCode,
-                          searchCustomerEmail,
                           searchCustomerContactNo,
+                          selectedBranch,
+                          searchCustomerEmail,
                           "",
-
                           selectedStatus,
                           1
                         );

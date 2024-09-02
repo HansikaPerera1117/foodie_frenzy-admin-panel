@@ -25,11 +25,11 @@ export async function reservationsFiltration(data, currentPage) {
   apiObject.method = "GET";
   apiObject.authentication = true;
   apiObject.isWithoutPrefix = false;
-  apiObject.endpoint = `api/admin/order/find-all?orderCode=${
-    data?.orderCode
-  }&email=${data?.email}&contactNo=${data?.contact}&orderStartDate=${
-    data?.startDate
-  }&orderEndDate=${data?.endDate}&status=${
+  apiObject.endpoint = `api/admin/reservation/find-all?reservationCode=${
+    data?.reservationCode
+  }&contactNo=${data?.contact}&branchId=${data?.branch}&email=${
+    data?.email
+  }&orderStartDate=${data?.startDate}&orderEndDate=${data?.endDate}&status=${
     data?.status
   }&perPage=${15}&page=${currentPage}`;
   apiObject.body = null;

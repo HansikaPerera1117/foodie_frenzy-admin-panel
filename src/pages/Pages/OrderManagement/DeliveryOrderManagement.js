@@ -111,7 +111,7 @@ const DeliveryOrderManagement = () => {
   const toggleTab = (tab, type) => {
     if (activeTab !== tab) {
       setActiveTab(tab);
-      history("/order-management");
+      history("/delivery-order-management");
       setSelectedStatus(type);
       debounceHandleSearchOrderFiltration(
         searchOrderCode,
@@ -371,7 +371,6 @@ const DeliveryOrderManagement = () => {
                         searchCustomerEmail,
                         searchCustomerContactNo,
                         searchDateRange,
-
                         selectedStatus,
                         1
                       );
