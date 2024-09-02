@@ -759,6 +759,108 @@ export const PaymentTableColumns = [
   },
 ];
 
+export const ReservationPaymentTableColumns = [
+  {
+    title: "Reservation Code",
+    dataIndex: "orderCode",
+    key: "orderCode",
+    width: "12%",
+  },
+  {
+    title: "Customer Email",
+    dataIndex: "cusEmail",
+    key: "cusEmail",
+  },
+  {
+    title: "Reservation Placed Date",
+    dataIndex: "orderDate",
+    key: "orderDate",
+  
+  },
+  {
+    title: "Reserved Date And Time",
+    dataIndex: "reservedDate",
+    key: "reservedDate",
+    width: "12%",
+  },
+  {
+    title: "Reservation Status",
+    key: "reservation_status",
+    // width: "15%",
+    dataIndex: "reservation_status",
+    render: (reservation_status) => (
+      <Tag
+        color={
+          reservation_status === "PENDING"
+            ? "warning"
+            : reservation_status === "ACCEPT"
+            ? "success"
+            : reservation_status === "REJECTED"
+            ? "error"
+            : "default"
+        }
+        key={reservation_status}
+      >
+        {reservation_status === "PENDING"
+          ? "PENDING"
+          : reservation_status === "ACCEPT"
+          ? "ACCEPT"
+          : reservation_status === "REJECTED"
+          ? "REJECTED"
+          : "none"}
+      </Tag>
+    ),
+  },
+  {
+    title: "Payment Date",
+    dataIndex: "payment_date",
+    key: "payment_date",
+    width: "15%",
+  },
+  {
+    title: "Payment Status",
+    key: "payment_status",
+    width: "14%",
+    dataIndex: "payment_status",
+    render: (payment_status) => (
+      <Tag
+        color={
+          payment_status === "SUCCESS"
+            ? "success"
+            : payment_status === "PENDING"
+            ? "processing"
+            : payment_status === "FAILED"
+            ? "error"
+            : payment_status === "REFUNDED"
+            ? "warning"
+            : payment_status === "CANCELLED"
+            ? "orange"
+            : "default"
+        }
+        key={payment_status}
+      >
+        {payment_status === "SUCCESS"
+          ? "SUCCESS"
+          : payment_status === "PENDING"
+          ? "PENDING"
+          : payment_status === "FAILED"
+          ? "FAILED"
+          : payment_status === "REFUNDED"
+          ? "REFUNDED"
+          : payment_status === "CANCELLED"
+          ? "CANCELLED"
+          : "none"}
+      </Tag>
+    ),
+  },
+
+  {
+    title: "Amount",
+    dataIndex: "total",
+    key: "total",
+  },
+];
+
 export const ReservationReportTableColumns = [
   {
     title: "Reservation Code",

@@ -4,7 +4,10 @@ import { useDispatch } from "react-redux";
 import classnames from "classnames";
 import moment from "moment";
 import Select from "react-select";
-import { PaymentTableColumns } from "../../../common/tableColumns";
+import {
+  PaymentTableColumns,
+  ReservationPaymentTableColumns,
+} from "../../../common/tableColumns";
 import {
   Card,
   Container,
@@ -56,28 +59,7 @@ export default function ReservationPaymentManagement() {
 
   useEffect(() => {
     loadAllPayments(currentPage);
-    loadAllOrderStatus();
   }, []);
-
-  const loadAllOrderStatus = () => {
-    // setOrderStatusList([]);
-    // let temp = [];
-    // popUploader(dispatch, true);
-    // getAllOrderStatus()
-    //   .then((resp) => {
-    //     let temp = [];
-    //     resp.data.map((status) => {
-    //       temp.push({ value: status?.id, label: status?.name });
-    //     });
-    //     setOrderStatusList(temp);
-    //     popUploader(dispatch, false);
-    //   })
-    //   .catch((err) => {
-    //     popUploader(dispatch, false);
-    //     handleError(err);
-    //   })
-    //   .finally();
-  };
 
   const loadAllPayments = async (currentPage) => {
     let temp = [];
@@ -86,32 +68,27 @@ export default function ReservationPaymentManagement() {
     popUploader(dispatch, true);
     getAllPayments(currentPage)
       .then((resp) => {
-        console.log(resp);
-        resp?.data?.records.map((payment, index) => {
-          temp.push({
-            orderCode: payment?.order?.orderCode,
-            cusEmail: payment?.order?.deliveryDetail[0].email,
-            trackingCode: payment?.order?.trackingCode
-              ? payment?.order?.trackingCode
-              : "-",
-            payment_status: payment?.status,
-            payment_date: moment(payment?.createdAt).format("YYYY-MM-DD"),
-            orderDate: moment(payment?.order?.createdAt).format("YYYY-MM-DD"),
-            total: parseFloat(payment?.order?.netTotal).toFixed(2),
-            order_status: payment?.order?.status,
-            action: (
-              <>
-                <Button
-                  onClick={() => toggleViewPaymentModal(payment)}
-                  color="primary"
-                  outline
-                  className="m-2"
-                >
-                  View
-                </Button>
-              </>
-            ),
-          });
+        resp?.data?.map((payment, index) => {
+          if (payment?.reservation !== null) {
+            temp.push({
+              orderCode: payment?.reservation?.reservationCode,
+              cusEmail: payment?.reservation?.email,
+              payment_status: payment?.status,
+              payment_date: moment(payment?.createdAt).format("YYYY-MM-DD"),
+              orderDate: moment(payment?.reservation?.createdAt).format(
+                "YYYY-MM-DD"
+              ),
+              reservedDate: (
+                <div>
+                  {moment(payment?.reservation?.date).format("YYYY-MM-DD")}
+                  <br />
+                  {payment?.reservation?.time}
+                </div>
+              ),
+              total: parseFloat(payment?.amount).toFixed(2),
+              reservation_status: payment?.reservation?.status,
+            });
+          }
         });
         setPaymentTableList(temp);
         setCurrentPage(resp?.data?.currentPage);
@@ -127,53 +104,29 @@ export default function ReservationPaymentManagement() {
   const toggleTab = (tab, type) => {
     if (activeTab !== tab) {
       setActiveTab(tab);
-      history("/payment-management");
+      history("/reservation-payment-management");
       setSelectedPaymentStatus(type);
       debounceHandleSearchPaymentFiltration(
-        searchOrderCode,
         searchCustomerEmail,
-        searchTrackingCode,
         searchDateRange,
-        selectedOrderStatus,
         type,
         1
       );
     }
   };
 
-  const handleChangeOrderStatus = (e) => {
-    debounceHandleSearchPaymentFiltration(
-      searchOrderCode,
-      searchCustomerEmail,
-      searchTrackingCode,
-      searchDateRange,
-      e?.value === undefined ? "" : e === null ? "" : e?.label,
-      selectedPaymentStatus,
-      1
-    );
-    setSelectedOrderStatus(
-      e?.value === undefined ? "" : e === null ? "" : e?.label
-    );
-  };
-
   const handleSearchPaymentFiltration = (
-    orderCode,
     email,
-    trackingCode,
     dateRange,
-    OrderStatus,
     PaymentStatus,
     currentPage
   ) => {
     if (
-      !orderCode &&
       !email &&
-      trackingCode === "" &&
       (dateRange === undefined || dateRange === null || dateRange === "") &&
       (PaymentStatus === undefined ||
         PaymentStatus === null ||
-        PaymentStatus === "") &&
-      (OrderStatus === undefined || OrderStatus === null || OrderStatus === "")
+        PaymentStatus === "")
     ) {
       loadAllPayments(currentPage);
     } else {
@@ -187,17 +140,10 @@ export default function ReservationPaymentManagement() {
 
       setPaymentTableList([]);
       let data = {
-        orderCode: orderCode,
+        orderCode: "",
         email: email,
-        trackingCode: trackingCode,
         startDate: startDate,
         endDate: endDate,
-        OrderStatus:
-          OrderStatus === undefined
-            ? ""
-            : OrderStatus === null
-            ? ""
-            : OrderStatus,
         PaymentStatus:
           PaymentStatus === undefined
             ? ""
@@ -211,31 +157,27 @@ export default function ReservationPaymentManagement() {
       paymentsFiltration(data, currentPage)
         .then((resp) => {
           console.log(resp);
-          resp?.data?.records.map((payment, index) => {
-            temp.push({
-              orderCode: payment?.order?.orderCode,
-              cusEmail: payment?.order?.deliveryDetail[0].email,
-              trackingCode: payment?.order?.trackingCode
-                ? payment?.order?.trackingCode
-                : "-",
-              payment_status: payment?.status,
-              payment_date: moment(payment?.createdAt).format("YYYY-MM-DD"),
-              orderDate: moment(payment?.order?.createdAt).format("YYYY-MM-DD"),
-              total: parseFloat(payment?.order?.netTotal).toFixed(2),
-              order_status: payment?.order?.status,
-              action: (
-                <>
-                  <Button
-                    onClick={() => toggleViewPaymentModal(payment)}
-                    color="primary"
-                    outline
-                    className="m-2"
-                  >
-                    View
-                  </Button>
-                </>
-              ),
-            });
+          resp?.data?.map((payment, index) => {
+            if (payment?.reservation !== null) {
+              temp.push({
+                orderCode: payment?.reservation?.reservationCode,
+                cusEmail: payment?.reservation?.email,
+                payment_status: payment?.status,
+                payment_date: moment(payment?.createdAt).format("YYYY-MM-DD"),
+                orderDate: moment(payment?.reservation?.createdAt).format(
+                  "YYYY-MM-DD"
+                ),
+                reservedDate: (
+                  <div>
+                    {moment(payment?.reservation?.date).format("YYYY-MM-DD")}
+                    <br />
+                    {payment?.reservation?.time}
+                  </div>
+                ),
+                total: parseFloat(payment?.amount).toFixed(2),
+                reservation_status: payment?.reservation?.status,
+              });
+            }
           });
           setPaymentTableList(temp);
           setCurrentPage(resp?.data?.currentPage);
@@ -257,27 +199,19 @@ export default function ReservationPaymentManagement() {
   const onChangePagination = (page) => {
     setCurrentPage(page);
     if (
-      !searchOrderCode &&
       !searchCustomerEmail &&
-      searchTrackingCode === "" &&
       (searchDateRange === undefined ||
         searchDateRange === null ||
         searchDateRange === "") &&
       (selectedPaymentStatus === undefined ||
         selectedPaymentStatus === null ||
-        selectedPaymentStatus === "") &&
-      (selectedOrderStatus === undefined ||
-        selectedOrderStatus === null ||
-        selectedOrderStatus === "")
+        selectedPaymentStatus === "")
     ) {
       loadAllPayments(page);
     } else {
       debounceHandleSearchPaymentFiltration(
-        searchOrderCode,
         searchCustomerEmail,
-        searchTrackingCode,
         searchDateRange,
-        selectedOrderStatus,
         selectedPaymentStatus,
         page
       );
@@ -354,7 +288,17 @@ export default function ReservationPaymentManagement() {
                   <NavItem>
                     <NavLink
                       className={classnames({ active: activeTab === "3" })}
-                      onClick={() => toggleTab("3", "CANCELLED")}
+                      onClick={() => toggleTab("3", "PENDING")}
+                      href="#"
+                    >
+                      <i className="ri-restart-line me-1 align-bottom"></i>
+                      Pending
+                    </NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink
+                      className={classnames({ active: activeTab === "4" })}
+                      onClick={() => toggleTab("4", "CANCELLED")}
                       href="#"
                     >
                       <i className="ri-close-circle-fill me-1 align-bottom"></i>
@@ -363,8 +307,8 @@ export default function ReservationPaymentManagement() {
                   </NavItem>
                   <NavItem>
                     <NavLink
-                      className={classnames({ active: activeTab === "4" })}
-                      onClick={() => toggleTab("4", "REFUNDED")}
+                      className={classnames({ active: activeTab === "5" })}
+                      onClick={() => toggleTab("5", "REFUNDED")}
                       href="#"
                     >
                       <i className="ri-refund-fill me-1 align-bottom"></i>
@@ -373,8 +317,8 @@ export default function ReservationPaymentManagement() {
                   </NavItem>
                   <NavItem>
                     <NavLink
-                      className={classnames({ active: activeTab === "5" })}
-                      onClick={() => toggleTab("5", "FAILED")}
+                      className={classnames({ active: activeTab === "6" })}
+                      onClick={() => toggleTab("6", "FAILED")}
                       href="#"
                     >
                       <i className="ri-error-warning-fill me-1 align-bottom"></i>
@@ -384,25 +328,6 @@ export default function ReservationPaymentManagement() {
                 </Nav>
 
                 <Row className="mt-3">
-                  <Col sm={12} md={6} lg={3} className="mb-3">
-                    <Label>Search By Order Code</Label>
-                    <Input
-                      placeholder="Search order by order ID"
-                      value={searchOrderCode}
-                      onChange={(e) => {
-                        setSearchOrderCode(e.target.value);
-                        debounceHandleSearchPaymentFiltration(
-                          e.target.value,
-                          searchCustomerEmail,
-                          searchTrackingCode,
-                          searchDateRange,
-                          selectedOrderStatus,
-                          selectedPaymentStatus,
-                          1
-                        );
-                      }}
-                    />
-                  </Col>
                   <Col sm={12} md={6} lg={3}>
                     <Label>Search By Customer Email</Label>
                     <Input
@@ -412,52 +337,12 @@ export default function ReservationPaymentManagement() {
                       onChange={(e) => {
                         setSearchCustomerEmail(e.target.value);
                         debounceHandleSearchPaymentFiltration(
-                          searchOrderCode,
                           e.target.value,
-                          searchTrackingCode,
                           searchDateRange,
-                          selectedOrderStatus,
                           selectedPaymentStatus,
                           1
                         );
                       }}
-                    />
-                  </Col>
-
-                  <Col sm={12} md={6} lg={3}>
-                    <Label>Search By Tracking Code</Label>
-                    <Input
-                      placeholder="Search order by tracking code"
-                      value={searchTrackingCode}
-                      onChange={(e) => {
-                        setSearchTrackingCode(e.target.value);
-                        debounceHandleSearchPaymentFiltration(
-                          searchOrderCode,
-                          searchCustomerEmail,
-                          e.target.value,
-                          searchDateRange,
-                          selectedOrderStatus,
-                          selectedPaymentStatus,
-                          1
-                        );
-                      }}
-                    />
-                  </Col>
-
-                  <Col sm={12} md={6} lg={3}>
-                    <Label>Search By Order Status</Label>
-                    <Select
-                      value={
-                        orderStatusList.find(
-                          (option) => option.label === selectedOrderStatus
-                        ) || null
-                      }
-                      className="basic-single"
-                      classNamePrefix="Search payment by order status"
-                      isSearchable={true}
-                      isClearable
-                      onChange={handleChangeOrderStatus}
-                      options={orderStatusList}
                     />
                   </Col>
 
@@ -471,11 +356,8 @@ export default function ReservationPaymentManagement() {
                             date ? date.format("YYYY-MM-DD") : null
                           );
                           debounceHandleSearchPaymentFiltration(
-                            searchOrderCode,
                             searchCustomerEmail,
-                            searchTrackingCode,
                             formattedDates,
-                            selectedOrderStatus,
                             selectedPaymentStatus,
                             1
                           );
@@ -483,11 +365,8 @@ export default function ReservationPaymentManagement() {
                         } else {
                           setSearchDateRange(null);
                           debounceHandleSearchPaymentFiltration(
-                            searchOrderCode,
                             searchCustomerEmail,
-                            searchTrackingCode,
                             "",
-                            selectedOrderStatus,
                             selectedPaymentStatus,
                             1
                           );
@@ -502,7 +381,7 @@ export default function ReservationPaymentManagement() {
                     <Table
                       className="mx-3 my-4"
                       pagination={false}
-                      columns={PaymentTableColumns}
+                      columns={ReservationPaymentTableColumns}
                       dataSource={paymentTableList}
                       scroll={{ x: "fit-content" }}
                     />
