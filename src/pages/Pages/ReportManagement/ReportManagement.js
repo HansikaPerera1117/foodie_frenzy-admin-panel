@@ -1,8 +1,8 @@
 import React from "react";
 import { Card, Container } from "reactstrap";
 import { Tabs } from "antd";
-import ReservationReport from "./ReservationReport";
 import OrderReport from "./OrderReport";
+import OrderPaymentReport from "./OrderPaymentReport";
 
 const ReportManagement = () => {
   document.title = "Reports | Restaurant";
@@ -14,20 +14,15 @@ const ReportManagement = () => {
 
   const tab = [
     {
-      label: "Reservation Reports",
-      key: "1",
-      children: <ReservationReport />,
-    },
-    {
       label: "Order Reports",
-      key: "2",
+      key: "1",
       children: <OrderReport />,
     },
-    // {
-    //   label: "Payment Reports",
-    //   key: "2",
-    //   children: <Permission />,
-    // },
+    {
+      label: "Payment Reports",
+      key: "2",
+      children: <OrderPaymentReport />,
+    },
   ];
 
   return (

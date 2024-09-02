@@ -5,18 +5,18 @@ export async function getAllInquiries(currentPage) {
   apiObject.method = "GET";
   apiObject.authentication = true;
   apiObject.isWithoutPrefix = false;
-  apiObject.endpoint = `api/inquirie/find-all`;
+  apiObject.endpoint = `api/inquirie/find-all?perPage=${15}&page=${currentPage}`;
   apiObject.body = null;
   return await ApiService.callApi(apiObject);
 }
 
-export async function sendInquiryResponse(data) {
+export async function sendInquiryResponse(id, data) {
   const apiObject = {};
-  apiObject.method = "POST";
+  apiObject.method = "PUT";
   apiObject.authentication = true;
   apiObject.urlencoded = false;
   apiObject.isWithoutPrefix = false;
-  apiObject.endpoint = ``;
+  apiObject.endpoint = `api/inquirie/reply/${id}`;
   apiObject.body = data;
   return await ApiService.callApi(apiObject);
 }

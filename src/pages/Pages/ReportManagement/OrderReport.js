@@ -35,6 +35,9 @@ import { useNavigate } from "react-router-dom";
 import debounce from "lodash/debounce";
 import * as orderService from "../../../service/orderService";
 import { FileText } from "react-feather";
+import Cookies from "js-cookie";
+import * as constants from "../../../common/constants";
+import axios from "axios";
 
 const OrderReport = () => {
   document.title = "Orders Report | Restaurant";
@@ -228,34 +231,6 @@ const OrderReport = () => {
         handleError(err);
       });
   };
-
-  // const onChangePagination = (page) => {
-  //   console.log(page);
-  //   setCurrentPage(page);
-
-  //   if (
-  //     !searchOrderCode &&
-  //     !searchCustomerEmail &&
-  //     !searchCustomerContactNo &&
-  //     (searchDateRange === undefined ||
-  //       searchDateRange === null ||
-  //       searchDateRange === "") &&
-  //     (selectedStatus === undefined ||
-  //       selectedStatus === null ||
-  //       selectedStatus === "")
-  //   ) {
-  //     loadAllOrders(page);
-  //   } else {
-  //     debounceHandleSearchOrderFiltration(
-  //       searchOrderCode,
-  //       searchCustomerEmail,
-  //       searchCustomerContactNo,
-  //       searchDateRange,
-  //       selectedStatus,
-  //       page
-  //     );
-  //   }
-  // };
 
   const clearFiltrationFields = () => {
     setActiveTab("1");

@@ -680,6 +680,46 @@ export const PaymentTableColumns = [
     width: "17%",
   },
   {
+    title: "Order Status",
+    key: "status",
+    width: "15%",
+    dataIndex: "status",
+    render: (status) => (
+      <Tag
+        color={
+          status === "PENDING"
+            ? "warning"
+            : status === "PROCESSING"
+            ? "processing"
+            : status === "SHIPPED"
+            ? "purple"
+            : status === "DELIVERED"
+            ? "success"
+            : status === "CANCELLED"
+            ? "error"
+            : status === "REJECTED"
+            ? "magenta"
+            : "default"
+        }
+        key={status}
+      >
+        {status === "PENDING"
+          ? "PENDING"
+          : status === "PROCESSING"
+          ? "PROCESSING"
+          : status === "SHIPPED"
+          ? "SHIPPED"
+          : status === "DELIVERED"
+          ? "DELIVERED"
+          : status === "CANCELLED"
+          ? "CANCELLED"
+          : status === "REJECTED"
+          ? "REJECTED"
+          : "none"}
+      </Tag>
+    ),
+  },
+  {
     title: "Payment Date",
     dataIndex: "payment_date",
     key: "payment_date",
@@ -860,78 +900,6 @@ export const ReservationPaymentTableColumns = [
   },
 ];
 
-export const ReservationReportTableColumns = [
-  {
-    title: "Reservation Code",
-    dataIndex: "reservationCode",
-    key: "reservationCode",
-  },
-  {
-    title: "Name",
-    dataIndex: "cusName",
-    key: "cusName",
-  },
-  {
-    title: "Customer Email",
-    dataIndex: "cusEmail",
-    key: "cusEmail",
-  },
-
-  {
-    title: "Contact No",
-    dataIndex: "contactNo",
-    key: "contactNo",
-  },
-  {
-    title: "Reserved Date",
-    dataIndex: "reservedDate",
-    key: "reservedDate",
-  },
-  {
-    title: "Reserved Time",
-    dataIndex: "reservedTime",
-    key: "reservedTime",
-  },
-  {
-    title: "Person Count",
-    dataIndex: "personCount",
-    key: "personCount",
-  },
-  {
-    title: "Branch",
-    dataIndex: "branch",
-    key: "branch",
-  },
-  {
-    title: "Status",
-    key: "status",
-    // width: "15%",
-    dataIndex: "status",
-    render: (status) => (
-      <Tag
-        color={
-          status === "PENDING"
-            ? "warning"
-            : status === "ACCEPT"
-            ? "success"
-            : status === "REJECTED"
-            ? "error"
-            : "default"
-        }
-        key={status}
-      >
-        {status === "PENDING"
-          ? "PENDING"
-          : status === "ACCEPT"
-          ? "ACCEPT"
-          : status === "REJECTED"
-          ? "REJECTED"
-          : "none"}
-      </Tag>
-    ),
-  },
-];
-
 export const OrderReportListTableColumns = [
   {
     title: "Order Code",
@@ -1018,6 +986,144 @@ export const OrderReportListTableColumns = [
       </Tag>
     ),
   },
+  {
+    title: "Total",
+    dataIndex: "total",
+    key: "total",
+  },
+  {
+    title: "Payment Type",
+    key: "paymentType",
+    // width: "15%",
+    dataIndex: "paymentType",
+    render: (paymentType) => (
+      <Tag
+        color={
+          paymentType === "ONLINE_PAYMENT"
+            ? "processing"
+            : paymentType === "CASH_ON_DELIVERY"
+            ? "purple"
+            : "default"
+        }
+        key={paymentType}
+      >
+        {paymentType === "ONLINE_PAYMENT"
+          ? "ONLINE_PAYMENT"
+          : paymentType === "CASH_ON_DELIVERY"
+          ? "CASH_ON_DELIVERY"
+          : "none"}
+      </Tag>
+    ),
+  },
+];
+
+export const OrderPaymentReportTableColumns = [
+  {
+    title: "Order Code",
+    dataIndex: "orderCode",
+    key: "orderCode",
+     width: "10%",
+  },
+  {
+    title: "Customer Email",
+    dataIndex: "cusEmail",
+    key: "cusEmail",
+     width: "10%",
+  },
+  {
+    title: "Contact No",
+    dataIndex: "cusContact",
+    key: "cusContact",
+  },
+  {
+    title: "Order Date",
+    dataIndex: "orderDate",
+    key: "orderDate",
+     width: "10%",
+  },
+  {
+    title: "Order Status",
+    key: "status",
+    // width: "15%",
+    dataIndex: "status",
+    render: (status) => (
+      <Tag
+        color={
+          status === "PENDING"
+            ? "warning"
+            : status === "PROCESSING"
+            ? "processing"
+            : status === "SHIPPED"
+            ? "purple"
+            : status === "DELIVERED"
+            ? "success"
+            : status === "CANCELLED"
+            ? "error"
+            : status === "REJECTED"
+            ? "magenta"
+            : "default"
+        }
+        key={status}
+      >
+        {status === "PENDING"
+          ? "PENDING"
+          : status === "PROCESSING"
+          ? "PROCESSING"
+          : status === "SHIPPED"
+          ? "SHIPPED"
+          : status === "DELIVERED"
+          ? "DELIVERED"
+          : status === "CANCELLED"
+          ? "CANCELLED"
+          : status === "REJECTED"
+          ? "REJECTED"
+          : "none"}
+      </Tag>
+    ),
+  },
+  {
+    title: "Payment Date",
+    dataIndex: "payment_date",
+    key: "payment_date",
+     width: "10%",
+  },
+  {
+    title: "Payment Status",
+    key: "payment_status",
+    // width: "14%",
+    dataIndex: "payment_status",
+    render: (payment_status) => (
+      <Tag
+        color={
+          payment_status === "SUCCESS"
+            ? "success"
+            : payment_status === "PENDING"
+            ? "processing"
+            : payment_status === "FAILED"
+            ? "error"
+            : payment_status === "REFUNDED"
+            ? "warning"
+            : payment_status === "CANCELLED"
+            ? "orange"
+            : "default"
+        }
+        key={payment_status}
+      >
+        {payment_status === "SUCCESS"
+          ? "SUCCESS"
+          : payment_status === "PENDING"
+          ? "PENDING"
+          : payment_status === "FAILED"
+          ? "FAILED"
+          : payment_status === "REFUNDED"
+          ? "REFUNDED"
+          : payment_status === "CANCELLED"
+          ? "CANCELLED"
+          : "none"}
+      </Tag>
+    ),
+  },
+
   {
     title: "Total",
     dataIndex: "total",

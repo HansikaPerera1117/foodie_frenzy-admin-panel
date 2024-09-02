@@ -68,6 +68,7 @@ export default function PaymentManagement() {
               payment_status: payment?.status,
               payment_date: moment(payment?.createdAt).format("YYYY-MM-DD"),
               orderDate: moment(payment?.order?.createdAt).format("YYYY-MM-DD"),
+              status: payment?.order?.status,
               total: parseFloat(payment?.amount).toFixed(2),
               paymentType: payment?.order?.paymentType,
               action: (
@@ -164,6 +165,7 @@ export default function PaymentManagement() {
                 orderDate: moment(payment?.order?.createdAt).format(
                   "YYYY-MM-DD"
                 ),
+                status: payment?.order?.status,
                 total: parseFloat(payment?.amount).toFixed(2),
                 paymentType: payment?.order?.paymentType,
                 action: (
