@@ -38,6 +38,8 @@ import ReservationManagement from "../pages/Pages/ReservationManagement/Reservat
 import OrderDetail from "../pages/Pages/OrderManagement/OrderDetail";
 import CreateDiningOrder from "../pages/Pages/OrderManagement/CreateDiningOrder";
 import ReportManagement from "../pages/Pages/ReportManagement/ReportManagement";
+import PaymentManagement from "../pages/Pages/PaymentManagement/PaymentManagement";
+import ReservationPaymentManagement from "../pages/Pages/PaymentManagement/ReservationPaymentManagement";
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: <DashboardEcommerce /> },
@@ -94,6 +96,13 @@ const authProtectedRoutes = [
   { path: "/order-detail", component: <OrderDetail /> },
 
   { path: "/place-dining-order", component: <CreateDiningOrder /> },
+
+  { path: "/payment-management", component: <PaymentManagement /> },
+
+  {
+    path: "/reservation-payment-management",
+    component: <ReservationPaymentManagement />,
+  },
 
   { path: "/report-management", component: <ReportManagement /> },
 ];

@@ -661,6 +661,116 @@ export const ReservationListTableColumns = [
   },
 ];
 
+export const PaymentTableColumns = [
+  {
+    title: "Order Code",
+    dataIndex: "orderCode",
+    key: "orderCode",
+    width: "18%",
+  },
+  {
+    title: "Customer Email",
+    dataIndex: "cusEmail",
+    key: "cusEmail",
+  },
+  {
+    title: "Payment Date",
+    dataIndex: "payment_date",
+    key: "payment_date",
+    width: "15%",
+  },
+  {
+    title: "Payment Status",
+    key: "payment_status",
+    width: "14%",
+    dataIndex: "payment_status",
+    render: (payment_status) => (
+      <Tag
+        color={
+          payment_status === "SUCCESS"
+            ? "success"
+            : payment_status === "FAILED"
+            ? "error"
+            : payment_status === "REFUNDED"
+            ? "warning"
+            : payment_status === "CANCELLED"
+            ? "orange"
+            : "default"
+        }
+        key={payment_status}
+      >
+        {payment_status === "SUCCESS"
+          ? "SUCCESS"
+          : payment_status === "FAILED"
+          ? "FAILED"
+          : payment_status === "REFUNDED"
+          ? "REFUNDED"
+          : payment_status === "CANCELLED"
+          ? "CANCELLED"
+          : "none"}
+      </Tag>
+    ),
+  },
+
+  {
+    title: "Total",
+    dataIndex: "total",
+    key: "total",
+  },
+  {
+    title: "Order Date",
+    dataIndex: "orderDate",
+    key: "orderDate",
+    width: "17%",
+  },
+  {
+    title: "Order Status",
+    key: "order_status",
+    width: "15%",
+    dataIndex: "order_status",
+    render: (order_status) => (
+      <Tag
+        color={
+          order_status === "PENDING"
+            ? "warning"
+            : order_status === "PROCESSING"
+            ? "processing"
+            : order_status === "SHIPPED"
+            ? "purple"
+            : order_status === "DELIVERED"
+            ? "success"
+            : order_status === "CANCELLED"
+            ? "error"
+            : order_status === "REJECTED"
+            ? "magenta"
+            : "default"
+        }
+        key={order_status}
+      >
+        {order_status === "PENDING"
+          ? "PENDING"
+          : order_status === "PROCESSING"
+          ? "PROCESSING"
+          : order_status === "SHIPPED"
+          ? "SHIPPED"
+          : order_status === "DELIVERED"
+          ? "DELIVERED"
+          : order_status === "CANCELLED"
+          ? "CANCELLED"
+          : order_status === "REJECTED"
+          ? "REJECTED"
+          : "none"}
+      </Tag>
+    ),
+  },
+
+  {
+    title: "Action",
+    key: "action",
+    render: (text, record) => <div>{record.action}</div>,
+  },
+];
+
 export const ReservationReportTableColumns = [
   {
     title: "Reservation Code",

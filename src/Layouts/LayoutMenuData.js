@@ -242,6 +242,7 @@ const Navdata = () => {
       },
       stateVariables: isApps,
     },
+
     {
       id: "apps",
       label: "Payment Management",
@@ -254,7 +255,36 @@ const Navdata = () => {
         updateIconSidebar(e);
       },
       stateVariables: isApps,
+      subItems: [
+        {
+          id: "paymentManagement",
+          label: "Order Payments",
+          icon: <FeatherIcon icon="grid" className="icon-dual" />,
+          link: "/payment-management",
+          click: function (e) {
+            e.preventDefault();
+            setIsApps(!isApps);
+            setIscurrentState("Apps");
+            updateIconSidebar(e);
+          },
+          stateVariables: isApps,
+        },
+        {
+          id: "reservationPaymentManagement",
+          label: "Reservation Payments",
+          icon: <FeatherIcon icon="users" className="icon-dual" />,
+          link: "/reservation-payment-management",
+          click: function (e) {
+            e.preventDefault();
+            setIsApps(!isApps);
+            setIscurrentState("Apps");
+            updateIconSidebar(e);
+          },
+          stateVariables: isApps,
+        },
+      ],
     },
+
     {
       id: "userManagement",
       label: "Users Management",

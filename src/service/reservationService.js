@@ -5,7 +5,7 @@ export async function getAllReservations(currentPage) {
   apiObject.method = "GET";
   apiObject.authentication = true;
   apiObject.isWithoutPrefix = false;
-  apiObject.endpoint = `api/admin/order/find-all?perPage=${15}&page=${currentPage}`;
+  apiObject.endpoint = `api/reservation/find-all?perPage=${15}&page=${currentPage}`;
   apiObject.body = null;
   return await ApiService.callApi(apiObject);
 }

@@ -270,11 +270,11 @@ const ReservationReport = () => {
   };
 
   return (
-    <div>
+    <div className="mx-3">
       <div className="row mt-3">
         <h4>Table Reservation Report</h4>
       </div>
-      <Row className="d-flex mt-1 mb-0 mx-1 justify-content-end">
+      <Row className="d-flex mb-4 mx-1 justify-content-end">
         <Col sm={12} md={3} lg={3} xl={3}>
           <Button
             color="primary"
@@ -285,220 +285,213 @@ const ReservationReport = () => {
           </Button>
         </Col>
       </Row>
-      <Card id="reservationList">
-        <CardBody className="pt-1">
-          <div>
-            <Nav
-              className="nav-tabs nav-tabs-custom nav-primary"
-              role="tablist"
+      <div>
+        <Nav className="nav-tabs nav-tabs-custom nav-primary" role="tablist">
+          <NavItem>
+            <NavLink
+              className={classnames({ active: activeTab === "1" })}
+              onClick={() => {
+                toggleTab("1", "");
+              }}
+              href="#"
             >
-              <NavItem>
-                <NavLink
-                  className={classnames({ active: activeTab === "1" })}
-                  onClick={() => {
-                    toggleTab("1", "");
-                  }}
-                  href="#"
-                >
-                  <i className="ri-store-2-fill me-1 align-bottom"></i> All
-                  Reservations
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink
-                  className={classnames({ active: activeTab === "2" })}
-                  onClick={() => {
-                    toggleTab("2", "PENDING");
-                  }}
-                  href="#"
-                >
-                  <i className="ri-restart-line me-1 align-bottom"></i>
-                  Pending
-                </NavLink>
-              </NavItem>
+              <i className="ri-store-2-fill me-1 align-bottom"></i> All
+              Reservations
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              className={classnames({ active: activeTab === "2" })}
+              onClick={() => {
+                toggleTab("2", "PENDING");
+              }}
+              href="#"
+            >
+              <i className="ri-restart-line me-1 align-bottom"></i>
+              Pending
+            </NavLink>
+          </NavItem>
 
-              <NavItem>
-                <NavLink
-                  className={classnames({ active: activeTab === "3" })}
-                  onClick={() => {
-                    toggleTab("3", "ACCEPT");
-                  }}
-                  href="#"
-                >
-                  <i className="ri-checkbox-circle-fill me-1 align-bottom"></i>{" "}
-                  Accept
-                </NavLink>
-              </NavItem>
+          <NavItem>
+            <NavLink
+              className={classnames({ active: activeTab === "3" })}
+              onClick={() => {
+                toggleTab("3", "ACCEPT");
+              }}
+              href="#"
+            >
+              <i className="ri-checkbox-circle-fill me-1 align-bottom"></i>{" "}
+              Accept
+            </NavLink>
+          </NavItem>
 
-              <NavItem>
-                <NavLink
-                  className={classnames({ active: activeTab === "4" })}
-                  onClick={() => {
-                    toggleTab("4", "REJECTED");
-                  }}
-                  href="#"
-                >
-                  <i className="ri-error-warning-fill me-1 align-bottom"></i>{" "}
-                  Rejected
-                </NavLink>
-              </NavItem>
-            </Nav>
+          <NavItem>
+            <NavLink
+              className={classnames({ active: activeTab === "4" })}
+              onClick={() => {
+                toggleTab("4", "REJECTED");
+              }}
+              href="#"
+            >
+              <i className="ri-error-warning-fill me-1 align-bottom"></i>{" "}
+              Rejected
+            </NavLink>
+          </NavItem>
+        </Nav>
 
-            <Row className="mt-3">
-              <Col sm={12} md={6} lg={4} xl={4} xxl={4}>
-                <Label>Search By Reservation Code</Label>
-                <Input
-                  placeholder="ORD-000000"
-                  value={searchReservationCode}
-                  className="mb-3"
-                  onChange={(e) => {
-                    debounceHandleSearchReservationFiltration(
-                      e.target.value,
-                      searchCustomerContactNo,
-                      selectedBranch,
-                      searchCustomerEmail,
-                      searchDateRange,
-                      selectedStatus,
-                      1
-                    );
-                    setSearchReservationCode(e.target.value);
-                  }}
-                />
-              </Col>
-              <Col sm={12} md={6} lg={4} xl={4} xxl={4}>
-                <Label>Search By Customer Contact No</Label>
-                <Input
-                  placeholder="Enter contact no"
-                  type="number"
-                  value={searchCustomerContactNo}
-                  onChange={(e) => {
-                    debounceHandleSearchReservationFiltration(
-                      searchReservationCode,
-                      e.target.value,
-                      selectedBranch,
-                      searchCustomerEmail,
-                      searchDateRange,
-                      selectedStatus,
-                      1
-                    );
-                    setSearchCustomerContactNo(e.target.value);
-                  }}
-                />
-              </Col>
-              <Col sm={12} md={6} lg={4} xl={4} xxl={4}>
-                <Label for="exampleEmail">Search by Branch</Label>
-                <Select
-                  className="basic-single"
-                  classNamePrefix="select"
-                  isSearchable={true}
-                  isClearable
-                  onChange={(e) => {
-                    setSelectedBranch(
-                      e?.value === undefined ? "" : e === null ? "" : e.value
-                    );
-                    debounceHandleSearchReservationFiltration(
-                      searchReservationCode,
-                      searchCustomerContactNo,
-                      e?.value === undefined ? "" : e === null ? "" : e.value,
-                      searchCustomerEmail,
-                      searchDateRange,
-                      selectedStatus,
-                      1
-                    );
-                  }}
-                  options={branchList}
-                />
-              </Col>
-              <Col sm={12} md={6} lg={6} xl={4} xxl={4}>
-                <Label>Search By Customer Email</Label>
-                <Input
-                  placeholder="Enter customer email"
-                  value={searchCustomerEmail}
-                  type="email"
-                  onChange={(e) => {
-                    debounceHandleSearchReservationFiltration(
-                      searchReservationCode,
-                      searchCustomerContactNo,
-                      selectedBranch,
-                      e.target.value,
-                      searchDateRange,
-                      selectedStatus,
-                      1
-                    );
-                    setSearchCustomerEmail(e.target.value);
-                  }}
-                />
-              </Col>
+        <Row className="mt-3">
+          <Col sm={12} md={6} lg={4} xl={4} xxl={4}>
+            <Label>Search By Reservation Code</Label>
+            <Input
+              placeholder="ORD-000000"
+              value={searchReservationCode}
+              className="mb-3"
+              onChange={(e) => {
+                debounceHandleSearchReservationFiltration(
+                  e.target.value,
+                  searchCustomerContactNo,
+                  selectedBranch,
+                  searchCustomerEmail,
+                  searchDateRange,
+                  selectedStatus,
+                  1
+                );
+                setSearchReservationCode(e.target.value);
+              }}
+            />
+          </Col>
+          <Col sm={12} md={6} lg={4} xl={4} xxl={4}>
+            <Label>Search By Customer Contact No</Label>
+            <Input
+              placeholder="Enter contact no"
+              type="number"
+              value={searchCustomerContactNo}
+              onChange={(e) => {
+                debounceHandleSearchReservationFiltration(
+                  searchReservationCode,
+                  e.target.value,
+                  selectedBranch,
+                  searchCustomerEmail,
+                  searchDateRange,
+                  selectedStatus,
+                  1
+                );
+                setSearchCustomerContactNo(e.target.value);
+              }}
+            />
+          </Col>
+          <Col sm={12} md={6} lg={4} xl={4} xxl={4}>
+            <Label for="exampleEmail">Search by Branch</Label>
+            <Select
+              className="basic-single"
+              classNamePrefix="select"
+              isSearchable={true}
+              isClearable
+              onChange={(e) => {
+                setSelectedBranch(
+                  e?.value === undefined ? "" : e === null ? "" : e.value
+                );
+                debounceHandleSearchReservationFiltration(
+                  searchReservationCode,
+                  searchCustomerContactNo,
+                  e?.value === undefined ? "" : e === null ? "" : e.value,
+                  searchCustomerEmail,
+                  searchDateRange,
+                  selectedStatus,
+                  1
+                );
+              }}
+              options={branchList}
+            />
+          </Col>
+          <Col sm={12} md={6} lg={6} xl={4} xxl={4}>
+            <Label>Search By Customer Email</Label>
+            <Input
+              placeholder="Enter customer email"
+              value={searchCustomerEmail}
+              type="email"
+              onChange={(e) => {
+                debounceHandleSearchReservationFiltration(
+                  searchReservationCode,
+                  searchCustomerContactNo,
+                  selectedBranch,
+                  e.target.value,
+                  searchDateRange,
+                  selectedStatus,
+                  1
+                );
+                setSearchCustomerEmail(e.target.value);
+              }}
+            />
+          </Col>
 
-              <Col sm={12} md={12} lg={6} xl={4} xxl={4}>
-                <Label>Search By Reserved Date Range</Label>
-                <RangePicker
-                  style={{ height: 40, width: "100%", borderRadius: 4 }}
-                  onChange={(selectedDates) => {
-                    if (selectedDates) {
-                      const formattedDates = selectedDates.map((date) =>
-                        date ? date.format("YYYY-MM-DD") : null
-                      );
-                      debounceHandleSearchReservationFiltration(
-                        searchReservationCode,
-                        searchCustomerContactNo,
-                        selectedBranch,
-                        searchCustomerEmail,
-                        formattedDates,
-                        selectedStatus,
-                        1
-                      );
-                      setSearchDateRange(formattedDates);
-                    } else {
-                      setSearchDateRange("");
-                      debounceHandleSearchReservationFiltration(
-                        searchReservationCode,
-                        searchCustomerContactNo,
-                        selectedBranch,
-                        searchCustomerEmail,
-                        "",
-                        selectedStatus,
-                        1
-                      );
-                    }
-                  }}
-                />
-              </Col>
-            </Row>
+          <Col sm={12} md={12} lg={6} xl={4} xxl={4}>
+            <Label>Search By Reserved Date Range</Label>
+            <RangePicker
+              style={{ height: 40, width: "100%", borderRadius: 4 }}
+              onChange={(selectedDates) => {
+                if (selectedDates) {
+                  const formattedDates = selectedDates.map((date) =>
+                    date ? date.format("YYYY-MM-DD") : null
+                  );
+                  debounceHandleSearchReservationFiltration(
+                    searchReservationCode,
+                    searchCustomerContactNo,
+                    selectedBranch,
+                    searchCustomerEmail,
+                    formattedDates,
+                    selectedStatus,
+                    1
+                  );
+                  setSearchDateRange(formattedDates);
+                } else {
+                  setSearchDateRange("");
+                  debounceHandleSearchReservationFiltration(
+                    searchReservationCode,
+                    searchCustomerContactNo,
+                    selectedBranch,
+                    searchCustomerEmail,
+                    "",
+                    selectedStatus,
+                    1
+                  );
+                }
+              }}
+            />
+          </Col>
+        </Row>
 
-            <Row>
-              <Col sm={12} lg={12}>
-                <Table
-                  className="mx-3 my-4"
-                  pagination={false}
-                  columns={ReservationReportTableColumns}
-                  dataSource={reservationList}
-                  scroll={{ x: "fit-content" }}
-                />
-              </Col>
-            </Row>
-            <Row>
-              <Col
-                className=" d-flex justify-content-end"
-                sm={12}
-                md={12}
-                lg={12}
-                xl={12}
-              >
-                <Pagination
-                  className="m-3"
-                  current={currentPage}
-                  onChange={onChangePagination}
-                  defaultPageSize={15}
-                  total={totalRecodes}
-                  showSizeChanger={false}
-                  showTotal={(total) => `Total ${total} items`}
-                />
-              </Col>
-            </Row>
-          </div>
-        </CardBody>
-      </Card>
+        <Row>
+          <Col sm={12} lg={12}>
+            <Table
+              className="mx-3 my-4"
+              pagination={false}
+              columns={ReservationReportTableColumns}
+              dataSource={reservationList}
+              scroll={{ x: "fit-content" }}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col
+            className=" d-flex justify-content-end"
+            sm={12}
+            md={12}
+            lg={12}
+            xl={12}
+          >
+            <Pagination
+              className="m-3"
+              current={currentPage}
+              onChange={onChangePagination}
+              defaultPageSize={15}
+              total={totalRecodes}
+              showSizeChanger={false}
+              showTotal={(total) => `Total ${total} items`}
+            />
+          </Col>
+        </Row>
+      </div>
     </div>
   );
 };
