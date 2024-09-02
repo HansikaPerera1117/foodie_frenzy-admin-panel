@@ -402,14 +402,14 @@ export default function PaymentManagement() {
                   <Col sm={12} lg={12}>
                     <Table
                       className="mx-3 my-4"
-                      pagination={false}
+                      pagination={true}
                       columns={PaymentTableColumns}
                       dataSource={paymentTableList}
                       scroll={{ x: "fit-content" }}
                     />
                   </Col>
                 </Row>
-                <Row>
+                {/* <Row>
                   <Col
                     className=" d-flex justify-content-end"
                     sm={12}
@@ -427,7 +427,7 @@ export default function PaymentManagement() {
                       showTotal={(total) => `Total ${total} items`}
                     />
                   </Col>
-                </Row>
+                </Row> */}
               </div>
             </CardBody>
           </Card>

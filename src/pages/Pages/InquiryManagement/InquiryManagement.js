@@ -311,7 +311,7 @@ const InquiryManagement = () => {
               <Col sm={12} md={12} lg={12} xl={12}>
                 <Table
                   className="mx-3 my-4"
-                  pagination={false}
+                  pagination={true}
                   columns={InquiryTableColumns}
                   dataSource={inquiryTableList}
                   scroll={{ x: "fit-content" }}

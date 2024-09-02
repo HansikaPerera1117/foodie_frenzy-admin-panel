@@ -207,14 +207,14 @@ const CustomerManagement = () => {
             <Col sm={12} md={12} lg={12} xl={12}>
               <Table
                 className="mx-3 my-4"
-                pagination={false}
+                pagination={true}
                 columns={CustomerTableColumns}
                 dataSource={customerTableList}
                 scroll={{ x: "fit-content" }}
               />
             </Col>
           </Row>
-          <Row>
+          {/* <Row>
             <Col
               className=" d-flex justify-content-end"
               sm={12}
@@ -231,7 +231,7 @@ const CustomerManagement = () => {
                 showTotal={(total) => `Total ${total} items`}
               />
             </Col>
-          </Row>
+          </Row> */}
         </Card>
       </Container>
     </div>

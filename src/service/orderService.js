@@ -59,7 +59,7 @@ export async function ordersFiltration(data, currentPage) {
     data?.email
   }&contactNo=${data?.contact}&orderStartDate=${data?.startDate}&orderEndDate=${
     data?.endDate
-  }&status=${data?.status}&perPage=${15}&page=${currentPage}`;
+  }&status=${data?.status}&orderType=${data?.orderType}&perPage=${15}&page=${currentPage}`;
   apiObject.body = null;
   return await ApiService.callApi(apiObject);
 }

@@ -472,7 +472,7 @@ const ReservationReport = () => {
             />
           </Col>
         </Row>
-        <Row>
+        {/* <Row>
           <Col
             className=" d-flex justify-content-end"
             sm={12}
@@ -490,7 +490,7 @@ const ReservationReport = () => {
               showTotal={(total) => `Total ${total} items`}
             />
           </Col>
-        </Row>
+        </Row> */}
       </div>
     </div>
   );

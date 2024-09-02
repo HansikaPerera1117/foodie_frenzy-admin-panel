@@ -371,14 +371,14 @@ export default function ReservationPaymentManagement() {
                   <Col sm={12} lg={12}>
                     <Table
                       className="mx-3 my-4"
-                      pagination={false}
+                      pagination={true}
                       columns={ReservationPaymentTableColumns}
                       dataSource={paymentTableList}
                       scroll={{ x: "fit-content" }}
                     />
                   </Col>
                 </Row>
-                <Row>
+                {/* <Row>
                   <Col
                     className=" d-flex justify-content-end"
                     sm={12}
@@ -396,7 +396,7 @@ export default function ReservationPaymentManagement() {
                       showTotal={(total) => `Total ${total} items`}
                     />
                   </Col>
-                </Row>
+                </Row> */}
               </div>
             </CardBody>
           </Card>

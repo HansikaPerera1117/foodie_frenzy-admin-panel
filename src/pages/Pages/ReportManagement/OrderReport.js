@@ -6,33 +6,46 @@ import {
   Col,
   CardBody,
   CardHeader,
+  Nav,
+  NavItem,
+  NavLink,
   Label,
   Input,
   Button,
 } from "reactstrap";
-import { handleError, popUploader } from "../../../common/commonFunctions";
-import { DiningOrderListTableColumns } from "../../../common/tableColumns";
+import {
+  checkPermission,
+  customSweetAlert,
+  customToastMsg,
+  handleError,
+  popUploader,
+} from "../../../common/commonFunctions";
+import { DeliveryOrderListTableColumns } from "../../../common/tableColumns";
+import classnames from "classnames";
 import { Table } from "antd";
 import { Pagination } from "antd";
-import { DatePicker } from "antd";
+import { DatePicker, Space } from "antd";
 import moment from "moment"; // Import moment
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import debounce from "lodash/debounce";
 import * as orderService from "../../../service/orderService";
-import { Plus } from "react-feather";
 
-const DingingOrderManagement = () => {
-  document.title = "Dining Orders | Restaurant";
+const OrderReport = () => {
+  document.title = "Orders Report | Restaurant";
 
   const history = useNavigate();
   const dispatch = useDispatch();
 
+  const [activeTab, setActiveTab] = useState("1");
   const [orderList, setOrderList] = useState([]);
   const [searchOrderCode, setSearchOrderCode] = useState("");
   const [searchCustomerEmail, setSearchCustomerEmail] = useState("");
   const [searchCustomerContactNo, setSearchCustomerContactNo] = useState("");
   const [searchDateRange, setSearchDateRange] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("");
+  const [selectedOrderType, setSelectedOrderType] = useState("");
+  const [orderTypeList, setOrderTypeList] = useState([]);
 
   //-------------------------- pagination --------------------------
 
@@ -43,6 +56,10 @@ const DingingOrderManagement = () => {
 
   useEffect(() => {
     loadAllOrders(currentPage);
+    setOrderTypeList([
+      { value: "DELIVERY", label: "Delivery" },
+      { value: "DINING", label: "Dining" },
+    ]);
   }, []);
 
   const loadAllOrders = async (currentPage) => {
@@ -54,33 +71,15 @@ const DingingOrderManagement = () => {
       .then((resp) => {
         console.log(resp);
         resp?.data?.map((ord, index) => {
-          if (ord?.orderType === "DINING") {
-            temp.push({
-              orderCode: ord?.orderCode,
-              cusEmail: ord?.email,
-              contactNo: ord?.contactNo,
-              orderDate: moment(ord?.createdAt).format("YYYY-MM-DD"),
-              total: parseFloat(ord?.subTotal).toFixed(2),
-              paymentType: ord?.paymentType,
-              action: (
-                <>
-                  <Button
-                    onClick={() =>
-                      history("/order-detail", {
-                        state: { orderData: ord },
-                        // state: { orderData: ord?.id },
-                      })
-                    }
-                    color="primary"
-                    outline
-                    className="m-2"
-                  >
-                    View
-                  </Button>
-                </>
-              ),
-            });
-          }
+          temp.push({
+            orderCode: ord?.orderCode,
+            cusEmail: ord?.email,
+            contactNo: ord?.contactNo,
+            orderDate: moment(ord?.createdAt).format("YYYY-MM-DD"),
+            total: parseFloat(ord?.subTotal).toFixed(2),
+            paymentType: ord?.paymentType,
+            status: ord?.status,
+          });
         });
         setOrderList(temp);
         setCurrentPage(resp?.data?.currentPage);
@@ -95,18 +94,38 @@ const DingingOrderManagement = () => {
       .finally();
   };
 
+  const toggleTab = (tab, type) => {
+    if (activeTab !== tab) {
+      setActiveTab(tab);
+      history("/delivery-order-management");
+      setSelectedStatus(type);
+      debounceHandleSearchOrderFiltration(
+        searchOrderCode,
+        searchCustomerEmail,
+        searchCustomerContactNo,
+        searchDateRange,
+        type,
+        1
+      );
+    }
+  };
+
   const handleSearchOrderFiltration = (
     orderCode,
     email,
     Contact,
     dateRange,
+    Status,
+    orderType,
     currentPage
   ) => {
     if (
       !orderCode &&
       !email &&
       !Contact &&
-      (dateRange === undefined || dateRange === null || dateRange === "")
+      (dateRange === undefined || dateRange === null || dateRange === "") &&
+      (Status === undefined || Status === null || Status === "") &&
+      (orderType === undefined || orderType === null || orderType === "")
     ) {
       loadAllOrders(currentPage);
     } else {
@@ -125,8 +144,8 @@ const DingingOrderManagement = () => {
         contact: Contact,
         startDate: startDate,
         endDate: endDate,
-        status: "",
-        orderType: "DINING",
+        status: Status === undefined ? "" : Status === null ? "" : Status,
+        orderType: orderType,
       };
 
       console.log(data);
@@ -138,33 +157,32 @@ const DingingOrderManagement = () => {
         .then((resp) => {
           console.log(resp);
           resp?.data?.map((ord, index) => {
-            if (ord?.orderType === "DINING") {
-              temp.push({
-                orderCode: ord?.orderCode,
-                cusEmail: ord?.email,
-                contactNo: ord?.contactNo,
-                orderDate: moment(ord?.createdAt).format("YYYY-MM-DD"),
-                total: parseFloat(ord?.subTotal).toFixed(2),
-                paymentType: ord?.paymentType,
-                action: (
-                  <>
-                    <Button
-                      onClick={() =>
-                        history("/order-detail", {
-                          state: { orderData: ord },
-                          // state: { orderData: ord?.id },
-                        })
-                      }
-                      color="primary"
-                      outline
-                      className="m-2"
-                    >
-                      View
-                    </Button>
-                  </>
-                ),
-              });
-            }
+            temp.push({
+              orderCode: ord?.orderCode,
+              cusEmail: ord?.email,
+              contactNo: ord?.contactNo,
+              orderDate: moment(ord?.createdAt).format("YYYY-MM-DD"),
+              total: parseFloat(ord?.subTotal).toFixed(2),
+              paymentType: ord?.paymentType,
+              status: ord?.status,
+              action: (
+                <>
+                  <Button
+                    onClick={() =>
+                      history("/order-detail", {
+                        state: { orderData: ord },
+                        // state: { orderData: ord?.id },
+                      })
+                    }
+                    color="primary"
+                    outline
+                    className="m-2"
+                  >
+                    View
+                  </Button>
+                </>
+              ),
+            });
           });
           setOrderList(temp);
           setCurrentPage(resp?.data?.currentPage);
@@ -193,7 +211,10 @@ const DingingOrderManagement = () => {
       !searchCustomerContactNo &&
       (searchDateRange === undefined ||
         searchDateRange === null ||
-        searchDateRange === "")
+        searchDateRange === "") &&
+      (selectedStatus === undefined ||
+        selectedStatus === null ||
+        selectedStatus === "")
     ) {
       loadAllOrders(page);
     } else {
@@ -202,22 +223,26 @@ const DingingOrderManagement = () => {
         searchCustomerEmail,
         searchCustomerContactNo,
         searchDateRange,
+        selectedStatus,
         page
       );
     }
   };
 
   const clearFiltrationFields = () => {
+    setActiveTab("1");
     setSearchOrderCode("");
     setSearchCustomerEmail("");
     setSearchDateRange("");
+    setSelectedStatus("");
+    setSelectedOrderType("");
   };
 
   return (
     <div className="page-content">
       <Container fluid>
         <div className="row mt-3">
-          <h4>Dinging Order Management</h4>
+          <h4>Order Report</h4>
         </div>
         <Card id="orderList">
           <CardHeader className="card-header border-0">
@@ -230,22 +255,96 @@ const DingingOrderManagement = () => {
 
           <CardBody className="pt-0">
             <div>
-              <Row className="d-flex mb-2 mx-1 justify-content-end">
-                <Col
-                  sm={12}
-                  md={3}
-                  lg={3}
-                  xl={3}
-                  className="d-flex justify-content-end"
-                >
-                  <Button
-                    color="primary"
-                    onClick={() => history("/place-dining-order")}
+              <Nav
+                className="nav-tabs nav-tabs-custom nav-primary"
+                role="tablist"
+              >
+                <NavItem>
+                  <NavLink
+                    className={classnames({ active: activeTab === "1" })}
+                    onClick={() => {
+                      toggleTab("1", "");
+                    }}
+                    href="#"
                   >
-                    <Plus size={24} /> Add New Order
-                  </Button>
-                </Col>
-              </Row>
+                    <i className="ri-store-2-fill me-1 align-bottom"></i> All
+                    Orders
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink
+                    className={classnames({ active: activeTab === "2" })}
+                    onClick={() => {
+                      toggleTab("2", "PENDING");
+                    }}
+                    href="#"
+                  >
+                    <i className="ri-restart-line me-1 align-bottom"></i>
+                    Pending
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink
+                    className={classnames({ active: activeTab === "3" })}
+                    onClick={() => {
+                      toggleTab("3", "PROCESSING");
+                    }}
+                    href="#"
+                  >
+                    <i className="ri-luggage-cart-line me-1 align-bottom"></i>{" "}
+                    Processing
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink
+                    className={classnames({ active: activeTab === "4" })}
+                    onClick={() => {
+                      toggleTab("4", "SHIPPED");
+                    }}
+                    href="#"
+                  >
+                    <i className="ri-truck-fill me-1 align-bottom"></i>
+                    Shipped
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink
+                    className={classnames({ active: activeTab === "5" })}
+                    onClick={() => {
+                      toggleTab("5", "DELIVERED");
+                    }}
+                    href="#"
+                  >
+                    <i className="ri-checkbox-circle-fill me-1 align-bottom"></i>{" "}
+                    Delivered
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink
+                    className={classnames({ active: activeTab === "6" })}
+                    onClick={() => {
+                      toggleTab("6", "CANCELLED");
+                    }}
+                    href="#"
+                  >
+                    <i className="ri-close-circle-fill me-1 align-bottom"></i>{" "}
+                    Canceled
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink
+                    className={classnames({ active: activeTab === "7" })}
+                    onClick={() => {
+                      toggleTab("7", "REJECTED");
+                    }}
+                    href="#"
+                  >
+                    <i className="ri-error-warning-fill me-1 align-bottom"></i>{" "}
+                    Rejected
+                  </NavLink>
+                </NavItem>
+              </Nav>
+
               <Row className="mt-3">
                 <Col sm={12} md={6} lg={3} xl={3} xxl={2}>
                   <Label>Search By Order Code</Label>
@@ -259,6 +358,7 @@ const DingingOrderManagement = () => {
                         searchCustomerEmail,
                         searchCustomerContactNo,
                         searchDateRange,
+                        selectedStatus,
                         1
                       );
                       setSearchOrderCode(e.target.value);
@@ -278,6 +378,7 @@ const DingingOrderManagement = () => {
                         e.target.value,
                         searchCustomerContactNo,
                         searchDateRange,
+                        selectedStatus,
                         1
                       );
                       setSearchCustomerEmail(e.target.value);
@@ -296,6 +397,7 @@ const DingingOrderManagement = () => {
                         searchCustomerEmail,
                         e.target.value,
                         searchDateRange,
+                        selectedStatus,
                         1
                       );
                       setSearchCustomerContactNo(e.target.value);
@@ -316,6 +418,7 @@ const DingingOrderManagement = () => {
                           searchCustomerEmail,
                           searchCustomerContactNo,
                           formattedDates,
+                          selectedStatus,
                           1
                         );
                         setSearchDateRange(formattedDates);
@@ -326,6 +429,7 @@ const DingingOrderManagement = () => {
                           searchCustomerEmail,
                           searchCustomerContactNo,
                           "",
+                          selectedStatus,
                           1
                         );
                       }
@@ -338,8 +442,8 @@ const DingingOrderManagement = () => {
                 <Col sm={12} lg={12}>
                   <Table
                     className="mx-3 my-4"
-                    pagination={true}
-                    columns={DiningOrderListTableColumns}
+                    pagination={false}
+                    columns={DeliveryOrderListTableColumns}
                     dataSource={orderList}
                     scroll={{ x: "fit-content" }}
                   />
@@ -372,4 +476,4 @@ const DingingOrderManagement = () => {
   );
 };
 
-export default DingingOrderManagement;
+export default OrderReport;

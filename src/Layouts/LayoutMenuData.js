@@ -284,7 +284,19 @@ const Navdata = () => {
         },
       ],
     },
-
+    {
+      id: "apps",
+      label: "Gallery Management",
+      icon: <FeatherIcon icon="image" className="icon-dual" />,
+      link: "/gallery-management",
+      click: function (e) {
+        e.preventDefault();
+        setIsApps(!isApps);
+        setIscurrentState("Apps");
+        updateIconSidebar(e);
+      },
+      stateVariables: isApps,
+    },
     {
       id: "userManagement",
       label: "Users Management",
@@ -325,19 +337,6 @@ const Navdata = () => {
           stateVariables: isApps,
         },
       ],
-    },
-    {
-      id: "apps",
-      label: "Gallery Management",
-      icon: <FeatherIcon icon="image" className="icon-dual" />,
-      link: "/gallery-management",
-      click: function (e) {
-        e.preventDefault();
-        setIsApps(!isApps);
-        setIscurrentState("Apps");
-        updateIconSidebar(e);
-      },
-      stateVariables: isApps,
     },
     {
       id: "apps",

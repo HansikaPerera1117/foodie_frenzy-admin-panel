@@ -328,7 +328,7 @@ const ServiceManagement = () => {
               <Col sm={12} md={12} lg={12} xl={12}>
                 <Table
                   className="mx-3 my-4"
-                  pagination={false}
+                  pagination={true}
                   columns={ServiceTableColumns}
                   dataSource={serviceTableList}
                   scroll={{ x: "fit-content" }}
@@ -336,7 +336,7 @@ const ServiceManagement = () => {
               </Col>
             </Row>
 
-            <Row>
+            {/* <Row>
               <Col
                 className=" d-flex justify-content-end"
                 sm={12}
@@ -353,7 +353,7 @@ const ServiceManagement = () => {
                   showTotal={(total) => `Total ${total} items`}
                 />
               </Col>
-            </Row>
+            </Row> */}
           </Card>
         </Container>
       </div>

@@ -2,6 +2,7 @@ import React from "react";
 import { Card, Container } from "reactstrap";
 import { Tabs } from "antd";
 import ReservationReport from "./ReservationReport";
+import OrderReport from "./OrderReport";
 
 const ReportManagement = () => {
   document.title = "Reports | Restaurant";
@@ -16,6 +17,11 @@ const ReportManagement = () => {
       label: "Reservation Reports",
       key: "1",
       children: <ReservationReport />,
+    },
+    {
+      label: "Order Reports",
+      key: "2",
+      children: <OrderReport />,
     },
     // {
     //   label: "Payment Reports",

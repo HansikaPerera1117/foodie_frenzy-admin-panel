@@ -330,7 +330,7 @@ const OffersManagement = () => {
               <Col sm={12} md={12} lg={12} xl={12}>
                 <Table
                   className="mx-3 my-4"
-                  pagination={false}
+                  pagination={true}
                   columns={OfferTableColumns}
                   dataSource={offerTableList}
                   scroll={{ x: "fit-content" }}
@@ -338,7 +338,7 @@ const OffersManagement = () => {
               </Col>
             </Row>
 
-            <Row>
+            {/* <Row>
               <Col
                 className=" d-flex justify-content-end"
                 sm={12}
@@ -355,7 +355,7 @@ const OffersManagement = () => {
                   showTotal={(total) => `Total ${total} items`}
                 />
               </Col>
-            </Row>
+            </Row> */}
           </Card>
         </Container>
       </div>

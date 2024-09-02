@@ -32,7 +32,7 @@ import debounce from "lodash/debounce";
 import * as orderService from "../../../service/orderService";
 
 const DeliveryOrderManagement = () => {
-  document.title = "Orders | Restaurant";
+  document.title = "Delivery Orders | Restaurant";
 
   const history = useNavigate();
   const dispatch = useDispatch();
@@ -157,6 +157,7 @@ const DeliveryOrderManagement = () => {
         startDate: startDate,
         endDate: endDate,
         status: Status === undefined ? "" : Status === null ? "" : Status,
+        orderType:"DELIVERY"
       };
 
       console.log(data);
@@ -454,14 +455,14 @@ const DeliveryOrderManagement = () => {
                 <Col sm={12} lg={12}>
                   <Table
                     className="mx-3 my-4"
-                    pagination={false}
+                    pagination={true}
                     columns={DeliveryOrderListTableColumns}
                     dataSource={orderList}
                     scroll={{ x: "fit-content" }}
                   />
                 </Col>
               </Row>
-              <Row>
+              {/* <Row>
                 <Col
                   className=" d-flex justify-content-end"
                   sm={12}
@@ -479,7 +480,7 @@ const DeliveryOrderManagement = () => {
                     showTotal={(total) => `Total ${total} items`}
                   />
                 </Col>
-              </Row>
+              </Row> */}
             </div>
           </CardBody>
         </Card>
