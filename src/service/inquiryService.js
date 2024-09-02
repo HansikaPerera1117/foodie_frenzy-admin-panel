@@ -5,7 +5,7 @@ export async function getAllInquiries(currentPage) {
   apiObject.method = "GET";
   apiObject.authentication = true;
   apiObject.isWithoutPrefix = false;
-  apiObject.endpoint = ``;
+  apiObject.endpoint = `api/inquirie/find-all`;
   apiObject.body = null;
   return await ApiService.callApi(apiObject);
 }

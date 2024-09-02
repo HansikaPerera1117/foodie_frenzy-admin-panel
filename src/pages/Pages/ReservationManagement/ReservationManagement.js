@@ -133,6 +133,7 @@ const ReservationManagement = () => {
               ? customToastMsg("Product successfully rejected", 1)
               : "",
               popUploader(dispatch, false);
+            loadAllReservations();
           })
           .catch((c) => {
             popUploader(dispatch, false);

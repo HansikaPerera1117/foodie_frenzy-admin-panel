@@ -286,6 +286,7 @@ const CreateDiningOrder = () => {
         customToastMsg("Order placed successfully", 1);
         clearPackageFields();
         popUploader(dispatch, false);
+        history("/dinging-order-management");
       })
       .catch((c) => {
         console.log(c);
@@ -395,7 +396,7 @@ const CreateDiningOrder = () => {
           style={{ cursor: "pointer" }}
           size={18}
           onClick={() => {
-            history("/package-management");
+            history("/dinging-order-management");
           }}
           className="me-2"
         />{" "}

@@ -775,7 +775,6 @@ export const ReservationPaymentTableColumns = [
     title: "Reservation Placed Date",
     dataIndex: "orderDate",
     key: "orderDate",
-  
   },
   {
     title: "Reserved Date And Time",
@@ -927,6 +926,123 @@ export const ReservationReportTableColumns = [
           ? "ACCEPT"
           : status === "REJECTED"
           ? "REJECTED"
+          : "none"}
+      </Tag>
+    ),
+  },
+];
+
+export const OrderReportListTableColumns = [
+  {
+    title: "Order Code",
+    dataIndex: "orderCode",
+    key: "orderCode",
+  },
+  {
+    title: "Customer Email",
+    dataIndex: "cusEmail",
+    key: "cusEmail",
+  },
+  {
+    title: "Contact No",
+    dataIndex: "contactNo",
+    key: "contactNo",
+  },
+  {
+    title: "Order Date",
+    dataIndex: "orderDate",
+    key: "orderDate",
+  },
+
+  {
+    title: "Order Type",
+    key: "orderType",
+    // width: "15%",
+    dataIndex: "orderType",
+    render: (orderType) => (
+      <Tag
+        color={
+          orderType === "DELIVERY"
+            ? "cyan"
+            : orderType === "DINING"
+            ? "green"
+            : "default"
+        }
+        key={orderType}
+      >
+        {orderType === "DELIVERY"
+          ? "DELIVERY"
+          : orderType === "DINING"
+          ? "DINING"
+          : "none"}
+      </Tag>
+    ),
+  },
+  {
+    title: "Status",
+    key: "status",
+    // width: "15%",
+    dataIndex: "status",
+    render: (status) => (
+      <Tag
+        color={
+          status === "PENDING"
+            ? "warning"
+            : status === "PROCESSING"
+            ? "processing"
+            : status === "SHIPPED"
+            ? "purple"
+            : status === "DELIVERED"
+            ? "success"
+            : status === "CANCELLED"
+            ? "error"
+            : status === "REJECTED"
+            ? "magenta"
+            : "default"
+        }
+        key={status}
+      >
+        {status === "PENDING"
+          ? "PENDING"
+          : status === "PROCESSING"
+          ? "PROCESSING"
+          : status === "SHIPPED"
+          ? "SHIPPED"
+          : status === "DELIVERED"
+          ? "DELIVERED"
+          : status === "CANCELLED"
+          ? "CANCELLED"
+          : status === "REJECTED"
+          ? "REJECTED"
+          : "none"}
+      </Tag>
+    ),
+  },
+  {
+    title: "Total",
+    dataIndex: "total",
+    key: "total",
+  },
+  {
+    title: "Payment Type",
+    key: "paymentType",
+    // width: "15%",
+    dataIndex: "paymentType",
+    render: (paymentType) => (
+      <Tag
+        color={
+          paymentType === "ONLINE_PAYMENT"
+            ? "processing"
+            : paymentType === "CASH_ON_DELIVERY"
+            ? "purple"
+            : "default"
+        }
+        key={paymentType}
+      >
+        {paymentType === "ONLINE_PAYMENT"
+          ? "ONLINE_PAYMENT"
+          : paymentType === "CASH_ON_DELIVERY"
+          ? "CASH_ON_DELIVERY"
           : "none"}
       </Tag>
     ),
