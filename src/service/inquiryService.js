@@ -26,7 +26,11 @@ export async function inquiriesFiltration(data, currentPage) {
   apiObject.method = "GET";
   apiObject.authentication = true;
   apiObject.isWithoutPrefix = false;
-  apiObject.endpoint = ``;
+  apiObject.endpoint = `api/inquirie/find-all?name=${data?.name}&email=${
+    data?.email
+  }&startDate=${data?.startDate}&endDate=${
+    data?.endDate
+  }&perPage=${15}&page=${currentPage}`;
   apiObject.body = null;
   return await ApiService.callApi(apiObject);
 }

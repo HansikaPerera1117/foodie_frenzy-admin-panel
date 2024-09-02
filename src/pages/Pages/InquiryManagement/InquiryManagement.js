@@ -51,15 +51,8 @@ const InquiryManagement = () => {
   }, []);
 
   const toggleInquiryModal = (selectedInquiry) => {
-    setIsInquiryModalOpen(!isInquiryModalOpen);
-    loadAllInquiries(currentPage);
-
-    // if (selectedInquiry != "") {
-    //   setSelectedOrderPayment(selectedInquiry);
-    // } else {
-    //   setSelectedOrderPayment("");
-    //   loadAllInquiries(currentPage);
-    // }
+    setIsInquiryModalOpen(true);
+    setSelectedInquiry(selectedInquiry);
   };
 
   const loadAllInquiries = (currentPage) => {
@@ -76,7 +69,7 @@ const InquiryManagement = () => {
             status: inquiry?.status,
             action: (
               <>
-                {inquiry?.replyMessage !== null && (
+                {inquiry?.replyMessage !== null ? (
                   <Button
                     color="warning"
                     className="m-2"
@@ -87,18 +80,18 @@ const InquiryManagement = () => {
                   >
                     <span>View</span>
                   </Button>
+                ) : (
+                  <Button
+                    color="success"
+                    className="m-2"
+                    outline
+                    onClick={(e) => {
+                      toggleInquiryModal(inquiry);
+                    }}
+                  >
+                    <span>Send Response</span>
+                  </Button>
                 )}
-
-                <Button
-                  color="success"
-                  className="m-2"
-                  outline
-                  onClick={(e) => {
-                    toggleInquiryModal(inquiry);
-                  }}
-                >
-                  <span>Send Response</span>
-                </Button>
               </>
             ),
           });
@@ -224,7 +217,8 @@ const InquiryManagement = () => {
       <InquiryModal
         isOpen={isInquiryModalOpen}
         onClose={() => {
-          toggleInquiryModal("");
+          setIsInquiryModalOpen(false);
+          loadAllInquiries();
         }}
         currentData={selectedInquiry}
       />
@@ -317,7 +311,7 @@ const InquiryManagement = () => {
               </Col>
             </Row>
 
-            <Row>
+            {/* <Row>
               <Col
                 className=" d-flex justify-content-end"
                 sm={12}
@@ -334,7 +328,7 @@ const InquiryManagement = () => {
                   showTotal={(total) => `Total ${total} items`}
                 />
               </Col>
-            </Row>
+            </Row> */}
           </Card>
         </Container>
       </div>

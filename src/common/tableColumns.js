@@ -405,6 +405,7 @@ export const InquiryTableColumns = [
     title: "Inquiry Send Date",
     dataIndex: "sendDate",
     key: "sendDate",
+    width: "12%",
   },
   {
     title: "Inquiry",
@@ -446,20 +447,16 @@ export const InquiryTableColumns = [
         color={
           status === "PENDING"
             ? "warning"
-            : status === "ACCEPT"
+            : status === "REPLIED"
             ? "success"
-            : status === "REJECTED"
-            ? "error"
             : "default"
         }
         key={status}
       >
         {status === "PENDING"
           ? "PENDING"
-          : status === "ACCEPT"
-          ? "ACCEPT"
-          : status === "REJECTED"
-          ? "REJECTED"
+          : status === "REPLIED"
+          ? "REPLIED"
           : "none"}
       </Tag>
     ),

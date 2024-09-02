@@ -22,22 +22,26 @@ import {
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { useDispatch } from "react-redux";
-import { Alert } from "antd";
+import { Alert, Tag } from "antd";
 import CustomImageUploader from "../upload/ImageUploader";
 import { desMaxLimit } from "../../../common/util";
 import { updateService } from "../../../service/serviceService";
 import { MessageBox } from "react-chat-elements";
 import { sendInquiryResponse } from "../../../service/inquiryService";
 import chatBg from "../../../assets/images/inquiryChatBg.jpg";
+import "react-chat-elements/dist/main.css";
+import moment from "moment";
 
 const InquiryModal = ({ isOpen, currentData, onClose }) => {
   const [customerInquiry, setCustomerInquiry] = useState("");
+  const [userObject, setUserObject] = useState("");
 
   let dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   setDataToInputs();
-  // }, [isOpen]);
+  useEffect(() => {
+    console.log(JSON.parse(sessionStorage.getItem("authUser")));
+    setUserObject(JSON.parse(sessionStorage.getItem("authUser")));
+  }, [isOpen]);
 
   // const setDataToInputs = () => {
   //   setCustomerInquiry(currentData.name);
@@ -52,7 +56,7 @@ const InquiryModal = ({ isOpen, currentData, onClose }) => {
     }
 
     const data = {
-      response: customerInquiry,
+      message: customerInquiry,
     };
 
     if (isValidated) {
@@ -95,150 +99,92 @@ const InquiryModal = ({ isOpen, currentData, onClose }) => {
       <ModalBody>
         <Row>
           <Col xs={12} sm={12} md={12} lg={12} xl={12}>
-            <Label for="customerName">Customer</Label>
-            <Row>
-              <Col xs={12} sm={12} md={12} lg={12} xl={12}>
-                <Row>
-                  <Col sm={12} md={12} lg={12} xl={12}>
-                    <Label for="customerName" className="fw-semibold">
-                      {currentData?.customer?.firstName
-                        .charAt(0)
-                        .toUpperCase() +
-                        currentData?.customer?.firstName
-                          .slice(1)
-                          .toLowerCase() +
-                        " " +
-                        (currentData?.customer?.lastName
-                          .charAt(0)
-                          .toUpperCase() +
-                          currentData?.customer?.lastName
-                            .slice(1)
-                            .toLowerCase())}
-                    </Label>
-                  </Col>
-
-                  <Col sm={12} md={12} lg={12} xl={12}>
-                    <Label for="supplierContactNo">
-                      {currentData?.customer?.contactNo}
-                    </Label>
-                  </Col>
-                  <Col sm={12} md={12} lg={12} xl={12}>
-                    <Label for="supplierContactNo">
-                      {currentData?.customer?.email}
-                    </Label>
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
+            <Label for="customerName">
+              Customer Email : {currentData?.email}
+            </Label>
+            <Label for="customerName" className="fw-semibold"></Label>
+            <Label for="customerName">
+              Inquiry Send Date :{" "}
+              {moment(currentData?.createdAt).format("YYYY-MM-DD")}
+            </Label>
+            <div>
+              <Label for="customerName">Inquiry Status : </Label>
+              <Tag
+                color={
+                  currentData?.status === "PENDING"
+                    ? "warning"
+                    : currentData?.status === "REPLIED"
+                    ? "success"
+                    : "default"
+                }
+                key={currentData?.status}
+              >
+                {currentData?.status === "PENDING"
+                  ? "PENDING"
+                  : currentData?.status === "REPLIED"
+                  ? "REPLIED"
+                  : "none"}
+              </Tag>
+            </div>
           </Col>
         </Row>
 
         <Row className="mt-4">
-          <Label for="supplierName" className="fw-semibold">
-            Inquiry
-          </Label>
-
-          <div
-            className="position-relative"
-            id="users-chat"
-            style={{
-              backgroundImage: { chatBg },
-              backgroundColor: "#fffaee",
-              height: 300,
-              borderRadius: 20,
-            }}
-          >
+          <Col>
+            <Label for="inquiryMessage" className="fw-semibold">
+              Inquiry
+            </Label>
             <div
-              className="chat-conversation p-3 p-lg-4"
-              id="chat-conversation"
-              style={{ height: 300 }}
+              style={{
+                backgroundColor: "#fffaee",
+                height: 300,
+                borderRadius: 20,
+                padding: 10,
+                overflowY: "auto",
+              }}
             >
-              <ul
-                className="list-unstyled chat-conversation-list"
-                id="users-conversation"
-              >
-                <li
-                  className={
-                    currentData?.question?.sendBy === "CUSTOMER"
-                      ? "chat-list left"
-                      : "chat-list right"
-                  }
-                >
-                  <div className="conversation-list">
-                    <div className="user-chat-content">
-                      <div className="ctext-wrap">
-                        <MessageBox
-                          position={
-                            currentData?.question?.sendBy === "CUSTOMER"
-                              ? "left"
-                              : "right"
-                          }
-                          type={"text"}
-                          titleColor={
-                            currentData?.question?.sendBy === "CUSTOMER"
-                              ? "#8717ae"
-                              : currentData?.question?.sendBy === "LEADER"
-                              ? "#efb921"
-                              : "green"
-                          }
-                          title={currentData?.question?.sendBy}
-                          text="Sorry!! Somthing wrong in media fromat"
-                          data={{
-                            audioURL: currentData?.question?.file?.path,
-                          }}
-                        />
-                      </div>
-                      <div className="conversation-name">
-                        <small className="text-muted time">
-                          {currentData?.question?.createdAt}{" "}
-                        </small>{" "}
-                        <span className="text-success check-message-icon">
-                          <i className="ri-check-double-line align-bottom"></i>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-
-                <li
-                  className={
-                    currentData?.reply?.sendBy === "LEADER"
-                      ? "chat-list right"
-                      : "chat-list left"
-                  }
-                ></li>
-              </ul>
+              <MessageBox
+                position="left"
+                title={currentData?.email}
+                type="text"
+                text={currentData?.message}
+                date={new Date(currentData?.createdAt)}
+              />
+              {currentData?.replyMessage && (
+                <MessageBox
+                  position="right"
+                  title={userObject?.email}
+                  type="text"
+                  text={currentData?.replyMessage}
+                  // date={new Date()}
+                />
+              )}
             </div>
-            <div
-              className="alert alert-warning alert-dismissible copyclipboard-alert px-4 fade show "
-              id="copyClipBoard"
-              role="alert"
-            >
-              Message copied
-            </div>
-          </div>
+          </Col>
         </Row>
 
         <Row>
           <Col sm="12">
-            <Form className="mt-2">
-              <Row>
-                <Col>
-                  {" "}
-                  <FormGroup>
-                    <Label for="customerInquiry">Response</Label>
-                    <Input
-                      type="text"
-                      name="customerInquiry"
-                      id="customerInquiry"
-                      placeholder="Enter your response"
-                      value={customerInquiry}
-                      onChange={(e) => setCustomerInquiry(e.target.value)}
-                    />
-                  </FormGroup>
-                </Col>
-              </Row>
-            </Form>
+            {currentData?.replyMessage === null && (
+              <Form className="mt-2">
+                <Row>
+                  <Col>
+                    {" "}
+                    <FormGroup>
+                      <Label for="customerInquiry">Response</Label>
+                      <Input
+                        type="textarea"
+                        name="customerInquiry"
+                        id="customerInquiry"
+                        placeholder="Enter your response"
+                        value={customerInquiry}
+                        onChange={(e) => setCustomerInquiry(e.target.value)}
+                      />
+                    </FormGroup>
+                  </Col>
+                </Row>
+              </Form>
+            )}
           </Col>
         </Row>
       </ModalBody>
@@ -252,18 +198,11 @@ const InquiryModal = ({ isOpen, currentData, onClose }) => {
         >
           Close
         </Button>{" "}
-        <Button
-          color="secondary"
-          onClick={() => {
-            onClose();
-            clearFields();
-          }}
-        >
-          Cancel
-        </Button>{" "}
-        <Button color="primary" onClick={handleUpdateService}>
-          Send Inquiry Response
-        </Button>
+        {currentData?.replyMessage === null && (
+          <Button color="primary" onClick={handleUpdateService}>
+            Send Inquiry Response
+          </Button>
+        )}
       </ModalFooter>
     </Modal>
   );
