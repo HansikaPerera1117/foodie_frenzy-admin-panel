@@ -235,6 +235,10 @@ const ReservationReport = () => {
 
     if (
       !searchReservationCode &&
+      !searchCustomerContactNo &&
+      (selectedBranch === undefined ||
+        selectedBranch === null ||
+        selectedBranch === "") &&
       !searchCustomerEmail &&
       (searchDateRange === undefined ||
         searchDateRange === null ||

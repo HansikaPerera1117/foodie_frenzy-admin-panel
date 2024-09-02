@@ -189,6 +189,7 @@ const DingingOrderManagement = () => {
     if (
       !searchOrderCode &&
       !searchCustomerEmail &&
+      !searchCustomerContactNo &&
       (searchDateRange === undefined ||
         searchDateRange === null ||
         searchDateRange === "")

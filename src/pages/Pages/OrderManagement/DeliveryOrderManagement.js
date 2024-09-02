@@ -129,7 +129,6 @@ const DeliveryOrderManagement = () => {
     email,
     Contact,
     dateRange,
-
     Status,
     currentPage
   ) => {
@@ -222,6 +221,7 @@ const DeliveryOrderManagement = () => {
     if (
       !searchOrderCode &&
       !searchCustomerEmail &&
+      !searchCustomerContactNo &&
       (searchDateRange === undefined ||
         searchDateRange === null ||
         searchDateRange === "") &&
@@ -236,7 +236,6 @@ const DeliveryOrderManagement = () => {
         searchCustomerEmail,
         searchCustomerContactNo,
         searchDateRange,
-
         selectedStatus,
         page
       );
@@ -391,7 +390,6 @@ const DeliveryOrderManagement = () => {
                         e.target.value,
                         searchCustomerContactNo,
                         searchDateRange,
-
                         selectedStatus,
                         1
                       );
@@ -411,7 +409,6 @@ const DeliveryOrderManagement = () => {
                         searchCustomerEmail,
                         e.target.value,
                         searchDateRange,
-
                         selectedStatus,
                         1
                       );
@@ -433,7 +430,6 @@ const DeliveryOrderManagement = () => {
                           searchCustomerEmail,
                           searchCustomerContactNo,
                           formattedDates,
-
                           selectedStatus,
                           1
                         );
@@ -445,7 +441,6 @@ const DeliveryOrderManagement = () => {
                           searchCustomerEmail,
                           searchCustomerContactNo,
                           "",
-
                           selectedStatus,
                           1
                         );

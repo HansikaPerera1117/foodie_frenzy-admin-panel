@@ -162,7 +162,7 @@ const ReservationManagement = () => {
       setReservationList([]);
       let data = {
         reservationCode: reservationCode,
-        reservationCode: contact,
+        contact: contact,
         branch: branch,
         email: email,
         startDate: startDate,
@@ -234,6 +234,10 @@ const ReservationManagement = () => {
 
     if (
       !searchReservationCode &&
+      !searchCustomerContactNo &&
+      (selectedBranch === undefined ||
+        selectedBranch === null ||
+        selectedBranch === "") &&
       !searchCustomerEmail &&
       (searchDateRange === undefined ||
         searchDateRange === null ||
