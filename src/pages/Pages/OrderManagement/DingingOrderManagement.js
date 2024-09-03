@@ -23,7 +23,7 @@ import * as orderService from "../../../service/orderService";
 import { Plus } from "react-feather";
 
 const DingingOrderManagement = () => {
-  document.title = "Dining Orders | Restaurant";
+  document.title = "Dining Orders | Foodie Frenzy Restaurant";
 
   const history = useNavigate();
   const dispatch = useDispatch();

@@ -29,7 +29,7 @@ import AddOfferModal from "../../../Components/Common/modal/AddOfferModal";
 import UpdateOfferModal from "../../../Components/Common/modal/UpdateOfferModal";
 
 const OffersManagement = () => {
-  document.title = "Offers | Restaurant";
+  document.title = "Offers | Foodie Frenzy Restaurant";
 
   const [isAddOfferModalOpen, setIsAddOfferModalOpen] = useState(false);
   const [isUpdateOfferModalOpen, setIsUpdateOfferModalOpen] = useState(false);

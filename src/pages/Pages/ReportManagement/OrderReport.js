@@ -39,7 +39,7 @@ import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 
 const OrderReport = () => {
-  document.title = "Orders Report | Restaurant";
+  document.title = "Orders Report | Foodie Frenzy Restaurant";
 
   const history = useNavigate();
   const dispatch = useDispatch();

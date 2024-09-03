@@ -31,7 +31,7 @@ import AddCategoryModal from "../../../Components/Common/modal/AddCategoryModal"
 import UpdateCategoryModal from "../../../Components/Common/modal/UpdateCategoryModal";
 
 const CategoryManagement = () => {
-  document.title = "Category | Restaurant";
+  document.title = "Category | Foodie Frenzy Restaurant";
 
   const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false);
   const [isUpdateCategoryModalOpen, setIsUpdateCategoryModalOpen] =

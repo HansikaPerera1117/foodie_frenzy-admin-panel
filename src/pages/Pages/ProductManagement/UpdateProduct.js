@@ -30,7 +30,7 @@ import { getAllCategoriesToDropDown } from "../../../service/categoryService";
 import { desMaxLimit } from "../../../common/util";
 
 const UpdateProduct = () => {
-  document.title = "Update Product | Restaurant";
+  document.title = "Update Product | Foodie Frenzy Restaurant";
   const location = useLocation();
   const { productData } = location.state;
 

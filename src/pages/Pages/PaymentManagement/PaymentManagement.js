@@ -29,7 +29,7 @@ import {
 } from "../../../service/paymentService";
 
 export default function PaymentManagement() {
-  document.title = "Order Payments | Restaurant";
+  document.title = "Order Payments | Foodie Frenzy Restaurant";
 
   const dispatch = useDispatch();
   const history = useNavigate();

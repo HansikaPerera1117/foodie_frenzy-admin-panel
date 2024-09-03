@@ -5,7 +5,7 @@ import OrderReport from "./OrderReport";
 import OrderPaymentReport from "./OrderPaymentReport";
 
 const ReportManagement = () => {
-  document.title = "Reports | Restaurant";
+  document.title = "Reports | Foodie Frenzy Restaurant";
   const { TabPane } = Tabs;
 
   const onChangeeee = (key) => {

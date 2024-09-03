@@ -35,7 +35,7 @@ import { saveAs } from "file-saver";
 import { FileText } from "react-feather";
 
 export default function OrderPaymentReport() {
-  document.title = "Order Payments Report | Restaurant";
+  document.title = "Order Payments Report | Foodie Frenzy Restaurant";
 
   const dispatch = useDispatch();
   const history = useNavigate();

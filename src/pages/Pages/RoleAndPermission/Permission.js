@@ -14,7 +14,7 @@ import { useDispatch } from "react-redux";
 import "../../../assets/scss/custom/Permission.scss";
 
 const Permission = () => {
-  document.title = "Permission | Restaurant";
+  document.title = "Permission | Foodie Frenzy Restaurant";
 
   const [selectedRole, setSelectedRole] = useState("");
   const [roleList, setRoleList] = useState([]);

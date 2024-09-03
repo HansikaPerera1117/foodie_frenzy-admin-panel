@@ -28,7 +28,7 @@ import { BranchTableColumns } from "../../../common/tableColumns";
 import BranchModal from "../../../Components/Common/modal/BranchModal";
 
 const BranchManagement = () => {
-  document.title = "Branch Management| Restaurant";
+  document.title = "Branch Management| Foodie Frenzy Restaurant";
 
   const [branchTableList, setBranchTableList] = useState([]);
   const [isAddBranchModalOpen, setIsAddBranchModalOpen] = useState(false);

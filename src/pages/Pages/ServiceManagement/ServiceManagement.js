@@ -29,7 +29,7 @@ import { ServiceTableColumns } from "../../../common/tableColumns";
 import UpdateServiceModal from "../../../Components/Common/modal/UpdateServiceModal";
 
 const ServiceManagement = () => {
-  document.title = "Service | Restaurant";
+  document.title = "Service | Foodie Frenzy Restaurant";
 
   const [isAddServiceModalOpen, setIsAddServiceModalOpen] = useState(false);
   const [isUpdateServiceModalOpen, setIsUpdateServiceModalOpen] =

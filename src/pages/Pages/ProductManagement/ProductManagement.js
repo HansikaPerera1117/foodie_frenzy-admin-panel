@@ -30,7 +30,7 @@ import {
 } from "../../../service/productService";
 
 const ProductManagement = () => {
-  document.title = "Product | Restaurant";
+  document.title = "Product | Foodie Frenzy Restaurant";
 
   const history = useNavigate();
   const dispatch = useDispatch();

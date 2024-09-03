@@ -20,7 +20,7 @@ const ViewProductDetails = () => {
   const { productId } = location.state;
   const history = useNavigate();
 
-  document.title = "Product Details | Restaurant";
+  document.title = "Product Details | Foodie Frenzy Restaurant";
 
   const [productData, setProductData] = useState("");
   const [isHaveData, setIsHaveData] = useState(false);

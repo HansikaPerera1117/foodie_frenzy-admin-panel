@@ -5,7 +5,7 @@ import Permission from "./Permission";
 import RoleManagement from "./RoleManagement";
 
 const RoleAndPermission = () => {
-  document.title = "Role And Permissions| Restaurant";
+  document.title = "Role And Permissions| Foodie Frenzy Restaurant";
   const { TabPane } = Tabs;
 
   const onChangeeee = (key) => {

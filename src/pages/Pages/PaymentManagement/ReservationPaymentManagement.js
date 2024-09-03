@@ -32,7 +32,7 @@ import {
 } from "../../../service/paymentService";
 
 export default function ReservationPaymentManagement() {
-  document.title = "Reservation Payment | Restaurant";
+  document.title = "Reservation Payment | Foodie Frenzy Restaurant";
 
   const dispatch = useDispatch();
   const history = useNavigate();

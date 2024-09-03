@@ -25,7 +25,7 @@ import AddRoleModal from "../../../Components/Common/modal/AddRoleModel";
 import UpdateRoleModal from "../../../Components/Common/modal/UpdateRoleModel";
 
 const RoleManagement = () => {
-  document.title = "Role | Restaurant";
+  document.title = "Role | Foodie Frenzy Restaurant";
 
   const [isAddRoleModal, setIsAddRoleModal] = useState(false);
   const [isUpdateRoleModal, setIsUpdateRoleModal] = useState(false);

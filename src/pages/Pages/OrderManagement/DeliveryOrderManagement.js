@@ -32,7 +32,7 @@ import debounce from "lodash/debounce";
 import * as orderService from "../../../service/orderService";
 
 const DeliveryOrderManagement = () => {
-  document.title = "Delivery Orders | Restaurant";
+  document.title = "Delivery Orders | Foodie Frenzy Restaurant";
 
   const history = useNavigate();
   const dispatch = useDispatch();

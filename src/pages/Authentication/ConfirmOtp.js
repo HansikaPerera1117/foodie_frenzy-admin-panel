@@ -11,7 +11,7 @@ import {
     Row,
 } from "reactstrap";
 import {Link} from "react-router-dom";
-import logoLight from "../../assets/images/logo/logo-png.png";
+import logoLight from "../../assets/images/logo/logo.png";
 
 import OtpInput from 'react-otp-input';
 import {useFormik} from "formik";
@@ -118,7 +118,7 @@ const ConfirmOtp = (props) => {
                                 <div className="text-center mt-sm-5 mb-4 text-white-50">
                                     <div>
                                         <Link to="/" className="d-inline-block mt-5 auth-logo">
-                                            <img src={logoLight} alt="" height="100"/>
+                                            <img src={logoLight} alt="" height="200"/>
                                         </Link>
                                     </div>
                                     <p className="mt-3 text-primary fs-15 fw-medium">Tea & Soul Admin Dashboard</p>

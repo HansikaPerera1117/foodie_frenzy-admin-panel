@@ -6,7 +6,7 @@ import ApexMixChartComponent from "../Charts/ApexMixChartComponent";
 import { useNavigate } from "react-router-dom";
 
 const DashboardEcommerce = () => {
-  document.title = "Dashboard | Restaurant";
+  document.title = "Dashboard | Foodie Frenzy Restaurant";
   const history = useNavigate();
   return (
     <React.Fragment>

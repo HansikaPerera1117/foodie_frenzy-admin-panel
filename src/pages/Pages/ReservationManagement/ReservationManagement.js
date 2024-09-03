@@ -33,7 +33,7 @@ import * as reservationService from "../../../service/reservationService";
 import { ReservationListTableColumns } from "../../../common/tableColumns";
 
 const ReservationManagement = () => {
-  document.title = "Table Reservation | Restaurant";
+  document.title = "Table Reservation | Foodie Frenzy Restaurant";
 
   const history = useNavigate();
   const dispatch = useDispatch();

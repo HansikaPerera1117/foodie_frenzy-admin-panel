@@ -28,7 +28,7 @@ import InquiryModal from "../../../Components/Common/modal/InquiryModal";
 import moment from "moment";
 
 const InquiryManagement = () => {
-  document.title = "Inquiry | Restaurant";
+  document.title = "Inquiry | Foodie Frenzy Restaurant";
 
   const [isInquiryModalOpen, setIsInquiryModalOpen] = useState(false);
   const [searchCustomerName, setSearchCustomerName] = useState("");

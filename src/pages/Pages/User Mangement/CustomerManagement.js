@@ -23,7 +23,7 @@ import {
 import debounce from "lodash.debounce";
 
 const CustomerManagement = () => {
-  document.title = "Customers | Restaurant";
+  document.title = "Customers | Foodie Frenzy Restaurant";
 
   const [customerTableList, setCustomerTableList] = useState([]);
   const [searchContactNo, setSearchContactNo] = useState("");

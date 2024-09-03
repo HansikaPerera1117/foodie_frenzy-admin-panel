@@ -33,7 +33,7 @@ import { getAllStaff } from "../../../service/staffService";
 import { makeAdvancePayment } from "../../../service/paymentService";
 
 const CreateDiningOrder = () => {
-  document.title = "Place Dining Order | Restaurant";
+  document.title = "Place Dining Order | Foodie Frenzy Restaurant";
 
   const history = useNavigate();
 

@@ -21,7 +21,7 @@ import ImgCrop from "antd-img-crop";
 import { upload } from "../../../service/fileService";
 
 const GalleryManagement = () => {
-  document.title = "Gallery | Restaurant";
+  document.title = "Gallery | Foodie Frenzy Restaurant";
 
   const [galleryList, setGalleryList] = useState([]);
   const [visible, setVisible] = useState(false);

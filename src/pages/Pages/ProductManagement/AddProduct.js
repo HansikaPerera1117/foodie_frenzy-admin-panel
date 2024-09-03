@@ -29,7 +29,7 @@ import { getAllCategoriesToDropDown } from "../../../service/categoryService";
 import { desMaxLimit } from "../../../common/util";
 
 const AddProduct = () => {
-  document.title = "Create Product | Restaurant";
+  document.title = "Create Product | Foodie Frenzy Restaurant";
 
   const history = useNavigate();
   const dispatch = useDispatch();
