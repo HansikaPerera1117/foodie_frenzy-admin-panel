@@ -196,7 +196,7 @@ const Login = (props) => {
 
 
                                                 <div className="mt-4 mb-4">
-                                                    <Button color="success"
+                                                    <Button color="#ec9e00"
                                                             disabled={error ? null : loading ? true : false}
                                                             className="btn btn-primary w-100" type="submit">
                                                         {loading ? <Spinner size="sm"

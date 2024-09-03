@@ -83,7 +83,7 @@ const DeliveryOrderManagement = () => {
                         state: { orderData: ord?.id },
                       })
                     }
-                    color="primary"
+                    color="success"
                     outline
                     className="m-2"
                   >
@@ -185,7 +185,7 @@ const DeliveryOrderManagement = () => {
                           state: { orderData: ord?.id },
                         })
                       }
-                      color="primary"
+                      color="success"
                       outline
                       className="m-2"
                     >

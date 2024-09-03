@@ -75,7 +75,7 @@ export default function PaymentManagement() {
                 <>
                   <Button
                     onClick={() => toggleViewPaymentModal(payment)}
-                    color="primary"
+                    color="success"
                     outline
                     className="m-2"
                   >
@@ -172,7 +172,7 @@ export default function PaymentManagement() {
                   <>
                     <Button
                       onClick={() => toggleViewPaymentModal(payment)}
-                      color="primary"
+                      color="success"
                       outline
                       className="m-2"
                     >
