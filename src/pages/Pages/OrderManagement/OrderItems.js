@@ -12,16 +12,22 @@ const OrderItems = ({ data }) => {
             <td>
               <div className="d-flex">
                 <div className="flex-shrink-0 avatar-md bg-light rounded p-1">
-                  {orderItem?.productBaseVariant?.file ? (
-                    <img
-                      className="w-100 h-100 object-fit-cover"
-                      src={orderItem?.productBaseVariant?.file[0]?.originalPath}
-                      alt="img"
-                      onError={(e) =>
-                        (e.target.src =
-                          "https://i.ibb.co/qpB9ZCZ/placeholder.png")
+                  {orderItem?.product?.productFile ? (
+                    orderItem?.product?.productFile.map((image) => {
+                      if (image?.isDefault) {
+                        return (
+                          <img
+                            className="w-100 h-100 object-fit-cover"
+                            src={image?.file?.originalPath}
+                            alt="img"
+                            onError={(e) =>
+                              (e.target.src =
+                                "https://i.ibb.co/qpB9ZCZ/placeholder.png")
+                            }
+                          />
+                        );
                       }
-                    />
+                    })
                   ) : (
                     <img
                       src="https://i.ibb.co/qpB9ZCZ/placeholder.png"
@@ -31,9 +37,7 @@ const OrderItems = ({ data }) => {
                   )}
                 </div>
                 <div className="flex-grow-1 ms-3">
-                  <h5 className="fs-15">
-                    {orderItem?.productBaseVariant.name}
-                  </h5>
+                  <h5 className="fs-15">{orderItem?.product.name}</h5>
 
                   <p className="text-muted mb-0">
                     Discount:{" "}
@@ -58,24 +62,24 @@ const OrderItems = ({ data }) => {
 
             <td className="text-center"> {orderItem.qty}</td>
             <td className="text-center">
-              LKR {parseFloat(orderItem?.sellingPrice).toFixed(2)}
+              LKR {parseFloat(orderItem?.product?.price).toFixed(2)}
             </td>
             <td className="text-center">
               LKR{" "}
               {parseFloat(
                 // (orderItem?.sellingPrice * (100 - orderItem?.discount)) / 100
-                (orderItem?.sellingPrice * (100 - 0)) / 100
+                (orderItem?.product?.price * (100 - 0)) / 100
               ).toFixed(2)}
             </td>
             <td className="fw-medium text-center">
               LKR{" "}
-              {parseFloat(orderItem?.sellingPrice * orderItem.qty).toFixed(2)}
+              {parseFloat(orderItem?.product?.price * orderItem.qty).toFixed(2)}
             </td>
             <td className="fw-medium text-end">
               LKR{" "}
               {parseFloat(
                 // ((orderItem?.sellingPrice * (100 - orderItem?.discount)) /
-                ((orderItem?.sellingPrice * (100 - 0)) / 100) * orderItem.qty
+                ((orderItem?.product?.price * (100 - 0)) / 100) * orderItem.qty
               ).toFixed(2)}
             </td>
           </tr>

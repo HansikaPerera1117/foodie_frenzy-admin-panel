@@ -67,8 +67,7 @@ const DingingOrderManagement = () => {
                   <Button
                     onClick={() =>
                       history("/order-detail", {
-                        state: { orderData: ord },
-                        // state: { orderData: ord?.id },
+                        state: { orderData: ord?.id },
                       })
                     }
                     color="primary"
@@ -151,8 +150,7 @@ const DingingOrderManagement = () => {
                     <Button
                       onClick={() =>
                         history("/order-detail", {
-                          state: { orderData: ord },
-                          // state: { orderData: ord?.id },
+                          state: { orderData: ord?.id },
                         })
                       }
                       color="primary"

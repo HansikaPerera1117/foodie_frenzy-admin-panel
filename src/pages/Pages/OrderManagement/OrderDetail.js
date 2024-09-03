@@ -22,29 +22,20 @@ import {
 import { ArrowLeft } from "react-feather";
 import { useDispatch } from "react-redux";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
+import { Tag } from "antd";
+import OrderItems from "./OrderItems";
 import {
   getOrderByOrderId,
   updateOrdersStatus,
 } from "../../../service/orderService";
-import { useNavigate } from "react-router-dom";
-import { Tag } from "antd";
-import OrderItems from "./OrderItems";
 
 const OrderDetail = (props) => {
   const location = useLocation();
   const dispatch = useDispatch();
-
   const history = useNavigate();
-
   const [col1, setcol1] = useState(true);
-  // const [selectedStatus, setSelectedStatus] = useState("");
-
   const [orderDetails, setOrderDetails] = useState([]);
-  // const [statusList, setStatusList] = useState([]);
-
-  // const [isBtnDisable, setIsBtnDisable] = useState(true);
-  //   const [orderDetails, setorderDetails] = useState();
-
   const [orderId, setOrderId] = useState("");
 
   useEffect(() => {
@@ -61,49 +52,59 @@ const OrderDetail = (props) => {
       const { orderData } = state;
       console.log(orderData, "1010101010101011");
       setOrderId(orderData?.id);
-      setOrderDetails(orderData);
-      // getOrderDetails(orderData);
+      getOrderDetails(orderData);
     }
   }, [location]);
 
-  // const getOrderDetails = (orderId) => {
-  //   popUploader(dispatch, true);
-  //   setOrderDetails([]);
-  //   getOrderByOrderId(orderId)
-  //     .then((res) => {
-  //       console.log(res);
-  //       let response = res?.data;
-  //       setOrderDetails(response);
-  //       // setSelectedStatus({ value: "", label: response?.status });
-  //       popUploader(dispatch, false);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //       popUploader(dispatch, false);
-  //       handleError(err);
-  //     });
-  // };
+  const getOrderDetails = (orderId) => {
+    popUploader(dispatch, true);
+    setOrderDetails([]);
+    getOrderByOrderId(orderId)
+      .then((res) => {
+        console.log(res);
+        let response = res?.data;
+        setOrderDetails(response);
+        popUploader(dispatch, false);
+      })
+      .catch((err) => {
+        console.log(err);
+        popUploader(dispatch, false);
+        handleError(err);
+      });
+  };
 
   const updateStatusOfOrder = () => {
     let selectedStatus = "";
     {
-      orderDetails?.status === "PENDING"
-        ? (selectedStatus = "PROCESSING")
-        : orderDetails?.status === "PROCESSING"
-        ? (selectedStatus = "SHIPPED")
-        : orderDetails?.status === "SHIPPED"
-        ? (selectedStatus = "DELIVERED")
+      orderDetails?.orderType === "DELIVERY"
+        ? orderDetails?.status === "PENDING"
+          ? (selectedStatus = "PROCESSING")
+          : orderDetails?.status === "PROCESSING"
+          ? (selectedStatus = "SHIPPED")
+          : orderDetails?.status === "SHIPPED"
+          ? (selectedStatus = "DELIVERED")
+          : ""
+        : orderDetails?.orderType === "DINING"
+        ? orderDetails?.status === "PENDING"
+          ? (selectedStatus = "DELIVERED")
+          : ""
         : "";
     }
 
     customSweetAlert(
       `Do you want to update this order status ${orderDetails?.status} to  ${
-        orderDetails?.status === "PENDING"
-          ? "PROCESSING"
-          : orderDetails?.status === "PROCESSING"
-          ? "SHIPPED"
-          : orderDetails?.status === "SHIPPED"
-          ? "DELIVERED"
+        orderDetails?.orderType === "DELIVERY"
+          ? orderDetails?.status === "PENDING"
+            ? "PROCESSING"
+            : orderDetails?.status === "PROCESSING"
+            ? "SHIPPED"
+            : orderDetails?.status === "SHIPPED"
+            ? "DELIVERED"
+            : ""
+          : orderDetails?.orderType === "DINING"
+          ? orderDetails?.status === "PENDING"
+            ? "DELIVERED"
+            : ""
           : ""
       } status?`,
 
@@ -243,7 +244,7 @@ const OrderDetail = (props) => {
                     </thead>
                     <tbody>
                       {/* <OrderSubProduct data={orderDetails?.packs} /> */}
-                      <OrderItems data={orderDetails?.orderItems} />
+                      <OrderItems data={orderDetails?.orderItem} />
 
                       <tr className="border-top border-top-dashed">
                         <td colSpan="4"></td>
@@ -294,7 +295,19 @@ const OrderDetail = (props) => {
               <CardHeader>
                 <div className="d-sm-flex align-items-center">
                   <h5 className="card-title flex-grow-1 mb-0">Order Status</h5>
-                  {orderDetails?.status != "DELIVERED" &&
+
+                  {orderDetails?.orderType === "DINING" ? (
+                    <Button
+                      color={"primary"}
+                      onClick={() => {
+                        updateStatusOfOrder();
+                      }}
+                    >
+                      Update Order Status{" "}
+                      {orderDetails?.status === "PENDING" ? "To Delivered" : ""}
+                    </Button>
+                  ) : orderDetails?.orderType === "DELIVERY" ? (
+                    orderDetails?.status != "DELIVERED" &&
                     orderDetails?.status != "CANCELLED" &&
                     orderDetails?.status != "REJECTED" && (
                       <Button
@@ -312,7 +325,10 @@ const OrderDetail = (props) => {
                           ? "To Delivered"
                           : ""}
                       </Button>
-                    )}
+                    )
+                  ) : (
+                    ""
+                  )}
 
                   {/* <div className="flex-shrink-0 mt-2 mt-sm-0">*/}
                   {/*        <span*/}
@@ -398,17 +414,18 @@ const OrderDetail = (props) => {
 
                   {/* {checkPermission(UPDATE_ORDER_STATUS) && ( */}
                   <>
-                    {orderDetails?.status !== "REJECTED" && (
-                      <Button
-                        className=""
-                        color="danger"
-                        onClick={() => {
-                          updateStatusOfOrderToReject();
-                        }}
-                      >
-                        Reject Order
-                      </Button>
-                    )}
+                    {orderDetails?.orderType === "DELIVERY" &&
+                      orderDetails?.status !== "REJECTED" && (
+                        <Button
+                          className=""
+                          color="danger"
+                          onClick={() => {
+                            updateStatusOfOrderToReject();
+                          }}
+                        >
+                          Reject Order
+                        </Button>
+                      )}
                   </>
                   {/* )} */}
                 </div>
@@ -435,10 +452,12 @@ const OrderDetail = (props) => {
                     </span>
                   </p>
 
-                  <p className="mb-2">
+                  {/* <p className="mb-2">
                     Payment Status :{" "}
-                    <Tag color="blue">{orderDetails?.payment?.status}</Tag>
-                  </p>
+                    {orderDetails?.payment.map((pay) => {
+                      return <Tag color="blue">{pay?.status}</Tag>;
+                    })}
+                  </p> */}
                   <p className="mb-2">
                     Payment Mode :{" "}
                     <Tag color="blue">{orderDetails?.paymentType}</Tag>

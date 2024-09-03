@@ -80,8 +80,7 @@ const DeliveryOrderManagement = () => {
                   <Button
                     onClick={() =>
                       history("/order-detail", {
-                        state: { orderData: ord },
-                        // state: { orderData: ord?.id },
+                        state: { orderData: ord?.id },
                       })
                     }
                     color="primary"
@@ -157,7 +156,7 @@ const DeliveryOrderManagement = () => {
         startDate: startDate,
         endDate: endDate,
         status: Status === undefined ? "" : Status === null ? "" : Status,
-        orderType:"DELIVERY"
+        orderType: "DELIVERY",
       };
 
       console.log(data);
@@ -183,8 +182,7 @@ const DeliveryOrderManagement = () => {
                     <Button
                       onClick={() =>
                         history("/order-detail", {
-                          state: { orderData: ord },
-                          // state: { orderData: ord?.id },
+                          state: { orderData: ord?.id },
                         })
                       }
                       color="primary"

@@ -15,7 +15,7 @@ export async function getOrderByOrderId(orderId) {
   apiObject.method = "GET";
   apiObject.authentication = true;
   apiObject.isWithoutPrefix = false;
-  apiObject.endpoint = `api/admin/order/find-by-id/${orderId}`;
+  apiObject.endpoint = `api/order/find-by-id/${orderId}`;
   apiObject.body = null;
   return await ApiService.callApi(apiObject);
 }
@@ -59,7 +59,9 @@ export async function ordersFiltration(data, currentPage) {
     data?.email
   }&contactNo=${data?.contact}&orderStartDate=${data?.startDate}&orderEndDate=${
     data?.endDate
-  }&status=${data?.status}&orderType=${data?.orderType}&perPage=${15}&page=${currentPage}`;
+  }&status=${data?.status}&orderType=${
+    data?.orderType
+  }&perPage=${15}&page=${currentPage}`;
   apiObject.body = null;
   return await ApiService.callApi(apiObject);
 }
