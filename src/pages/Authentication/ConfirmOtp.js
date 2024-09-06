@@ -118,7 +118,7 @@ const ConfirmOtp = (props) => {
                                 <div className="text-center mt-sm-5 mb-4 text-white-50">
                                     <div>
                                         <Link to="/" className="d-inline-block mt-5 auth-logo">
-                                            <img src={logoLight} alt="" height="200"/>
+                                            <img src={logoLight} alt="" height="150"/>
                                         </Link>
                                     </div>
                                     <p className="mt-3 text-primary fs-15 fw-medium">Tea & Soul Admin Dashboard</p>
