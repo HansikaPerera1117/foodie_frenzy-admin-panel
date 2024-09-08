@@ -7,6 +7,7 @@ import withReactContent from "sweetalert2-react-content";
 import "../assets/scss/components/customeToastify.scss";
 import { Upload, message, Card as AntCard } from "antd";
 export const MySwal = withReactContent(Swal);
+import * as constant from "./constants";
 
 import Cookies from "js-cookie";
 
@@ -168,7 +169,6 @@ export const handleError = (c) => {
   c?.response?.data?.message
     ? customToastMsg(c?.response?.data?.message[0], 0)
     : customToastMsg("Sorry! Try again later", 0);
- 
 };
 
 export const countDescription = (description) => {
@@ -184,4 +184,37 @@ export const countDescription = (description) => {
 
 export const popUploader = (dispatch, val) => {
   dispatch({ type: "IS_LOADER", value: { isLoader: val, type: 0 } });
+};
+
+export const checkPermission = (permissionType) => {
+  // console.log(permissionType, "3265655");
+  if (JSON.parse(Cookies?.get(constant.PERMISSION) === undefined)) {
+    // window.href = "/login";
+    // process.env.PUBLIC_URL + "/logout"
+    window.location.href = "/logout";
+  } else {
+    let currentPermissions = JSON.parse(Cookies?.get(constant.PERMISSION));
+    //   let PERMISSION =Cookies?.get('PERMISSION')=== undefined ?[]:JSON.parse(Cookies?.get('PERMISSION'));
+    let pp = [];
+    let permissionDecode = currentPermissions;
+
+    if (permissionDecode != []) {
+      permissionDecode?.map((p, index) => {
+        pp.push(atob(p));
+      });
+    }
+    // console.log(pp,'filter details :', permissionType)
+    let isHavePermission = false;
+
+    if (Array.isArray(permissionType)) {
+      // If permissionType is an array, check if any element is included in pp
+      isHavePermission = permissionType.some((type) => pp.includes(type));
+    } else {
+      // If permissionType is not an array, check if it's included in pp
+      isHavePermission = pp.includes(permissionType);
+    }
+
+    //console.log(isHavePermission)
+    return isHavePermission;
+  }
 };

@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Col, Container, Row } from "reactstrap";
 import { ApexChartComponent } from "../Charts/ApexChartComponent";
+import ApexAreaChart from "../Charts/ApexAreaChart";
 import ApexLineChartComponent from "../Charts/ApexLineChartComponent";
 import ApexMixChartComponent from "../Charts/ApexMixChartComponent";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +14,11 @@ const DashboardEcommerce = () => {
       <div className="page-content">
         <Container fluid>
           <Row className="mt-4">
+            <Col md={12} lg={12} xl={7}>
+              {" "}
+              <h5>Annual Branches Incomes</h5>
+             <ApexAreaChart/>
+            </Col>
             <Col md={12} lg={12} xl={5}>
               <Row>
                 <Col md={12}>
@@ -54,11 +60,6 @@ const DashboardEcommerce = () => {
             {/* <Col md={12} lg={6} xl={4}>
               <h5>Package Sales Summery</h5> <ApexChartComponent />
             </Col> */}
-            <Col md={12} lg={12} xl={7}>
-              {" "}
-              <h5>Annual Branches Incomes</h5>
-              <ApexLineChartComponent />
-            </Col>
           </Row>
           <Row className="mt-4">
             <h5>Annual Product Sales Summery</h5>
