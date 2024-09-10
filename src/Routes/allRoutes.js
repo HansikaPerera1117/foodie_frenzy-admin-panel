@@ -19,7 +19,23 @@ import Register from "../pages/Authentication/Register";
 import UserProfile from "../pages/Authentication/user-profile";
 import RegistrationTwo from "../pages/Authentication/RegistrationStep02";
 import ConfirmOtp from "../pages/Authentication/ConfirmOtp";
-import UserManagement from "../pages/Pages/User Mangement/UserManagement";
+import RoleAndPermission from "../pages/Pages/RoleAndPermission/RoleAndPermission";
+import CustomerManagement from "../pages/Pages/User Mangement/CustomerManagement";
+import StaffManagement from "../pages/Pages/User Mangement/StaffManagement";
+import ProductManagement from "../pages/Pages/ProductManagement/ProductManagement";
+import CategoryManagement from "../pages/Pages/CategoryManagement/CategoryManagement";
+import AddProduct from "../pages/Pages/ProductManagement/AddProduct";
+import UpdateProduct from "../pages/Pages/ProductManagement/UpdateProduct";
+import GalleryManagement from "../pages/Pages/GalleryManagement/GalleryManagemnt";
+import BranchManagement from "../pages/Pages/BranchManagement/BranchManagement";
+import ServiceManagement from "../pages/Pages/ServiceManagement/ServiceManagement";
+import InquiryManagement from "../pages/Pages/InquiryManagement/InquiryManagement";
+import OffersManagement from "../pages/Pages/OffersManagement/OffersManagement";
+import DeliveryOrderManagement from "../pages/Pages/OrderManagement/DeliveryOrderManagement";
+import DingingOrderManagement from "../pages/Pages/OrderManagement/DingingOrderManagement";
+import ViewProductDetails from "../pages/Pages/ProductManagement/ViewProductDetails";
+import ReservationManagement from "../pages/Pages/ReservationManagement/ReservationManagement";
+import OrderDetail from "../pages/Pages/OrderManagement/OrderDetail";
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: <DashboardEcommerce /> },
@@ -38,7 +54,42 @@ const authProtectedRoutes = [
   },
   { path: "*", component: <Navigate to="/dashboard" /> },
 
-  { path: "/user-management", component: <UserManagement /> },
+  { path: "/staff-management", component: <StaffManagement /> },
+
+  { path: "/customer-management", component: <CustomerManagement /> },
+
+  { path: "/role-permission-management", component: <RoleAndPermission /> },
+
+  { path: "/product-management", component: <ProductManagement /> },
+
+  { path: "/add-new-product", component: <AddProduct /> },
+
+  { path: "/update-product", component: <UpdateProduct /> },
+
+  { path: "/view-product", component: <ViewProductDetails /> },
+
+  { path: "/reservation-management", component: <ReservationManagement /> },
+
+  { path: "/category-management", component: <CategoryManagement /> },
+
+  { path: "/gallery-management", component: <GalleryManagement /> },
+
+  { path: "/branch-management", component: <BranchManagement /> },
+
+  { path: "/service-management", component: <ServiceManagement /> },
+
+  { path: "/offer-management", component: <OffersManagement /> },
+
+  { path: "/inquiry-management", component: <InquiryManagement /> },
+
+  {
+    path: "/delivery-order-management",
+    component: <DeliveryOrderManagement />,
+  },
+
+  { path: "/dinging-order-management", component: <DingingOrderManagement /> },
+  
+  { path: "/order-detail", component: <OrderDetail /> },
 ];
 
 const publicRoutes = [

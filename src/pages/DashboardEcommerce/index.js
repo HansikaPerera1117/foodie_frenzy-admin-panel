@@ -11,7 +11,7 @@ const DashboardEcommerce = () => {
 
       <div className="page-content">
         <Container fluid>
-            <h1 className="bg-primary">Dilanajan</h1>
+            <h1 className="bg-primary">Hansika</h1>
         </Container>
 
       </div>
